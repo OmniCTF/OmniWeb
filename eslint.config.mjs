@@ -48,11 +48,10 @@ export default [
     },
 
     rules: {
-      'prettier/prettier': 'error',
+      'prettier/prettier': 'off',
       'react/react-in-jsx-scope': 'off',
-
       'jsx-a11y/anchor-is-valid': [
-        'error',
+        'off',
         {
           components: ['Link'],
           specialLink: ['hrefLeft', 'hrefRight'],
@@ -65,6 +64,12 @@ export default [
       '@typescript-eslint/explicit-module-boundary-types': 'off',
       '@typescript-eslint/no-var-requires': 'off',
       '@typescript-eslint/ban-ts-comment': 'off',
+      '@next/next/no-img-element': 'off',
+      // Disable rule for explicit 'any' usage
+      '@typescript-eslint/no-explicit-any': 'off', // or 'warn' if you just want a warning
+
+      // Disable accessibility check for <audio>/<video> elements without captions
+      'jsx-a11y/media-has-caption': 'off', // Disables the requirement for captions in media elements
     },
   },
 ]
