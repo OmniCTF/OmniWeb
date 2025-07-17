@@ -7,6 +7,9 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { Globe, Github } from 'lucide-react'
 
+export const dynamicParams = false
+
+
 interface MemberPageProps {
   params: { slug: string }
 }
@@ -17,7 +20,7 @@ export async function generateStaticParams() {
   return files.map((file) => ({ slug: file.replace('.mdx', '') }))
 }
 
-export default async function MemberProfile({ params }: MemberPageProps) {
+export default function MemberProfile({ params }: MemberPageProps) {
   const filePath = path.join(process.cwd(), 'data/authors', `${params.slug}.mdx`)
   if (!fs.existsSync(filePath)) return notFound()
 
