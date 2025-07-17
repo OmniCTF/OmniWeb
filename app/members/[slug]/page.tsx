@@ -87,14 +87,15 @@ export default function MemberProfile({ params }: MemberPageProps) {
             )}
           </div>
           <div className="mt-3 flex flex-wrap gap-1">
-            {member.tags?.map((tag: string) => (
-              <span
-                key={tag}
-                className="px-2 py-1 text-xs font-medium rounded bg-purple-900 text-white"
-              >
-                {tag}
-              </span>
-            ))}
+            {member.tags?.map((tag) => (
+                <Link
+                  key={tag}
+                  href={`/tags/${encodeURIComponent(tag)}`}
+                  className="rounded bg-purple-900 px-2 py-1 text-xs font-medium text-white transition hover:bg-purple-700"
+                >
+                  {tag}
+                </Link>
+              ))}
           </div>
 
           {/* Now Listening section */}
