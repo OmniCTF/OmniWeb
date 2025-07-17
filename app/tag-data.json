@@ -1,0 +1,15 @@
+{
+  "rev": 1,
+  "web": 1,
+  "forensics": 1,
+  "stego": 1,
+  "pwn": 1,
+  "crypto": 1,
+  "blockchain": 1,
+  "misc": 1,
+  "games": 1,
+  "mobile": 1,
+  "hardware": 1,
+  "ppc": 1,
+  "osint": 1
+}
