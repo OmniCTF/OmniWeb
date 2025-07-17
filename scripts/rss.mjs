@@ -7,18 +7,17 @@ import tagData from '../app/tag-data.json' with { type: 'json' }
 import { allBlogs } from '../.contentlayer/generated/index.mjs'
 import { sortPosts } from 'pliny/utils/contentlayer.js'
 
-// FIX: Absolute path to root-level /public folder
-const outputFolder = path.join(process.cwd(), '../public')
+const outputFolder = process.env.EXPORT ? 'out' : 'public'
 
 const generateRssItem = (config, post) => `
   <item>
     <guid>${config.siteUrl}/blog/${post.slug}</guid>
     <title>${escape(post.title)}</title>
     <link>${config.siteUrl}/blog/${post.slug}</link>
-    ${post.summary ? `<description>${escape(post.summary)}</description>` : ''}
+    ${post.summary && `<description>${escape(post.summary)}</description>`}
     <pubDate>${new Date(post.date).toUTCString()}</pubDate>
     <author>${config.email} (${config.author})</author>
-    ${post.tags?.map((t) => `<category>${escape(t)}</category>`).join('') || ''}
+    ${post.tags && post.tags.map((t) => `<category>${t}</category>`).join('')}
   </item>
 `
 
@@ -39,43 +38,26 @@ const generateRss = (config, posts, page = 'feed.xml') => `
 `
 
 async function generateRSS(config, allBlogs, page = 'feed.xml') {
-  console.log('📝 [RSS] Total blog posts found:', allBlogs.length)
-
   const publishPosts = allBlogs.filter((post) => post.draft !== true)
-  if (publishPosts.length === 0) {
-    console.warn('⚠️ [RSS] No published posts found.')
-    return
+  // RSS for blog post
+  if (publishPosts.length > 0) {
+    const rss = generateRss(config, sortPosts(publishPosts))
+    writeFileSync(`./${outputFolder}/${page}`, rss)
   }
 
-  const sortedPosts = sortPosts(publishPosts)
-
-  // Write main RSS
-  const mainFeedPath = path.join(outputFolder, page)
-  mkdirSync(path.dirname(mainFeedPath), { recursive: true })
-  writeFileSync(mainFeedPath, generateRss(config, sortedPosts))
-  console.log('✅ [RSS] Main feed saved:', mainFeedPath)
-
-  // Write per-tag RSS
-  for (const tag of Object.keys(tagData)) {
-    const filtered = sortedPosts.filter((post) =>
-      post.tags?.map((t) => slug(t)).includes(tag)
-    )
-
-    if (filtered.length === 0) continue
-
-    const tagDir = path.join(outputFolder, 'tags', tag)
-    mkdirSync(tagDir, { recursive: true })
-
-    const tagFeedPath = path.join(tagDir, page)
-    writeFileSync(tagFeedPath, generateRss(config, filtered, `tags/${tag}/${page}`))
-    console.log(`✅ [RSS] Tag '${tag}' written to: ${tagFeedPath}`)
+  if (publishPosts.length > 0) {
+    for (const tag of Object.keys(tagData)) {
+      const filteredPosts = allBlogs.filter((post) => post.tags.map((t) => slug(t)).includes(tag))
+      const rss = generateRss(config, filteredPosts, `tags/${tag}/${page}`)
+      const rssPath = path.join(outputFolder, 'tags', tag)
+      mkdirSync(rssPath, { recursive: true })
+      writeFileSync(path.join(rssPath, page), rss)
+    }
   }
 }
 
 const rss = () => {
   generateRSS(siteMetadata, allBlogs)
-    .then(() => console.log('🎉 [RSS] Generation complete.'))
-    .catch((err) => console.error('❌ [RSS] Error:', err))
+  console.log('RSS feed generated...')
 }
-
-rss()
+export default rss
