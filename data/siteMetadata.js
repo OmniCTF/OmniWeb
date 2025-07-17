@@ -6,7 +6,7 @@ const siteMetadata = {
   description: 'You Play. You Hack. You Write.',
   language: 'en-us',
   theme: 'system', // system, dark or light
-  siteUrl: 'https://localhost:3000',
+  siteUrl: 'https://omnictf.com',
   siteRepo: 'https://github.com/OmniCTF/OmniWeb',
   siteLogo: `${process.env.BASE_PATH || ''}/static/images/logo.png`,
   socialBanner: `${process.env.BASE_PATH || ''}/static/images/twitter-card.png`,
