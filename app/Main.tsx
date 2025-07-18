@@ -98,6 +98,19 @@ export default function Home() {
         </div>
       </section>
 
+    {siteMetadata.newsletter?.provider && (
+      <section className="mx-auto max-w-xl px-4 pb-24 -mt-8">
+        <div className="rounded-2xl border border-violet-500/20 bg-gradient-to-br
+                        from-violet-900/30 via-violet-800/20 to-transparent
+                        p-6 backdrop-blur-sm">
+          <div className="">
+            <NewsletterForm />
+          </div>
+        </div>
+      </section>
+    )}
+
+
       <footer className="pb-12 text-center text-sm text-gray-500 dark:text-gray-400">
         Stay tuned. Registration opens soon.
       </footer>
