@@ -48,7 +48,7 @@ export default function Home() {
               OmniCTF 2025
             </h1>
             <p className="mt-4 text-center text-lg sm:text-xl font-semibold text-violet-600 dark:text-violet-400">
-              {'>'} &nbsp; September 13 &nbsp; {'·'} &nbsp; 10:00 AM – 16:00 PM
+              {'>'} &nbsp; September 20 &nbsp; {'·'} &nbsp; 10:00 AM – 16:00 PM
             </p>
             <p className="mx-auto mt-6 max-w-2xl text-center text-gray-600 dark:text-gray-300">
               A six–hour capture the flag where creativity.
