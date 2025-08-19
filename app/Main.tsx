@@ -7,7 +7,7 @@ import siteMetadata from '@/data/siteMetadata'
 import { formatDate } from 'pliny/utils/formatDate'
 import NewsletterForm from 'pliny/ui/NewsletterForm'
 
-const EVENT_DATE = new Date(2025, 8, 13, 10, 0, 0, 0) //Jan is 0
+const EVENT_DATE = new Date(2025, 8, 20, 10, 0, 0, 0) //Jan is 0
 
 function useCountdown(target: Date) {
   const [now, setNow] = useState<Date>(() => new Date())
