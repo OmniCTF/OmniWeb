@@ -70,10 +70,17 @@ export default function Home() {
               )}
             </div>
 
-            <div className="mt-12 flex flex-wrap justify-center gap-6">
-              <DisabledButton text="Register" />
-              <DisabledButton text="Login" secondary />
-            </div>
+          <div className="mt-12 flex flex-wrap justify-center gap-6">
+            <Button
+              text="Register"
+              onClick={() => { window.location.href = "https://ctf.omnictf.com/register"; }}
+            />
+            <Button
+              text="Login"
+              secondary
+              onClick={() => { window.location.href = "https://ctf.omnictf.com/login"; }}
+            />
+          </div>
         </div>
       </section>
 
