@@ -77,6 +77,9 @@ export default function Home() {
             <a href="https://ctf.omnictf.com/login" className="px-5 py-2 rounded-lg border border-white/20 text-white font-medium hover:bg-white/10 transition">
               Login
             </a>
+            <a href="https://ctf.omnictf.com/requirements" className="px-5 py-2 rounded-lg border border-white/20 text-white font-medium hover:bg-white/10 transition"}>
+             Requirements
+            </a>
           </div>
 
         </div>
