@@ -71,11 +71,11 @@ export default function Home() {
             </div>
 
           <div className="mt-12 flex flex-wrap justify-center gap-6">
-            <Button
+            <button
               text="Register"
               onClick={() => { window.location.href = "https://ctf.omnictf.com/register"; }}
             />
-            <Button
+            <button
               text="Login"
               secondary
               onClick={() => { window.location.href = "https://ctf.omnictf.com/login"; }}
