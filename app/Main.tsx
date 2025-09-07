@@ -71,16 +71,28 @@ export default function Home() {
             </div>
 
           <div className="mt-12 flex flex-wrap justify-center gap-6">
-            <a href="https://ctf.omnictf.com/register" className="px-5 py-2 rounded-lg bg-white/10 text-white font-medium hover:bg-white/20 transition">
+            <a
+              href="https://ctf.omnictf.com/register"
+              className="px-5 py-2 rounded-lg bg-white/10 text-white font-medium hover:bg-white/20 transition"
+            >
               Register
             </a>
-            <a href="https://ctf.omnictf.com/login" className="px-5 py-2 rounded-lg border border-white/20 text-white font-medium hover:bg-white/10 transition">
+          
+            <a
+              href="https://ctf.omnictf.com/login"
+              className="px-5 py-2 rounded-lg border border-white/20 text-white font-medium hover:bg-white/10 transition"
+            >
               Login
             </a>
-            <a href="https://ctf.omnictf.com/requirements" className="px-5 py-2 rounded-lg border border-white/20 text-white font-medium hover:bg-white/10 transition"}>
-             Requirements
+          
+            <a
+              href="https://ctf.omnictf.com/requirements"
+              className="px-5 py-2 rounded-lg border border-white/20 text-white font-medium hover:bg-white/10 transition"
+            >
+              Requirements
             </a>
           </div>
+
 
         </div>
       </section>
