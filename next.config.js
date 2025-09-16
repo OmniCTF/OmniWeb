@@ -47,6 +47,8 @@ const baseConfig = {
       {
         protocol: 'https',
         hostname: 'picsum.photos',
+        hostname: 'cdn.discordapp.com',
+        hostname: '*.canva.com'
       },
     ],
     unoptimized,
