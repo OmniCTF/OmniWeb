@@ -99,7 +99,7 @@ export default function Home() {
           <div className="mt-10 flex flex-wrap justify-center gap-6">
             <a
                 href="https://discord.gg/omnictf"
-                className="px-5 py-2 rounded-lg bg-violet-600 text-white font-medium hover:bg-violet-500 transition"
+                className="px-5 py-2 rounded-lg border border-white/20 text-white font-medium hover:bg-white/10 transition"
               >
                 Join Discord
             </a>
