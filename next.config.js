@@ -43,18 +43,17 @@ const baseConfig = {
     dirs: ['app', 'components', 'layouts', 'scripts'],
   },
   images: {
-    remotePatterns: [
-      {
-        protocol: 'https',
-        hostname: 'picsum.photos',
-        hostname: 'cdn.discordapp.com',
-        hostname: '*.canva.com'
-      },
+    domains: [
+      'cdn.discordapp.com',
+      'media.discordapp.net',
+      'media.canva.com',         
+      'static.canva.com',
+      'marketplace.canva.com',
+      'picsum.photos',
     ],
-    unoptimized,
   },
   typescript: {
-    ignoreBuildErrors: true, // 💣💥 the important fix
+    ignoreBuildErrors: true,
   },
   async headers() {
     return [
