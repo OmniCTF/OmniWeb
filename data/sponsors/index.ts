@@ -27,7 +27,7 @@ export const SPONSORS: Sponsor[] = [
   {
     id: 'deadoverflow',
     name: 'DeadOverflow',
-    tier: 'Silver',
+    tier: 'Partner',
     logo:
       'https://cdn.discordapp.com/avatars/955788286763343872/b3aa24dd012425659ad9d5a58168d2ab.webp?size=160',
     description:
