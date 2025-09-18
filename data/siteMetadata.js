@@ -15,6 +15,7 @@ const siteMetadata = {
   github: 'https://github.com/OmniCTF',
   x: 'https://x.com/OmniCYBR',
   // twitter: 'https://twitter.com/Twitter',
+  facebook: 'https://www.facebook.com/profile.php?id=61580887682677',
   youtube: 'https://www.youtube.com/@OmniCYBR',
   linkedin: '#',
   instagram: 'https://www.instagram.com/omnicybr/',
