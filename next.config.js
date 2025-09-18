@@ -50,6 +50,7 @@ const baseConfig = {
       'static.canva.com',
       'marketplace.canva.com',
       'picsum.photos',
+      'caido.io',
     ],
   },
   typescript: {
