@@ -37,5 +37,18 @@ export const SPONSORS: Sponsor[] = [
       { label: 'Youtube', href: 'https://www.youtube.com/@deadoverflow' },
     ],
   },
-
+  {
+    id: 'caido',
+    name: 'CAIDO',
+    tier: 'Partner',
+    logo:
+      'https://caido.io/images/logo.color.webp?size=160',
+    description:
+      'A lightweight web security auditing toolkit | Caido aims to help security professionals and enthusiasts audit web applications with efficiency and ease.',
+    website: 'https://caido.io/',
+    links: [
+      { label: 'X', href: 'https://x.com/caidoio' },
+      { label: 'Discord', href: 'https://discord.gg/caido-843915806748180492' },
+    ],
+  },
 ]
