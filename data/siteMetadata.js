@@ -9,7 +9,7 @@ const siteMetadata = {
   siteUrl: 'https://omnictf.com',
   siteRepo: 'https://github.com/OmniCTF/OmniWeb',
   siteLogo: `${process.env.BASE_PATH || ''}/static/images/logo.png`,
-  socialBanner: `${process.env.BASE_PATH || ''}/static/images/twitter-card.png`,
+  socialBanner: `${process.env.BASE_PATH || ''}/static/images/twitter-card.png?v=2`,
   mastodon: '#',
   email: 'support@omnictf.com',
   github: 'https://github.com/OmniCTF',
