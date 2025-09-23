@@ -96,15 +96,6 @@ export default function Home() {
             </a>
           </div>
 
-          <div className="mt-10 flex flex-wrap justify-center gap-6">
-            <a
-                href="https://discord.gg/omnictf"
-                className="px-5 py-2 rounded-lg border border-white/20 text-white font-medium hover:bg-white/10 transition"
-              >
-                Join Discord
-            </a>
-          </div>
-
           <div className="mt-8 flex flex-wrap justify-center gap-6">
             <p 
             className="mx-auto mt-6 max-w-2xl text-center text-gray-600 dark:text-gray-300">
