@@ -9,7 +9,7 @@ import NewsletterForm from 'pliny/ui/NewsletterForm'
 import Image from 'next/image'
 import { SPONSORS } from 'data/sponsors'
 
-const EVENT_DATE = new Date(2025, 9, 18, 10, 0, 0, 0) //Jan is 0
+const EVENT_DATE = new Date(2025, 9, 18, 9, 30, 0, 0) //Jan is 0
 
 
 function useCountdown(target: Date) {
@@ -56,7 +56,7 @@ export default function Home() {
               OmniCTF 2025
             </h1>
             <p className="mt-4 text-center text-lg sm:text-xl font-semibold text-violet-600 dark:text-violet-400">
-              {'>'} &nbsp; October 18th &nbsp; {'·'} &nbsp; 10:00 AM – 04:00 PM
+              {'>'} &nbsp; October 18th &nbsp; {'·'} &nbsp; 09:30 AM – 04:00 PM
             </p>
             <p className="mx-auto mt-6 max-w-2xl text-center text-gray-600 dark:text-gray-300">
               A six–hour capture the flag where creativity.
