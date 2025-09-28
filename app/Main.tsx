@@ -107,6 +107,15 @@ export default function Home() {
 
           <div className="mt-12 flex flex-wrap justify-center gap-6">
             <a
+              href="https://discord.gg/jzZkfh9UFR"
+              className="px-5 py-2 rounded-lg border border-white/20 text-white font-medium hover:bg-white/10 transition"
+            >
+              Join our Discord Server
+            </a>
+          </div>
+
+          <div className="mt-12 flex flex-wrap justify-center gap-6">
+            <a
               href="https://ctf.omnictf.com/register"
               className="px-5 py-2 rounded-lg border border-white/20 text-white font-medium hover:bg-white/10 transition"
             >
