@@ -17,7 +17,7 @@ const siteMetadata = {
   // twitter: 'https://twitter.com/Twitter',
   facebook: 'http://facebook.com/omnictf',
   youtube: 'https://www.youtube.com/@OmniCYBR',
-  linkedin: '#',
+  linkedin: 'https://www.linkedin.com/company/omnicybr',
   instagram: 'https://www.instagram.com/omnicybr/',
   ctftime: 'https://ctftime.org/team/383015',
   locale: 'en-US',
