@@ -25,9 +25,23 @@ export const SPONSORS: Sponsor[] = [
     ],
   },
   {
+    id: 'caido',
+    name: 'CAIDO',
+    tier: 'Sponsor',
+    logo:
+      'https://caido.io/images/logo.color.webp?size=160',
+    description:
+      'A lightweight web security auditing toolkit | Caido aims to help security professionals and enthusiasts audit web applications with efficiency and ease.',
+    website: 'https://caido.io/',
+    links: [
+      { label: 'X', href: 'https://x.com/caidoio' },
+      { label: 'Discord', href: 'https://discord.gg/caido-843915806748180492' },
+    ],
+  },
+  {
     id: 'deadoverflow',
     name: 'DeadOverflow',
-    tier: 'Partner',
+    tier: 'Sponsor',
     logo:
       'https://cdn.discordapp.com/avatars/955788286763343872/b3aa24dd012425659ad9d5a58168d2ab.webp?size=160',
     description:
@@ -38,17 +52,16 @@ export const SPONSORS: Sponsor[] = [
     ],
   },
   {
-    id: 'caido',
-    name: 'CAIDO',
-    tier: 'Partner',
+    id: 'noxys',
+    name: 'Noxys',
+    tier: 'Sponsor',
     logo:
-      'https://caido.io/images/logo.color.webp?size=160',
+      'https://omnictf.com/static/images/noxys.png',
     description:
-      'A lightweight web security auditing toolkit | Caido aims to help security professionals and enthusiasts audit web applications with efficiency and ease.',
-    website: 'https://caido.io/',
+      'Game studio | Art Design | Freelance',
+    website: 'https://noxysgames.com/',
     links: [
-      { label: 'X', href: 'https://x.com/caidoio' },
-      { label: 'Discord', href: 'https://discord.gg/caido-843915806748180492' },
+      { },
     ],
   },
 ]
