@@ -65,8 +65,8 @@ export default function Home() {
 
             <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
               {finished ? (
-                <span className="rounded-xl bg-green-600 px-6 py-4 text-xl font-bold text-white shadow">
-                  The CTF is LIVE!
+                <span className="rounded-xl bg-red-600 px-6 py-4 text-xl font-bold text-white shadow">
+                  CTF ENDED! THANK YOU FOR PARTICIPATING!
                 </span>
               ) : (
                 <div className="flex gap-3 text-center">
