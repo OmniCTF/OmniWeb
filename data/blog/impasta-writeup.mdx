@@ -1,109 +1,132 @@
 ---
-title: "Impasta"
-date: "2025-11-17"
-tags: ["steganography"]
+title: 'Impasta'
+date: '2025-11-17'
+tags: ['stego']
 draft: false
-summary: "Write-up for the Impasta challenge."
-authors: ["tab4"]
+summary: 'Write-up for the Impasta challenge.'
+authors: ['tab4']
 ---
 
-## Challenge – Impasta (Steganography)
+## Challenge description
 
-> **Description:**  
-> Everyone remembers this guy, right? I remember them saying something along the lines of... **the impostor is sus**.  
+**Name:** Impasta  
+**Category:** Steganography  
+
+> Everyone remembers this guy, right? I remember them saying something along the lines of... the impostor is sus.  
 > **Flag format:** `CTF{}`  
 > **Hint:** *The keys are right here. There might be more than one though.*
 
 We are given an image of a red crewmate from **Among Us**.
 
-The name, the quote “the impostor is sus”, and the category *Steganography* strongly suggest that something is hidden inside the image and that the phrase itself is important.
+The flavour text (`the impostor is sus`) and the hint about *keys* strongly suggest that this sentence itself will be used later as cryptographic keys.
 
 ---
 
-## Step 1 – Extract the hidden data from the image
+## 1. Extracting data from the image
 
-The challenge explicitly points us to a specific online tool:
+The challenge tells us to use a specific stego tool:
 
-- <https://stylesuxx.github.io/steganography/>
+- [stylesuxx steganography](https://stylesuxx.github.io/steganography/)
 
-This is a simple LSB-based stego tool that can hide and reveal text in PNG/JPEG images.
+On the site:
 
-1. Open the site.
-2. Switch to the **Decode** tab.
-3. Upload the given crewmate image.
-4. Click **Decode**.
+1. Go to the **Decode** tab.  
+2. Upload the provided crewmate image.  
+3. Press **Decode**.
 
-Instead of a readable message, we get a **long dash‑separated hex string**, starting like:
+Instead of human-readable text, we get a very long dash-separated hex string, starting like:
 
 ```text
 41-0b-48-44-0e-48-41-0c-48-41-0a-48-40-5a-48-41-51-48-41-0a-48-40-5e-...
 ```
 
-So the first layer of steganography is done – we pulled out the hidden payload from the image. Now we have to actually decrypt it.
+So the PNG hide payload is not the flag yet, but an encoded byte sequence.
 
 ---
 
-## Step 2 – Understanding the hint (“the impostor is sus”)
+## 2. Interpreting the hint (“the impostor is sus”)
 
-The description sentence:
+The hint says:
 
-> “the impostor is sus”
+> *The keys are right here. There might be more than one though.*
 
-matches perfectly with the hint:
+The only obvious sentence in the statement is:
 
-> “The keys are right here. There might be more than one though.”
+```text
+the impostor is sus
+```
 
-This suggests that **each word is used as a key**, and that there is more than one key:
+If we split it into words, we get four potential keys:
 
 - `the`
 - `impostor`
 - `is`
 - `sus`
 
-Since this is a CTF and the payload looks like hex bytes, a very natural guess is **XOR with a repeating key**.
+The data we got from the PNG looks like hex bytes, which is a common representation for XOR-encrypted data.  
+This suggests the following structure:
+
+1. Plaintext (probably the flag or something close).  
+2. Base64-encoded.  
+3. XORed multiple times with different keys.  
+4. Hex-encoded (with dashes between bytes).
+
+To undo this, we can use **CyberChef**.
 
 ---
 
-## Step 3 – Layered XOR decryption in CyberChef
+## 3. Decrypting with multiple XOR keys in CyberChef
 
-To test this, it’s easiest to use **CyberChef**.
+Open:
 
-1. Go to <https://gchq.github.io/CyberChef/>.
-2. Paste the long hex string into the **Input**.
-3. Build the following recipe (top to bottom):
+- [CyberChef](https://gchq.github.io/CyberChef/)
+
+Paste the entire hex blob into the **Input** window.
+
+Then build the following recipe, **in this exact order**:
+
+1. `From Hex`
+2. `XOR` with key **`the`** (encoding: UTF-8, scheme: Standard)
+3. `From Hex`
+4. `XOR` with key **`impostor`**
+5. `From Hex`
+6. `XOR` with key **`is`**
+7. `From Hex`
+8. `XOR` with key **`sus`**
+9. `From Base64`
+
+In CyberChef it looks like a repeating pattern:
 
 ```text
 From Hex
-XOR (key = "the",  UTF-8, standard)
+XOR (key = "the")
 From Hex
-XOR (key = "impostor", UTF-8, standard)
+XOR (key = "impostor")
 From Hex
-XOR (key = "is",  UTF-8, standard)
+XOR (key = "is")
 From Hex
-XOR (key = "sus", UTF-8, standard)
+XOR (key = "sus")
 From Base64
 ```
 
-### Why this recipe?
+### Why this works
 
-- **From Hex** converts the dash‑separated bytes into raw binary.
-- **XOR** with the first key (`the`) gives us another layer of hex-encoded data.
-- We repeat the pattern: `From Hex` → `XOR key` for each of the remaining words:  
-  `impostor`, `is`, `sus`.
-- After the final XOR, the result is no longer hex but **Base64**, so the last step is `From Base64`.
+- The hidden message in the PNG is hex-encoded bytes.  
+- After the first `From Hex`, we XOR with the first key (`the`).  
+- The result of that XOR is **again** hex-encoded, so we convert from hex once more.  
+- We repeat this pattern for each word in the sentence: `impostor`, `is`, `sus`.  
+- After the fourth XOR, the data is no longer hex but Base64, so the final step is `From Base64`.
 
-This matches the idea that the plaintext was:
-
-1. Base64‑encoded.
-2. XOR‑encrypted four times in sequence, once with each word: `the`, `impostor`, `is`, `sus`.
-3. Encoded as hex bytes.
-
-By reversing the operations in CyberChef, we unwind all layers.
+This exactly reverses the sequence of operations used to hide the flag.
 
 ---
 
-## Final flag
+## 4. Recovering the flag
+
+After running the full recipe, the output in CyberChef is:
 
 ```text
 CTF{v3ry_5Us_oF_y0U_mY_fr3n_23rjt0}
 ```
+
+---
