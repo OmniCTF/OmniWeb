@@ -1,0 +1,212 @@
+---
+title: 'The Old Days: Intercepted'
+date: '2025-11-17'
+tags: ['forensics', 'stego']
+draft: false
+summary: 'Network forensics challenge: pcap, base64 chat key, HTTP upload and a PNG hiding an encrypted zip.'
+authors: ['elure']
+---
+
+## Challenge description
+
+We are given a `pcapng` capture called **TheOldDaysIntercepted.pcapng**.  
+Somewhere inside there is a conversation between two people, a base64 key, and an HTTP upload that hides an image.  
+Inside that image there is a ZIP archive which finally contains the flag.
+
+Our goal is to reconstruct all of this And recover the final flag.
+
+---
+
+## 1. Recon on the PCAP
+
+First thing I did was open the capture in Wireshark and list the TCP streams:
+
+- `Statistics → Conversations → TCP` or directly
+- `Analyze → Follow → TCP Stream`
+
+Very quickly one ASCII stream stands out as plain-text chat.
+
+If you follow that TCP stream, you see something like this (spacing/typos kept as in the capture):
+
+```text
+hey bro
+sup
+
+yo how are yougoo
+
+yeha connection sucks no
+
+yeanywaysoyou got the key>
+ye
+I got the stuff wink wink
+
+stop rizzing
+aight
+UzNjcnQkb0Z0M2hQNDV0
+aight
+ill leave the file on the yk
+
+yeshould be safeno one is desperate enough to see this connectionright ?Like I see the man outsideand i'm gonna make it a pleasure for him and drop the zipbut rememberYou are inand you are never making it outonly if you beat us
+Our boss will
+maybe
+
+lets leave it like thatokcya
+```
+
+The important part is the base64-looking blob:
+
+```text
+UzNjcnQkb0Z0M2hQNDV0
+```
+
+This is clearly base64, so I decoded it:
+
+```bash
+echo 'UzNjcnQkb0Z0M2hQNDV0' | base64 -d
+```
+
+Output:
+
+```text
+S3crt$oFt3hP45t
+```
+
+So we have a string that looks exactly like a password: **`S3crt$oFt3hP45t`**.  
+We'll keep this for later.
+
+---
+
+## 2. Finding the HTTP upload
+
+The chat also mentions *“ill leave the file on the yk”* and *“drop the zip”*.  
+This strongly hints at some kind of file upload inside the same capture.
+
+I filtered HTTP traffic in Wireshark:
+
+```text
+http
+```
+
+Then I searched for `multipart/form-data` / `Content-Disposition` inside the HTTP requests.
+
+One POST request stands out. If you inspect its HTTP payload (or export it), you see a multipart body like this (simplified):
+
+```http
+-----------------------------14134569481044588482459219894
+Content-Disposition: form-data; name="file"; filename="da"
+Content-Type: application/octet-stream
+
+iVBORw0KGgoAAAANSUhEUgAAASwAAACoCAYAAABaK9MPAAAgAElEQVR4Xuy93WteV7bu+ZaOMEIIY4Qw...
+... (very long base64 blob) ...
+-----------------------------14134569481044588482459219894--
+```
+
+So the attacker uploaded a file, but instead of raw binary, the body is **base64-encoded**.
+
+The challenge description mentions that “some text has been dropped that is still base64”.  
+Even if some characters are missing in the wire capture, base64 is usually robust enough that the string still decodes to a valid PNG (or we can manually fix padding).
+
+From the extracted body (saved e.g. to `stuff`), I isolated the base64 part starting at `iVBOR...` and ending right before the next boundary line:
+
+```bash
+# cut away the multipart headers and boundary
+grep -A9999 'application/octet-stream' stuff | tail -n +3 |   sed '/^-----------------------------/q' |   head -n -1 > image.b64
+
+base64 -d image.b64 > the_old_days_image.png
+```
+
+After decoding:
+
+```bash
+file the_old_days_image.png
+```
+
+Result:
+
+```text
+PNG image data, 300 x 168, 8-bit/color RGBA, non-interlaced
+```
+
+We successfully recovered a PNG from the HTTP upload.
+
+---
+
+## 3. Looking for hidden data in the PNG
+
+Now that we have `the_old_days_image.png`, the description of the challenge tells us to *binwalk the image*.
+
+Run:
+
+```bash
+binwalk the_old_days_image.png
+```
+
+Output (core part):
+
+```text
+DECIMAL       HEXADECIMAL     DESCRIPTION
+--------------------------------------------------------------------------------
+0             0x0             PNG image, 300 x 168, 8-bit/color RGBA, non-interlaced
+39666         0x9AE2          Zip archive data, at least v1.0 to extract
+```
+
+So there is a ZIP archive appended after the PNG data.  
+If you don’t have `binwalk`, you can also search for the ZIP magic bytes `PK\x03\x04` inside the file:
+
+```bash
+grep -abo 'PK\x03\x04' the_old_days_image.png
+```
+
+To extract it manually, you can just carve from that offset:
+
+```bash
+dd if=the_old_days_image.png of=hidden.zip bs=1 skip=39666
+```
+
+Or let binwalk do the carving:
+
+```bash
+binwalk -e the_old_days_image.png
+```
+
+Either way you end up with a `hidden.zip` that contains one file: `flag.txt`.
+
+---
+
+## 4. Cracking the ZIP (actually, just using the password)
+
+When trying to open the `flag.txt` inside the ZIP, you’ll notice it is **password-protected**:
+
+```bash
+unzip hidden.zip
+#   skipping: flag.txt            need PK compat. v5.1 (can do v4.6)
+#   or:
+#   skipping: flag.txt            incorrect password
+```
+
+This is where the earlier base64 chat secret comes in.  
+Remember the decoded value from step 1:
+
+```text
+S3crt$oFt3hP45t
+```
+
+Use it as the ZIP password:
+
+```bash
+unzip -P 'S3crt$oFt3hP45t' hidden.zip
+```
+
+Now `flag.txt` extracts successfully. Reading it gives:
+
+```bash
+cat flag.txt
+```
+
+```text
+ctf{S3ems_Y0U_N3V3R_L3aRn_YeLeuRe_La3ka3r}
+```
+
+That’s our final flag.
+
+---
