@@ -1,0 +1,109 @@
+---
+title: "Impasta"
+date: "2025-11-17"
+tags: ["steganography"]
+draft: false
+summary: "Write-up for the Impasta (Steganography) challenge."
+authors: ["tab4"]
+---
+
+## Challenge – Impasta (Steganography)
+
+> **Description:**  
+> Everyone remembers this guy, right? I remember them saying something along the lines of... **the impostor is sus**.  
+> **Flag format:** `CTF{}`  
+> **Hint:** *The keys are right here. There might be more than one though.*
+
+We are given an image of a red crewmate from **Among Us**.
+
+The name, the quote “the impostor is sus”, and the category *Steganography* strongly suggest that something is hidden inside the image and that the phrase itself is important.
+
+---
+
+## Step 1 – Extract the hidden data from the image
+
+The challenge explicitly points us to a specific online tool:
+
+- <https://stylesuxx.github.io/steganography/>
+
+This is a simple LSB-based stego tool that can hide and reveal text in PNG/JPEG images.
+
+1. Open the site.
+2. Switch to the **Decode** tab.
+3. Upload the given crewmate image.
+4. Click **Decode**.
+
+Instead of a readable message, we get a **long dash‑separated hex string**, starting like:
+
+```text
+41-0b-48-44-0e-48-41-0c-48-41-0a-48-40-5a-48-41-51-48-41-0a-48-40-5e-...
+```
+
+So the first layer of steganography is done – we pulled out the hidden payload from the image. Now we have to actually decrypt it.
+
+---
+
+## Step 2 – Understanding the hint (“the impostor is sus”)
+
+The description sentence:
+
+> “the impostor is sus”
+
+matches perfectly with the hint:
+
+> “The keys are right here. There might be more than one though.”
+
+This suggests that **each word is used as a key**, and that there is more than one key:
+
+- `the`
+- `impostor`
+- `is`
+- `sus`
+
+Since this is a CTF and the payload looks like hex bytes, a very natural guess is **XOR with a repeating key**.
+
+---
+
+## Step 3 – Layered XOR decryption in CyberChef
+
+To test this, it’s easiest to use **CyberChef**.
+
+1. Go to <https://gchq.github.io/CyberChef/>.
+2. Paste the long hex string into the **Input**.
+3. Build the following recipe (top to bottom):
+
+```text
+From Hex
+XOR (key = "the",  UTF-8, standard)
+From Hex
+XOR (key = "impostor", UTF-8, standard)
+From Hex
+XOR (key = "is",  UTF-8, standard)
+From Hex
+XOR (key = "sus", UTF-8, standard)
+From Base64
+```
+
+### Why this recipe?
+
+- **From Hex** converts the dash‑separated bytes into raw binary.
+- **XOR** with the first key (`the`) gives us another layer of hex-encoded data.
+- We repeat the pattern: `From Hex` → `XOR key` for each of the remaining words:  
+  `impostor`, `is`, `sus`.
+- After the final XOR, the result is no longer hex but **Base64**, so the last step is `From Base64`.
+
+This matches the idea that the plaintext was:
+
+1. Base64‑encoded.
+2. XOR‑encrypted four times in sequence, once with each word: `the`, `impostor`, `is`, `sus`.
+3. Encoded as hex bytes.
+
+By reversing the operations in CyberChef, we unwind all layers.
+
+---
+
+## Final flag
+
+```text
+CTF{v3ry_5Us_oF_y0U_mY_fr3n_23rjt0}
+```
