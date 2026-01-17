@@ -53,7 +53,7 @@ export default function Home() {
       <section className="relative overflow-hidden">
         <div className="mx-auto max-w-5xl px-4 pt-16 pb-24 sm:pt-24 sm:pb-20 relative">
             <h1 className="text-center font-extrabold leading-tight tracking-tight text-gray-900 dark:text-gray-100 text-4xl sm:text-5xl md:text-6xl">
-              OmniCTF 2025
+              OmniCYBR 2026
             </h1>
             <p className="mt-4 text-center text-lg sm:text-xl font-semibold text-violet-600 dark:text-violet-400">
               {'>'} &nbsp; October 18th &nbsp; {'·'} &nbsp; 09:30 AM – 04:00 PM
