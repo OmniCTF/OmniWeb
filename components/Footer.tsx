@@ -72,6 +72,8 @@ export default function Footer() {
             <a className="hover:text-purple-500 dark:hover:text-purple-400" href={`mailto:${siteMetadata.email_support}`}>
               {siteMetadata.email_support}
             </a>
+          </div>
+          <div className="mt-2 text-sm font-semibold text-gray-900 dark:text-gray-100">
             <a className="hover:text-purple-500 dark:hover:text-purple-400" href={`mailto:${siteMetadata.email_sponsors}`}>
               {siteMetadata.email_sponsors}
             </a>
