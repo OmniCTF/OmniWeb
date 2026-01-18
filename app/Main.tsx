@@ -6,7 +6,7 @@ import NewsletterForm from 'pliny/ui/NewsletterForm'
 import Image from 'next/image'
 import { SPONSORS } from 'data/sponsors'
 
-const EVENT_DATE = new Date(2026, 9, 18, 9, 30, 0, 0) // Oct 18, 2026 (Jan is 0)
+const EVENT_DATE = new Date(2025, 9, 18, 9, 30, 0, 0) // Oct 18, 2026 (Jan is 0)
 
 function useCountdown(target: Date) {
   const [now, setNow] = useState<Date>(() => new Date())
@@ -82,7 +82,7 @@ export default function Home() {
               <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
                 {finished ? (
                   <span className="rounded-2xl bg-red-600 px-6 py-4 text-xl font-bold text-white shadow-lg shadow-red-500/20">
-                    CTF ENDED! THANK YOU FOR PARTICIPATING!
+                    Preparing for 2026 Event. Be ready!
                   </span>
                 ) : (
                   <div className="rounded-3xl border border-violet-500/20 bg-white/60 p-4 shadow-lg shadow-violet-500/10 backdrop-blur dark:border-violet-400/15 dark:bg-zinc-900/55">
