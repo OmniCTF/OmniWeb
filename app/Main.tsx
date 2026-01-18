@@ -6,7 +6,7 @@ import NewsletterForm from 'pliny/ui/NewsletterForm'
 import Image from 'next/image'
 import { SPONSORS } from 'data/sponsors'
 
-const EVENT_DATE = new Date(2026, 9, 18, 9, 30, 0, 0) // Oct 18, 2026 (Jan is 0)
+const EVENT_DATE = new Date(2025, 9, 18, 9, 30, 0, 0) // Oct 18, 2026 (Jan is 0)
 
 function useCountdown(target: Date) {
   const [now, setNow] = useState<Date>(() => new Date())
