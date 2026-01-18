@@ -1,0 +1,15 @@
+diff --git a/app/tag-data.json b/app/tag-data.json
+index 99100b0..4cc8f73 100644
+--- a/app/tag-data.json
++++ b/app/tag-data.json
+@@ -1,8 +1,8 @@
+ {
+   "rev": 1,
+   "web": 1,
+-  "forensics": 1,
+-  "stego": 1,
++  "forensics": 2,
++  "stego": 3,
+   "pwn": 1,
+   "crypto": 1,
+   "blockchain": 1,
