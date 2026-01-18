@@ -85,6 +85,7 @@ export default function Footer() {
         </div>
         <div className="text-xs">
           Built with Next.js · Tailwind · Pliny
+          Theme Build by eLure
         </div>
       </div>
     </footer>
