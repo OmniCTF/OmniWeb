@@ -49,7 +49,7 @@ export default function Main({ posts }: { posts: Post[] }) {
   const latest = posts?.slice(0, 3) ?? []
 
   return (
-    <div className="space-y-24">
+    <div className="space-y-24 overflow-x-hidden">
       <section className="relative overflow-hidden">
         <div
           aria-hidden
