@@ -50,97 +50,167 @@ export default function MemberProfile({ params }: MemberPageProps) {
   const posts = allBlogs.filter((post) => post.authors?.includes(params.slug))
 
   return (
-    <div className="max-w-4xl mx-auto py-12">
-      <div className="flex flex-col sm:flex-row gap-6 items-center">
-        {member.avatar ? (
-          <Image
-            src={member.avatar}
-            alt={member.name}
-            width={120}
-            height={120}
-            className="rounded-full border object-cover"
-          />
-        ) : (
-          <div className="w-[120px] h-[120px] rounded-full bg-gray-700" />
-        )}
-        <div>
-          <h1 className="text-3xl font-bold">{member.displayName}</h1>
-          <p className="text-sm text-gray-400">{member.position}</p>
-          <p className="text-sm text-gray-500">Joined {member.joined}</p>
-          {member.country && (
-            <img
-              src={`https://flagcdn.com/w40/${member.country.toLowerCase()}.png`}
-              alt={member.country}
-              className="mt-2 w-6 h-4 object-cover rounded-sm"
-            />
-          )}
-          <div className="mt-2 flex gap-3">
-            {member.links?.website && (
-              <a href={member.links.website} target="_blank" rel="noopener noreferrer">
-                <Globe className="w-5 h-5 text-white hover:text-purple-400" />
-              </a>
+    <div className="mx-auto max-w-6xl px-4 py-12">
+      <div className="rounded-3xl bg-gradient-to-b from-violet-500/20 via-transparent to-transparent p-[1px]">
+        <div className="rounded-3xl border border-violet-500/15 bg-white/70 p-6 shadow-lg shadow-violet-500/10 backdrop-blur dark:border-violet-400/10 dark:bg-zinc-900/60">
+          <div className="flex flex-col gap-6 sm:flex-row sm:items-start">
+            {member.avatar ? (
+              <Image
+                src={member.avatar}
+                alt={member.name}
+                width={120}
+                height={120}
+                className="rounded-full border border-white/10 object-cover"
+              />
+            ) : (
+              <div className="h-[120px] w-[120px] rounded-full bg-zinc-200 dark:bg-zinc-700" />
             )}
-            {member.links?.github && (
-              <a href={member.links.github} target="_blank" rel="noopener noreferrer">
-                <Github className="w-5 h-5 text-white hover:text-purple-400" />
-              </a>
-            )}
-          </div>
-          <div className="mt-3 flex flex-wrap gap-1">
-            {member.tags?.map((tag) => (
-                <Link
-                  key={tag}
-                  href={`/tags/${encodeURIComponent(tag)}`}
-                  className="rounded bg-purple-900 px-2 py-1 text-xs font-medium text-white transition hover:bg-purple-700"
-                >
-                  {tag}
-                </Link>
-              ))}
-          </div>
 
-          {/* Now Listening section */}
-          {member.nowListening?.url && (
-            <div className="mt-6 rounded-xl bg-purple-500 p-4 shadow-lg text-white w-full max-w-md">
-              <div className="text-xs uppercase font-bold tracking-wide mb-2">Now Playing</div>
-              <div className="flex items-center justify-between gap-4 flex-wrap">
+            <div className="flex-1">
+              <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
                 <div>
-                  <div className="text-lg font-semibold">{member.nowListening.title}</div>
-                  <div className="text-sm text-gray-100">{member.nowListening.artist}</div>
+                  <h1 className="text-3xl font-extrabold tracking-tight text-zinc-900 dark:text-zinc-100">
+                    {member.displayName}
+                  </h1>
+                  {member.position ? (
+                    <p className="mt-1 text-sm font-semibold text-violet-700 dark:text-violet-300">
+                      {member.position}
+                    </p>
+                  ) : null}
+                  <div className="mt-2 flex flex-wrap items-center gap-3 text-sm text-zinc-600 dark:text-zinc-400">
+                    {member.joined ? <span>Joined {member.joined}</span> : null}
+                    {member.country ? (
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img
+                        src={`https://flagcdn.com/w40/${member.country.toLowerCase()}.png`}
+                        alt={member.country}
+                        className="h-4 w-6 rounded-sm object-cover"
+                      />
+                    ) : null}
+                  </div>
                 </div>
-                <audio controls className="rounded h-10">
-                  <source src={member.nowListening.url} type="audio/mpeg" />
-                  Your browser does not support the audio element.
-                </audio>
+
+                <div className="flex items-center gap-3">
+                  {member.links?.website ? (
+                    <a
+                      href={member.links.website}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center justify-center rounded-xl border border-zinc-300 bg-white/70 p-2 text-zinc-700 shadow-sm backdrop-blur transition hover:bg-white hover:shadow-md dark:border-white/15 dark:bg-zinc-950/20 dark:text-zinc-200"
+                      aria-label="Website"
+                    >
+                      <Globe className="h-5 w-5" />
+                    </a>
+                  ) : null}
+                  {member.links?.github ? (
+                    <a
+                      href={member.links.github}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center justify-center rounded-xl border border-zinc-300 bg-white/70 p-2 text-zinc-700 shadow-sm backdrop-blur transition hover:bg-white hover:shadow-md dark:border-white/15 dark:bg-zinc-950/20 dark:text-zinc-200"
+                      aria-label="GitHub"
+                    >
+                      <Github className="h-5 w-5" />
+                    </a>
+                  ) : null}
+                </div>
               </div>
+
+              {(member.tags ?? []).length ? (
+                <div className="mt-4 flex flex-wrap gap-2">
+                  {member.tags?.map((tag) => (
+                    <Link
+                      key={tag}
+                      href={`/tags/${encodeURIComponent(tag)}`}
+                      className="rounded-full border border-violet-500/20 bg-violet-500/5 px-2.5 py-1 text-xs font-semibold text-violet-800 transition hover:border-violet-500/40 hover:bg-violet-500/10 dark:border-violet-400/15 dark:text-violet-200"
+                    >
+                      {tag}
+                    </Link>
+                  ))}
+                </div>
+              ) : null}
+
+              {member.nowListening?.url ? (
+                <div className="mt-6 rounded-2xl border border-violet-500/20 bg-violet-500/10 p-4">
+                  <div className="text-xs font-extrabold uppercase tracking-wide text-violet-700 dark:text-violet-200">
+                    Now playing
+                  </div>
+                  <div className="mt-2 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+                    <div>
+                      <div className="text-lg font-semibold text-zinc-900 dark:text-zinc-100">
+                        {member.nowListening.title}
+                      </div>
+                      <div className="text-sm text-zinc-600 dark:text-zinc-300">
+                        {member.nowListening.artist}
+                      </div>
+                    </div>
+                    <audio controls className="h-10 w-full rounded md:w-[360px]">
+                      <source src={member.nowListening.url} type="audio/mpeg" />
+                      Your browser does not support the audio element.
+                    </audio>
+                  </div>
+                </div>
+              ) : null}
             </div>
-          )}
+          </div>
         </div>
       </div>
 
-      <p className="mt-6 text-gray-300 leading-relaxed">{member.bio}</p>
+      {member.bio ? (
+        <div className="mt-8 rounded-2xl border border-zinc-300 bg-white/70 p-6 text-zinc-700 shadow-sm backdrop-blur dark:border-white/15 dark:bg-zinc-900/50 dark:text-zinc-300">
+          {member.bio}
+        </div>
+      ) : null}
 
-      <h2 className="mt-10 text-2xl font-bold">Writeups</h2>
-      <div className="mt-4 space-y-4">
-        {posts.map((post) => (
-          <Link
-            key={post.slug}
-            href={`/blog/${post.slug}`}
-            className="block bg-gray-900 p-4 rounded-lg hover:ring-2 hover:ring-purple-500"
-          >
-            <div className="flex items-center justify-between">
-              <h3 className="text-lg font-semibold text-white">{post.title}</h3>
-              <span className="text-sm text-gray-400">{post.date}</span>
-            </div>
-            <p className="text-sm text-gray-400">{post.summary}</p>
-            <div className="mt-2 flex flex-wrap gap-1">
-              {post.tags?.map((tag) => (
-                <span key={tag} className="px-2 py-0.5 text-xs rounded bg-purple-900 text-white">
-                  {tag}
+      <div className="mt-10">
+        <h2 className="text-2xl font-extrabold tracking-tight text-zinc-900 dark:text-zinc-100">
+          Writeups
+        </h2>
+        <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">
+          Posts authored by this member.
+        </p>
+
+        <div className="mt-6 grid grid-cols-1 gap-4 md:grid-cols-2">
+          {posts.map((post) => (
+            <Link
+              key={post.slug}
+              href={`/blog/${post.slug}`}
+              className="rounded-2xl border border-violet-500/15 bg-white/70 p-5 shadow-sm backdrop-blur transition hover:-translate-y-0.5 hover:shadow-md dark:border-violet-400/10 dark:bg-zinc-900/50"
+            >
+              <div className="flex items-start justify-between gap-4">
+                <h3 className="text-lg font-extrabold tracking-tight text-zinc-900 dark:text-zinc-100">
+                  {post.title}
+                </h3>
+                <span className="shrink-0 text-xs font-semibold uppercase tracking-wide text-zinc-500 dark:text-zinc-400">
+                  {post.date}
                 </span>
-              ))}
-            </div>
-          </Link>
-        ))}
+              </div>
+              {post.summary ? (
+                <p className="mt-2 line-clamp-2 text-sm text-zinc-600 dark:text-zinc-400">
+                  {post.summary}
+                </p>
+              ) : null}
+              {post.tags?.length ? (
+                <div className="mt-3 flex flex-wrap gap-2">
+                  {post.tags.slice(0, 5).map((tag) => (
+                    <span
+                      key={`${post.slug}-${tag}`}
+                      className="rounded-full border border-violet-500/20 bg-violet-500/5 px-2.5 py-1 text-xs font-semibold text-violet-800 dark:border-violet-400/15 dark:text-violet-200"
+                    >
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+              ) : null}
+            </Link>
+          ))}
+        </div>
+
+        {!posts.length ? (
+          <div className="mt-6 rounded-2xl border border-zinc-300 bg-white/70 p-6 text-sm text-zinc-600 shadow-sm backdrop-blur dark:border-white/15 dark:bg-zinc-900/50 dark:text-zinc-300">
+            No posts yet.
+          </div>
+        ) : null}
       </div>
     </div>
   )
