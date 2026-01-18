@@ -69,8 +69,11 @@ export default function Footer() {
             For partnerships, sponsorships, or support:
           </p>
           <div className="mt-2 text-sm font-semibold text-gray-900 dark:text-gray-100">
-            <a className="hover:text-purple-500 dark:hover:text-purple-400" href={`mailto:${siteMetadata.email}`}>
-              {siteMetadata.email}
+            <a className="hover:text-purple-500 dark:hover:text-purple-400" href={`mailto:${siteMetadata.email_support}`}>
+              {siteMetadata.email_support}
+            </a>
+            <a className="hover:text-purple-500 dark:hover:text-purple-400" href={`mailto:${siteMetadata.email_sponsors}`}>
+              {siteMetadata.email_sponsors}
             </a>
           </div>
         </div>
@@ -85,7 +88,9 @@ export default function Footer() {
         </div>
         <div className="text-xs">
           Built with Next.js · Tailwind · Pliny
-          Theme Build by eLure
+        </div>
+        <div className="text-xs">
+          Theme Built by eLure
         </div>
       </div>
     </footer>
