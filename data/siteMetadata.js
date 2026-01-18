@@ -11,7 +11,7 @@ const siteMetadata = {
   siteLogo: `${process.env.BASE_PATH || ''}/static/images/logo.png`,
   socialBanner: `${process.env.BASE_PATH || ''}/static/images/twitter-card.png?v=3`,
   mastodon: '#',
-  email: 'support@omnictf.com',
+  email: 'sponsors@omnictf.com | support@omnictf.com',
   github: 'https://github.com/OmniCTF',
   x: 'https://x.com/OmniCYBR',
   // twitter: 'https://twitter.com/Twitter',
