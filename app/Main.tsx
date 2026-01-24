@@ -19,12 +19,12 @@ type Post = {
 
 const EVENT = {
   name: 'OmniCTF 2026',
-  format: '??????',
-  durationLabel: '?? hours',
-  dateLabel: '?????? ????',
-  timeLabel: '??:?? ?? – ??:?? ??',
+  format: 'Online',
+  durationLabel: '48 hours',
+  dateLabel: '17th - 19th July',
+  timeLabel: '15:00 PM – 15:00 PM UTC',
   mode: 'preparing' as 'preparing' | 'countdown',
-  countdownTargetIso: '2025-10-18T06:30:00.000Z',
+  countdownTargetIso: '2026-07-17T15:00:00.000Z',
 }
 
 const LINKS = {
