@@ -1,0 +1,40 @@
+---
+title: 'DNS Cover'
+date: '2025-11-25'
+tags: ['web']
+draft: false
+summary: 'Write-up for the DNS Cover Challenge.'
+authors: ['header']
+---
+
+## Challenge description
+
+**Name:** DNS Cover  
+**Category:** Web  
+**Difficulty:** Entry  
+
+> Can you find what's hidden behind my domain?  
+> **Domain:** `header.ro`  
+> **Files:** `dns-cover.zip`
+
+The hint is in the name: **DNS / headers**. This usually means the target behaves differently depending on the **Host header** (virtual hosts) or depending on whether you hit the **domain vs the raw IP**.
+
+---
+
+## 1. Understanding the bug (virtual host / default vhost)
+
+Many web servers host multiple sites on the same IP using **name-based virtual hosting**:
+
+- If you request with `Host: header.ro`, you get the normal website.
+- If you request with a *different* `Host:` value (or no matching vhost), you may hit the **default vhost**, which sometimes contains hidden content (in this case, the flag).
+
+So the goal is to make the server **not** match `header.ro` as the vhost.
+
+---
+
+## 2. Solve 1 — Force a different Host header
+
+We can manually set a fake Host header and then search for the flag in the response.
+
+```bash
+curl -s --header 'Host: lol' http://header.ro/ | grep --color=never "CTF"
