@@ -23,7 +23,7 @@ const EVENT = {
   durationLabel: '48 hours',
   dateLabel: '17th - 19th July',
   timeLabel: '15:00 PM – 15:00 PM UTC',
-  mode: 'preparing' as 'preparing' | 'countdown',
+  mode: 'countdown' as 'preparing' | 'countdown',
   countdownTargetIso: '2026-07-17T15:00:00.000Z',
 }
 
