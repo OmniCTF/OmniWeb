@@ -1,0 +1,139 @@
+---
+title: 'Intro-to-OSINT'
+date: '2025-12-23'
+tags: ['osint']
+draft: false
+summary: 'Write-up for the Intro-to-OSINT challenge.'
+authors: ['elure', 'andreicat']
+---
+
+## Challenge description
+
+**Name:** Intro-to-OSINT  
+**Category:** OSINT (Entry)  
+**Authors:** AndreiCat & Elure  
+**Flag format:** `CTF{sha256(q1_q2_q3_..._q8)}`
+
+[GitHub](https://github.com/OmniCTF/Intro-to-OSINT/tree/main)
+
+We’re given 8 questions (some with images). Each question yields a **keyword** (`q1..q8`).  
+At the end, we join them with underscores and SHA-256 hash the final string.
+
+---
+
+## Question 1 — Biggest media franchise + “Germany defeated Czechia”
+
+Clue: “a few months before Germany defeated Czechia” is **not** WW2 — it matches the **Germany vs Czech Republic** football final (Euro 1996), which happened in late June 1996.
+
+A few months earlier (Feb 1996), the game that kicked off the biggest media franchise (**Pokémon**) launched in Japan.
+
+**Answer (q1):** `pokemon_red`
+
+---
+
+## Question 2 — “True king of chess” + grim anniversary
+
+“The true king of chess claimed his crown for the very first time” points to **Magnus Carlsen** winning his **first World Chess Championship**.
+
+Carlsen clinched the title on **Nov 22, 2013**, which is the same date as the assassination of **John F. Kennedy** (Nov 22, 1963) — a grim event with a famous location.
+
+**Answer (q2):** `dallas`
+
+---
+
+## Question 3 — “Where are my fingers?” meme
+
+The rant is basically a direct reference to the classic meme:
+
+> “Hey Vsauce, Michael here. Where are your fingers?”
+
+So the “username he’s most known as” is simply:
+
+**Answer (q3):** `vsauce`
+
+---
+
+## Question 4 — Find the real name of `byteNomad42`
+
+This is a standard username → identity pivot:
+
+1. Search `byteNomad42` across platforms (GitHub, Twitter/X, Reddit, LinkedIn).
+2. Check bios / pinned links / profile metadata.
+3. Confirm the same handle is reused and the identity matches across platforms.
+
+The handle resolves to the real name:
+
+**Answer (q4):** `brendan_hayes`
+
+---
+
+## Question 5 — Identify the image collection (thesis folder)
+
+The image is the iconic *Pale Blue Dot* style shot (tiny speck + colored light streaks), which is part of Voyager 1’s famous set of Solar System photos.
+
+That collection is known as **The Family Portrait** (Voyager 1 “Family Portrait” series).
+
+**Answer (q5):** `family_portrait`
+
+---
+
+## Question 6 — “Gata cu BAC-ul… e timpu de mers la mare!!!” (Romania)
+
+The hint is very Romanian (“BAC-ul” = baccalaureate exam), so we’re looking for a Romanian seaside town.
+
+Using the photo:
+- shoreline + breakwaters + the specific waterfront buildings
+- reverse image search / map-view matching (Google Maps photos, reviews, hotel facades)
+
+This geolocates to:
+
+**Answer (q6):** `mangalia`
+
+---
+
+## Question 7 — Landmark north of the route (2 words)
+
+We’re given a Pokémon-style game screenshot. The fastest approach:
+
+1. Reverse image search the screenshot (or crop the unique tiles + sign area).
+2. Identify the game / map route.
+3. Once the route is known, look at the world map: the landmark **north** of that route is a named location.
+
+That landmark is:
+
+**Answer (q7):** `cinder_volcano`
+
+---
+
+## Question 8 — French newspaper, but not from France
+
+The newspaper page contains the place name **Chicoutimi**, which is in **Québec, Canada** (French-speaking, but not France).
+
+Searching for Chicoutimi local French newspapers and matching the masthead/title leads to:
+
+**Answer (q8):** `le_phare`
+
+---
+
+## Final assembly
+
+Join answers in order:
+
+```text
+pokemon_red_dallas_vsauce_brendan_hayes_family_portrait_mangalia_cinder_volcano_le_phare
+```
+
+Compute SHA-256:
+
+```python
+import hashlib
+
+s = "pokemon_red_dallas_vsauce_brendan_hayes_family_portrait_mangalia_cinder_volcano_le_phare"
+print("CTF{" + hashlib.sha256(s.encode()).hexdigest() + "}")
+```
+
+### Flag
+
+```text
+CTF{0b09d43014d583094a77f1e8ebf7e05f8de4c550a6d58e6dbb72d4217b2e85bf}
+```
