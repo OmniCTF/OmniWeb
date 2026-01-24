@@ -24,7 +24,7 @@ const EVENT = {
   dateLabel: '17th - 19th July',
   timeLabel: '15:00 PM – 15:00 PM UTC',
   mode: 'countdown' as 'preparing' | 'countdown',
-  countdownTargetIso: '2026-07-17T15:00:00.000Z',
+  countdownTargetIso: '2026-07-17T18:00:00.000Z',
 }
 
 const LINKS = {
