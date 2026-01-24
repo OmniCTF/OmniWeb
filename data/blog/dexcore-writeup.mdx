@@ -1,0 +1,203 @@
+---
+title: 'DexCore'
+date: '2025-12-17'
+tags: ['crypto']
+draft: false
+summary: 'Write-up for the DexCore challenge.'
+authors: ['andreicat']
+---
+
+## Challenge description
+
+**Name:** DexCore  
+**Category:** Crypto  
+
+> Agent Dexter managed to exfiltrate an encryption algorithm and an encrypted file from E-Corp. Your task is to recover the initial image. Best of luck, cadet!
+
+We are given two files:
+
+- `challenge.py` — the “encryption algorithm”
+- `dexcore.bin` — the encrypted output
+
+[GitHub](https://github.com/OmniCTF/DexCore/tree/main)
+
+Goal: recover the original image (and the flag shown on it).
+
+---
+
+## 1. Understanding `challenge.py`
+
+Reading the script, the image bytes go through three layers:
+
+### 1) XOR mask (per RGB channel)
+A NumPy RNG is seeded with the **TrainerLink ID** (`TrainerSeed`), then it generates two bytes:
+
+- `XSeed = rng.integers(0, 256)`
+- `YSeed = rng.integers(0, 256)`
+
+Each pixel is processed as:
+
+- `R ^= XSeed`
+- `G ^= YSeed`
+- `B ^= (XSeed ^ YSeed)`
+
+Because XOR is reversible (XORing twice with the same value restores the original), this part is easy to undo once we know `XSeed` and `YSeed`.
+
+### 2) Byte substitution via a shuffled table
+The same seeded RNG shuffles a list `[0..255]`:
+
+- `OpcodeTable = list(range(256))`
+- `rng.shuffle(OpcodeTable)`
+
+Then it builds an inverse mapping:
+
+- `OpcodeBus = {entry: idx for idx, entry in enumerate(OpcodeTable)}`
+
+And transforms each byte `ch` as `OpcodeBus[ch]` (a substitution cipher).
+
+To decrypt, we’ll regenerate `OpcodeTable` and map back using `OpcodeTable[index]`.
+
+### 3) Noise injection (`h4ck`)
+Finally, the script iterates every encrypted byte and *sometimes* appends the literal marker:
+
+- `FinalSequence.append(byte)`
+- `FinalSequence.extend(b"h4ck")`
+
+This is purely obfuscation — the marker isn’t encrypted and must be removed.
+
+---
+
+## 2. Cleaning `dexcore.bin` (removing injected `h4ck`)
+
+The injector always writes the real byte first and then the 4-byte marker right after it, so we can remove it with a simple scan:
+
+```python
+data = open("dexcore.bin", "rb").read()
+
+clean = bytearray()
+i = 0
+while i < len(data):
+    clean.append(data[i])
+    if i + 4 < len(data) and data[i+1:i+5] == b"h4ck":
+        i += 5
+    else:
+        i += 1
+
+cipher = bytes(clean)
+```
+
+After cleaning, the ciphertext length becomes divisible by 3, which is exactly what we want for RGB data.
+
+---
+
+## 3. Reversing the “crypto” (substitution + XOR)
+
+Given the correct seed:
+
+1. Regenerate the shuffled `OpcodeTable`
+2. Regenerate `XSeed`, `YSeed`
+3. Undo substitution: `byte = OpcodeTable[cipher_byte]`
+4. Undo XOR on R/G/B channels
+
+```python
+import numpy as np
+
+pix = np.frombuffer(cipher, dtype=np.uint8)
+
+rng = np.random.default_rng(seed=SEED)
+OpcodeTable = np.arange(256, dtype=np.uint8)
+rng.shuffle(OpcodeTable)
+
+XSeed = int(rng.integers(0, 256))
+YSeed = int(rng.integers(0, 256))
+
+# undo substitution
+pix = OpcodeTable[pix].copy()
+
+# undo XOR
+pix[0::3] ^= XSeed
+pix[1::3] ^= YSeed
+pix[2::3] ^= (XSeed ^ YSeed)
+```
+
+Only issue: the seed is unknown (range 1..65536).
+
+---
+
+## 4. Recovering the seed (TrainerLink ID)
+
+Brute-forcing all 65,536 seeds is feasible, but decoding the entire payload for each seed is slow.
+
+So we decode only the first ~20,000 pixels for each seed and score it using a simple heuristic:
+
+- correct image data has structure → adjacent pixels tend to be similar
+- wrong seed → looks like random noise → large differences
+
+Score = mean absolute difference between consecutive RGB triplets.
+
+```python
+import numpy as np
+
+cipher_u8 = np.frombuffer(cipher, dtype=np.uint8)
+SAMPLE_PIXELS = 20000
+sample = cipher_u8[:SAMPLE_PIXELS * 3]
+
+def score(seed: int) -> float:
+    rng = np.random.default_rng(seed)
+    table = np.arange(256, dtype=np.uint8)
+    rng.shuffle(table)
+    x = int(rng.integers(0, 256))
+    y = int(rng.integers(0, 256))
+
+    pix = table[sample].copy()
+    pix[0::3] ^= x
+    pix[1::3] ^= y
+    pix[2::3] ^= (x ^ y)
+
+    arr = pix.reshape(-1, 3).astype(np.int16)
+    return float(np.abs(arr[1:] - arr[:-1]).mean())
+
+best_seed = min(range(1, 65537), key=score)
+print("Best seed:", best_seed)
+```
+
+This yields:
+
+```text
+Best seed: 1299
+```
+
+So the TrainerLink ID is **1299**.
+
+---
+
+## 5. Rebuilding the image
+
+After decrypting all bytes, we know:
+
+- total bytes = `4,510,950`
+- pixels = `4,510,950 / 3 = 1,503,650`
+
+We factor the pixel count to find plausible dimensions. A valid pair is:
+
+- `1037 × 1450 = 1,503,650`
+
+Then we rebuild using PIL:
+
+```python
+from PIL import Image
+
+w, h = 1037, 1450
+img = Image.frombytes("RGB", (w, h), pix.tobytes())
+img.save("recovered.png")
+```
+
+The resulting image is a “FLAG” card with the flag printed on it.
+
+---
+
+## Flag
+
+```text
+CTF{55F2B711A7CE674614FF966F16941C7911327D6827E56E04888D32D199578BA0}
+```
