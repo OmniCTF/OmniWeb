@@ -1,0 +1,144 @@
+---
+title: 'Tetoris'
+date: '2025-12-04'
+tags: ['hardware']
+draft: false
+summary: 'Write-up for the Tetoris challenge.'
+authors: ['elure']
+---
+
+## Challenge description
+
+**Name:** Tetoris  
+**Category:** Hardware  
+**Difficulty:** Easy 
+
+> This challenge is straightforward, no tricks. A logic analyzer was connected to the UART port of a device, can you see what it prints?
+
+We’re given a single file: `challenge.sr` (a Sigrok/PulseView session).
+
+Goal: decode the UART traffic and recover the printed text (the flag).
+
+---
+
+## 1. Open the capture
+
+Since the file ends in `.sr`, it’s a Sigrok session. The easiest workflow:
+
+1. Install **PulseView** (Sigrok GUI).
+2. Open `challenge.sr`.
+3. You should see **one digital channel** (named something like `uart`).
+
+---
+
+## 2. Identify UART settings (baud rate)
+
+From the capture metadata (PulseView also shows this), the sample rate is **1 MHz**.
+
+UART is asynchronous, so we need the **bit time**. A quick way:
+
+- Zoom in on a start bit (idle high → falling edge to low).
+- Measure the width of the smallest repeated pulse length.
+
+In this capture, the most common edge-to-edge spacing is **~104 samples**.
+
+At **1 MHz**, that’s:
+
+- `104 samples ≈ 104 µs per bit`
+- `baud ≈ 1 / 104e-6 ≈ 9615` → closest standard rate is **9600 baud**
+
+So we use **9600 baud**.
+
+---
+
+## 3. Decode in PulseView (UART)
+
+1. Click **Add protocol decoder**
+2. Select **UART**
+3. Configure:
+   - **RX channel:** the only channel (`uart`)
+   - **Baud rate:** `9600`
+   - **Data bits:** `8`
+   - **Parity:** `None`
+   - **Stop bits:** `1`
+   - **Bit order:** `LSB first` (default UART)
+
+PulseView will immediately populate the decode row with bytes / ASCII.
+
+Reading the decoded ASCII stream yields the flag.
+
+---
+
+## Flag
+
+```text
+CTF{UART_1s_th3_b4ckb0n3_0f_s3r14l_d4t4_tr4nsm1ss10n}
+```
+
+---
+
+## Bonus: decode without GUI (Python)
+
+If you don’t want PulseView, `.sr` is just a zip. The logic samples are raw 0/1 bytes, so we can decode UART by sampling mid-bit at 9600 baud.
+
+```python
+import zipfile
+import numpy as np
+
+BIT_SAMPLES = 104  # 1 MHz / 9600 ≈ 104 samples per bit
+
+def decode_uart_loose(sig, bit_samples=BIT_SAMPLES, data_bits=8):
+    n = len(sig)
+    i = 0
+    out = []
+
+    while i < n - 2:
+        # falling edge = start bit
+        if sig[i] == 1 and sig[i+1] == 0:
+            t0 = i + 1
+
+            # start bit midpoint must be low
+            mid_start = t0 + bit_samples // 2
+            if mid_start >= n or sig[mid_start] != 0:
+                i += 1
+                continue
+
+            # sample 8 data bits at 1.5, 2.5, ..., 8.5 bit-times
+            bits = []
+            ok = True
+            for b in range(data_bits):
+                idx = int(round(t0 + bit_samples * (1.5 + b)))
+                if idx >= n:
+                    ok = False
+                    break
+                bits.append(int(sig[idx]))
+
+            if not ok:
+                break
+
+            val = sum(bit << b for b, bit in enumerate(bits))
+            out.append(val)
+
+            # jump past the frame (start + 8 data + stop)
+            i = int(round(t0 + bit_samples * 10))
+            continue
+
+        i += 1
+
+    return bytes(out)
+
+with zipfile.ZipFile("challenge.sr", "r") as z:
+    logic = z.read("logic-1-1")
+
+sig = (np.frombuffer(logic, dtype=np.uint8) & 1).astype(np.uint8)
+msg = decode_uart_loose(sig).decode("ascii", errors="replace")
+print(msg)
+```
+
+Output:
+
+```text
+CTF{UART_1s_th3_b4ckb0n3_0f_s3r14l_d4t4_tr4nsm1ss10n}
+```
+
+(We decode “loose” because captures sometimes end mid-stop-bit; the last byte can still be recovered reliably.)
