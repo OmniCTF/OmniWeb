@@ -68,7 +68,7 @@ function TierBlock({
         {title}
       </h2>
       <div className="mt-4 h-px w-full bg-gradient-to-r from-violet-500/25 via-transparent to-transparent" />
-      {/* keep your SponsorsTabs UI, but do not auto-open a sponsor in each tier */}
+      {}
       <SponsorsTabs sponsors={list} initialSelectedId={null} />
     </div>
   )
@@ -77,12 +77,12 @@ function TierBlock({
 export default function Main({ posts }: { posts: Post[] }) {
   const latest = posts?.slice(0, 3) ?? []
 
-  // Group sponsors by tier (based on your Sponsor.tier union)
   const partners = SPONSORS.filter((s) => s.tier === 'Partner')
   const platinum = SPONSORS.filter((s) => s.tier === 'Platinum')
   const gold = SPONSORS.filter((s) => s.tier === 'Gold')
   const silver = SPONSORS.filter((s) => s.tier === 'Silver')
   const bronze = SPONSORS.filter((s) => s.tier === 'Bronze')
+  const platinum = SPONSORS.filter((s) => s.tier === 'Infra')
 
   return (
     <div className="space-y-24 overflow-x-hidden">
@@ -122,7 +122,7 @@ export default function Main({ posts }: { posts: Post[] }) {
             </div>
 
             <div className="mt-8 flex flex-wrap justify-center gap-2">
-              <Pill>?? Spots For 2026 Finals</Pill>
+              <Pill>9 Spots For 2026 Finals</Pill>
             </div>
 
             <div className="mt-10 flex flex-wrap justify-center gap-3">
