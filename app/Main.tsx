@@ -1,3 +1,4 @@
+// Main.tsx
 import Link from '@/components/Link'
 import Tag from '@/components/Tag'
 import siteMetadata from '@/data/siteMetadata'
@@ -45,16 +46,48 @@ const categories = [
   { name: 'Misc', hint: 'Curveballs & creativity' },
 ]
 
+function Pill({ children }: { children: React.ReactNode }) {
+  return (
+    <span className="rounded-full border border-violet-500/20 bg-white/70 px-3 py-1 text-xs font-semibold text-zinc-800 shadow-sm backdrop-blur dark:border-violet-400/15 dark:bg-zinc-900/45 dark:text-zinc-200">
+      {children}
+    </span>
+  )
+}
+
+function TierBlock({
+  title,
+  list,
+}: {
+  title: string
+  list: typeof SPONSORS
+}) {
+  if (!list.length) return null
+  return (
+    <div className="mt-12">
+      <h2 className="text-2xl font-extrabold tracking-tight text-zinc-900 dark:text-zinc-100">
+        {title}
+      </h2>
+      <div className="mt-4 h-px w-full bg-gradient-to-r from-violet-500/25 via-transparent to-transparent" />
+      {/* keep your SponsorsTabs UI, but do not auto-open a sponsor in each tier */}
+      <SponsorsTabs sponsors={list} initialSelectedId={null} />
+    </div>
+  )
+}
+
 export default function Main({ posts }: { posts: Post[] }) {
   const latest = posts?.slice(0, 3) ?? []
+
+  // Group sponsors by tier (based on your Sponsor.tier union)
+  const partners = SPONSORS.filter((s) => s.tier === 'Partner')
+  const platinum = SPONSORS.filter((s) => s.tier === 'Platinum')
+  const gold = SPONSORS.filter((s) => s.tier === 'Gold')
+  const silver = SPONSORS.filter((s) => s.tier === 'Silver')
+  const bronze = SPONSORS.filter((s) => s.tier === 'Bronze')
 
   return (
     <div className="space-y-24 overflow-x-hidden">
       <section className="relative overflow-hidden">
-        <div
-          aria-hidden
-          className="pointer-events-none absolute inset-0 -z-10"
-        >
+        <div aria-hidden className="pointer-events-none absolute inset-0 -z-10">
           <div className="absolute left-1/2 top-[-220px] h-[520px] w-[900px] -translate-x-1/2 rounded-full bg-[radial-gradient(closest-side,rgba(139,92,246,0.20),transparent_70%)] blur-2xl" />
         </div>
 
@@ -74,8 +107,8 @@ export default function Main({ posts }: { posts: Post[] }) {
             </p>
 
             <p className="mx-auto mt-6 max-w-2xl text-balance text-zinc-700 dark:text-zinc-300">
-              A CTF built on Team work, creativity, and clean execution. 
-              Compete at a high level and prove you can ship under pressure.
+              A CTF built on Team work, creativity, and clean execution. Compete at a high level and
+              prove you can ship under pressure.
             </p>
 
             <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
@@ -102,8 +135,8 @@ export default function Main({ posts }: { posts: Post[] }) {
             </div>
 
             <p className="mx-auto mt-6 max-w-2xl text-center text-sm text-zinc-600 dark:text-zinc-400">
-              Registration on the competition infrastructure requires completing the form first; you’ll
-              then receive your access code from our staff.
+              Registration on the competition infrastructure requires completing the form first;
+              you’ll then receive your access code from our staff.
             </p>
 
             <div className="mt-10 flex flex-wrap justify-center gap-3">
@@ -133,11 +166,15 @@ export default function Main({ posts }: { posts: Post[] }) {
       </section>
 
       <section id="sponsors-partners" className="mx-auto max-w-6xl px-4">
-        <SectionHeader
-          title="Partnerships & Sponsorships"
-          subtitle="Organizations supporting OmniCTF — thank you."
-        />
-        <SponsorsTabs sponsors={SPONSORS} />
+        <SectionHeader title="Partnerships & Sponsorships" subtitle="Organizations supporting OmniCTF — thank you." />
+
+        {/* Partners first, then sponsor tiers */}
+        <TierBlock title="Partners" list={partners} />
+        <TierBlock title="Platinum Sponsors" list={platinum} />
+        <TierBlock title="Gold Sponsors" list={gold} />
+        <TierBlock title="Silver Sponsors" list={silver} />
+        <TierBlock title="Bronze Sponsors" list={bronze} />
+
         <div className="mx-auto mt-12 h-px max-w-5xl bg-gradient-to-r from-transparent via-violet-500/25 to-transparent" />
       </section>
 
@@ -205,18 +242,14 @@ export default function Main({ posts }: { posts: Post[] }) {
                   <div className="mt-2 flex flex-wrap items-center gap-2 text-xs text-zinc-600 dark:text-zinc-400">
                     {post.authorsData.map((a) => (
                       <span key={`${post.path}-${a.slug ?? a.name}`} className="inline-flex items-center gap-2">
-                        {a.avatar ? (
-                          <img src={a.avatar} alt={a.name ?? 'Author'} className="h-5 w-5 rounded-full" />
-                        ) : null}
+                        {a.avatar ? <img src={a.avatar} alt={a.name ?? 'Author'} className="h-5 w-5 rounded-full" /> : null}
                         {a.slug ? <Link href={`/members/${a.slug}`}>{a.name}</Link> : <span>{a.name}</span>}
                       </span>
                     ))}
                   </div>
                 ) : null}
 
-                <p className="mt-3 line-clamp-3 text-sm text-zinc-600 dark:text-zinc-400">
-                  {post.summary}
-                </p>
+                <p className="mt-3 line-clamp-3 text-sm text-zinc-600 dark:text-zinc-400">{post.summary}</p>
 
                 {post.tags?.length ? (
                   <div className="mt-4 flex flex-wrap">
@@ -241,13 +274,5 @@ export default function Main({ posts }: { posts: Post[] }) {
         </section>
       )}
     </div>
-  )
-}
-
-function Pill({ children }: { children: React.ReactNode }) {
-  return (
-    <span className="rounded-full border border-violet-500/20 bg-white/70 px-3 py-1 text-xs font-semibold text-zinc-800 shadow-sm backdrop-blur dark:border-violet-400/15 dark:bg-zinc-900/45 dark:text-zinc-200">
-      {children}
-    </span>
   )
 }
