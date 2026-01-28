@@ -4,9 +4,18 @@ import { useMemo, useState } from 'react'
 import Image from 'next/image'
 import type { Sponsor } from '@/data/sponsors'
 
-export default function SponsorsTabs({ sponsors }: { sponsors: Sponsor[] }) {
+export default function SponsorsTabs({
+  sponsors,
+  initialSelectedId,
+}: {
+  sponsors: Sponsor[]
+  initialSelectedId?: string | null
+}) {
   const first = sponsors[0]?.id ?? null
-  const [selectedId, setSelectedId] = useState<string | null>(first)
+  const [selectedId, setSelectedId] = useState<string | null>(
+    initialSelectedId !== undefined ? initialSelectedId : first
+  )
+
   const selected = useMemo(
     () => sponsors.find((s) => s.id === selectedId) ?? null,
     [sponsors, selectedId]
@@ -16,7 +25,7 @@ export default function SponsorsTabs({ sponsors }: { sponsors: Sponsor[] }) {
 
   return (
     <>
-      <div className="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4" role="tablist">
+      <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4" role="tablist">
         {sponsors.map((s) => {
           const active = s.id === selectedId
           return (
@@ -88,7 +97,7 @@ export default function SponsorsTabs({ sponsors }: { sponsors: Sponsor[] }) {
                         href={selected.website}
                         target="_blank"
                         rel="noreferrer"
-                        className="inline-flex items-center gap-2 rounded-xl border border-violet-500/30 bg-white/50 px-3 py-1.5 text-sm font-semibold text-violet-800 shadow-sm backdrop-blur transition hover:border-violet-500/50 hover:bg-white hover:shadow-md dark:border-violet-400/20 dark:bg-zinc-950/20 dark:text-violet-200 focus:outline-none focus:ring-2 focus:ring-violet-400/50 dark:border-violet-400/20 dark:bg-zinc-900/50 dark:text-violet-200 dark:hover:bg-zinc-900"
+                        className="inline-flex items-center gap-2 rounded-xl border border-violet-500/30 bg-white/50 px-3 py-1.5 text-sm font-semibold text-violet-800 shadow-sm backdrop-blur transition hover:border-violet-500/50 hover:bg-white hover:shadow-md dark:border-violet-400/20 dark:bg-zinc-950/20 dark:text-violet-200 focus:outline-none focus:ring-2 focus:ring-violet-400/50"
                       >
                         Visit website <span className="opacity-70">↗</span>
                       </a>
@@ -99,7 +108,7 @@ export default function SponsorsTabs({ sponsors }: { sponsors: Sponsor[] }) {
                         href={l.href}
                         target="_blank"
                         rel="noreferrer"
-                        className="inline-flex items-center gap-2 rounded-xl border border-zinc-300 bg-white/50 px-3 py-1.5 text-sm font-medium text-zinc-800 shadow-sm backdrop-blur transition hover:bg-white hover:shadow-md dark:border-white/15 dark:bg-zinc-950/20 dark:text-zinc-200 focus:outline-none focus:ring-2 focus:ring-violet-400/50 dark:border-violet-400/20 dark:bg-zinc-900/50 dark:text-violet-200 dark:hover:bg-zinc-900"
+                        className="inline-flex items-center gap-2 rounded-xl border border-zinc-300 bg-white/50 px-3 py-1.5 text-sm font-medium text-zinc-800 shadow-sm backdrop-blur transition hover:bg-white hover:shadow-md dark:border-white/15 dark:bg-zinc-950/20 dark:text-zinc-200 focus:outline-none focus:ring-2 focus:ring-violet-400/50"
                       >
                         {l.label}
                       </a>
