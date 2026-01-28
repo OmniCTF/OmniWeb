@@ -168,7 +168,6 @@ export default function Main({ posts }: { posts: Post[] }) {
       <section id="sponsors-partners" className="mx-auto max-w-6xl px-4">
         <SectionHeader title="Partnerships & Sponsorships" subtitle="Organizations supporting OmniCTF - thank you." />
 
-        {/* Partners first, then sponsor tiers */}
         <TierBlock title="Partners" list={partners} />
         <TierBlock title="Platinum Sponsors" list={platinum} />
         <TierBlock title="Gold Sponsors" list={gold} />
