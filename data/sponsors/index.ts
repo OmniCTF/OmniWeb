@@ -27,7 +27,7 @@ export const SPONSORS: Sponsor[] = [
   {
     id: 'caido',
     name: 'CAIDO',
-    tier: 'Sponsor',
+    tier: 'Platinum',
     logo:
       'https://caido.io/images/logo.color.webp?size=160',
     description:
@@ -41,7 +41,7 @@ export const SPONSORS: Sponsor[] = [
   {
     id: 'deadoverflow',
     name: 'DeadOverflow',
-    tier: 'Sponsor',
+    tier: 'Partner',
     logo:
       'https://cdn.discordapp.com/avatars/955788286763343872/b3aa24dd012425659ad9d5a58168d2ab.webp?size=160',
     description:
@@ -54,7 +54,7 @@ export const SPONSORS: Sponsor[] = [
   {
     id: 'noxys',
     name: 'Noxys',
-    tier: 'Sponsor',
+    tier: 'Partner',
     logo:
       'https://media.discordapp.net/attachments/1013362094739030036/1426680168151519232/noxys.png?ex=68ec1af2&is=68eac972&hm=4885802e3ac1e66761649bf54c8e37dd85f9be303e766848f32cdf0ee0e7b007&=&format=webp&quality=lossless&width=1265&height=1265',
     description:
