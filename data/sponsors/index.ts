@@ -51,14 +51,4 @@ export const SPONSORS: Sponsor[] = [
       { label: 'Youtube', href: 'https://www.youtube.com/@deadoverflow' },
     ],
   },
-  {
-    id: 'noxys',
-    name: 'Noxys',
-    tier: 'Partner',
-    logo:
-      'https://media.discordapp.net/attachments/1013362094739030036/1426680168151519232/noxys.png?ex=68ec1af2&is=68eac972&hm=4885802e3ac1e66761649bf54c8e37dd85f9be303e766848f32cdf0ee0e7b007&=&format=webp&quality=lossless&width=1265&height=1265',
-    description:
-      'Game studio | Art Design | Freelance',
-    website: 'https://noxysgames.com/',
-  },
 ]
