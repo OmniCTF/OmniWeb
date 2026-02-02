@@ -43,7 +43,7 @@ export const SPONSORS: Sponsor[] = [
     name: 'DeadOverflow',
     tier: 'Partner',
     logo:
-      'https://cdn.discordapp.com/avatars/955788286763343872/b3aa24dd012425659ad9d5a58168d2ab.webp?size=160',
+      'https://yt3.ggpht.com/Bi8lwQz0fUcRjfa_33QERvZ2DfCyC2UMEMrBZSJh4KHr-T6JKc_qlifem6Thjn3V7XbaqHLn=s176-c-k-c0x00ffffff-no-rj-mo?size=160',
     description:
       'Cybersecurity | Bug Bounty | Ethical Hacking',
     website: 'https://www.youtube.com/@deadoverflow',
