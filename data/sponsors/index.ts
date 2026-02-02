@@ -15,7 +15,7 @@ export const SPONSORS: Sponsor[] = [
     name: 'Spectrum',
     tier: 'Partner',
     logo:
-      'https://media.canva.com/v2/image-resize/format:PNG/height:760/quality:100/uri:ifs%3A%2F%2FM%2F361c7e81-a331-4f1c-866e-065759333667/watermark:F/width:744?csig=AAAAAAAAAAAAAAAAAAAAAPJI40c3HFGZik3pfmCO-T6O5e30dmlnqVUvKihSwgRA&exp=1758050677&osig=AAAAAAAAAAAAAAAAAAAAAIYR-WXw38Tq29EK_hnhUsy7i2pk8BOOraaMLIZZY9Sy&signer=media-rpc&x-canva-quality=screen',
+      'https://spectrumconstanta.ro/wp-content/uploads/2023/05/LOGO-SITE-4-980x290.png',
     description:
       'Spectrum Constanța is a modern educational institution focused on performance, respect, and innovation. It combines the tradition of Romanian education with European values, preparing responsible, creative, and competitive students ready for future careers.',
     website: 'https://spectrumconstanta.ro/',
