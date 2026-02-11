@@ -5,13 +5,13 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
 
 const ContentSecurityPolicy = `
   default-src 'self';
-  script-src 'self' 'unsafe-eval' 'unsafe-inline' giscus.app analytics.umami.is;
-  style-src 'self' 'unsafe-inline';
+  script-src 'self' 'unsafe-eval' 'unsafe-inline' giscus.app analytics.umami.is cloud.umami.is;
+  style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
   img-src * blob: data:;
   media-src 'self' *.s3.amazonaws.com;
   connect-src *;
-  font-src 'self';
-  frame-src giscus.app
+  font-src 'self' data: https://fonts.gstatic.com;
+  frame-src giscus.app;
 `
 
 const securityHeaders = [
