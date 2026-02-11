@@ -5,14 +5,64 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
 
 const ContentSecurityPolicy = `
   default-src 'self';
-  script-src 'self' 'unsafe-eval' 'unsafe-inline' giscus.app analytics.umami.is cloud.umami.is;
-  style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
-  img-src * blob: data:;
+
+  script-src
+    'self'
+    'unsafe-eval'
+    'unsafe-inline'
+    giscus.app
+    analytics.umami.is
+    cloud.umami.is
+    pagead2.googlesyndication.com
+    googlesyndication.com
+    googleads.g.doubleclick.net
+    www.googletagservices.com
+    adservice.google.com
+    tpc.googlesyndication.com;
+
+  script-src-elem
+    'self'
+    'unsafe-inline'
+    giscus.app
+    analytics.umami.is
+    cloud.umami.is
+    pagead2.googlesyndication.com
+    googlesyndication.com
+    googleads.g.doubleclick.net
+    www.googletagservices.com
+    adservice.google.com
+    tpc.googlesyndication.com;
+
+  style-src
+    'self'
+    'unsafe-inline'
+    fonts.googleapis.com;
+
+  font-src
+    'self'
+    data:
+    fonts.gstatic.com;
+
+  img-src
+    'self'
+    data:
+    blob:
+    https:;
+
+  connect-src
+    'self'
+    https:
+    wss:;
+
+  frame-src
+    'self'
+    giscus.app
+    googleads.g.doubleclick.net
+    tpc.googlesyndication.com;
+
   media-src 'self' *.s3.amazonaws.com;
-  connect-src *;
-  font-src 'self' data: https://fonts.gstatic.com;
-  frame-src giscus.app;
-`
+`;
+
 
 const securityHeaders = [
   {
