@@ -173,6 +173,7 @@ export default function Main({ posts }: { posts: Post[] }) {
         <TierBlock title="Gold Sponsors" list={gold} />
         <TierBlock title="Silver Sponsors" list={silver} />
         <TierBlock title="Bronze Sponsors" list={bronze} />
+        <TierBlock title="Infrastructure Sponsor" list={infra} />
 
         <div className="mx-auto mt-12 h-px max-w-5xl bg-gradient-to-r from-transparent via-violet-500/25 to-transparent" />
       </section>
