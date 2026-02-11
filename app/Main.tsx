@@ -82,7 +82,7 @@ export default function Main({ posts }: { posts: Post[] }) {
   const gold = SPONSORS.filter((s) => s.tier === 'Gold')
   const silver = SPONSORS.filter((s) => s.tier === 'Silver')
   const bronze = SPONSORS.filter((s) => s.tier === 'Bronze')
-  const infra = SPONSORS.filter((s) => s.tier === 'Infrastructure')
+  const infra = SPONSORS.filter((s) => s.tier === 'Infra')
 
   return (
     <div className="space-y-24 overflow-x-hidden">
