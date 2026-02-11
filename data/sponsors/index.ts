@@ -1,4 +1,7 @@
+// /data/sponsors/index.ts
+
 export type SponsorLink = { label: string; href: string }
+
 export type Sponsor = {
   id: string
   name: string
@@ -6,7 +9,7 @@ export type Sponsor = {
   description: string
   website?: string
   links?: SponsorLink[]
-  tier?: 'Partner' | 'Platinum' | 'Gold' | 'Silver' | 'Community' | string
+  tier?: 'Partner' | 'Platinum' | 'Gold' | 'Silver' | 'Bronze' | 'Community' | 'Infra' | string
 }
 
 export const SPONSORS: Sponsor[] = [
@@ -14,8 +17,7 @@ export const SPONSORS: Sponsor[] = [
     id: 'spectrum',
     name: 'Spectrum',
     tier: 'Partner',
-    logo:
-      'https://spectrumconstanta.ro/wp-content/uploads/2023/05/LOGO-SITE-4-980x290.png',
+    logo: 'https://spectrumconstanta.ro/wp-content/uploads/2023/05/LOGO-SITE-4-980x290.png',
     description:
       'Spectrum Constanța is a modern educational institution focused on performance, respect, and innovation. It combines the tradition of Romanian education with European values, preparing responsible, creative, and competitive students ready for future careers.',
     website: 'https://spectrumconstanta.ro/',
@@ -52,6 +54,7 @@ export const SPONSORS: Sponsor[] = [
       { label: 'Discord', href: 'https://discord.gg/caido-843915806748180492' },
     ],
   },
+
   {
     id: 'deadoverflow',
     name: 'DeadOverflow',
