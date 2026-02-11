@@ -17,7 +17,7 @@ export const SPONSORS: Sponsor[] = [
     id: 'spectrum',
     name: 'Spectrum',
     tier: 'Partner',
-    logo: 'https://spectrumconstanta.ro/wp-content/uploads/2023/05/LOGO-SITE-4-980x290.png',
+    logo: '/static/images/spectrum.png',
     description:
       'Spectrum Constanța is a modern educational institution focused on performance, respect, and innovation. It combines the tradition of Romanian education with European values, preparing responsible, creative, and competitive students ready for future careers.',
     website: 'https://spectrumconstanta.ro/',
@@ -31,7 +31,7 @@ export const SPONSORS: Sponsor[] = [
     id: 'hetzner',
     name: 'Hetzner',
     tier: 'Infra',
-    logo: 'https://cdn.simpleicons.org/hetzner',
+    logo: '/static/images/hetzner.png',
     description:
       'Hetzner Online provides dedicated servers and cloud infrastructure, powering reliable hosting and scalable deployments for OmniCTF.',
     website: 'https://www.hetzner.com/',
