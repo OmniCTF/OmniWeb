@@ -61,6 +61,10 @@ export const SPONSORS: Sponsor[] = [
   description:
     'Knight Squad Academy provides hands-on cybersecurity and penetration testing certifications designed to assess real-world, practical skills. Our certifications follow a training-agnostic model, allowing candidates to pursue certification without mandatory training requirements. We emphasize practical methodology, technical depth, and job-relevant competencies aligned with modern security challenges.',
   website: 'https://knightsquad.academy/',
+  links: [
+    { label: 'LinkedIn', href: 'https://www.linkedin.com/company/knight-squad-academy/' },
+    { label: 'Facebook', href: 'https://www.facebook.com/knightsquad.academy' },
+  ],
 },
 
 
