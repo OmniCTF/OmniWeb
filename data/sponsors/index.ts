@@ -1,5 +1,3 @@
-// /data/sponsors/index.ts
-
 export type SponsorLink = { label: string; href: string }
 
 export type Sponsor = {
@@ -54,6 +52,17 @@ export const SPONSORS: Sponsor[] = [
       { label: 'Discord', href: 'https://discord.gg/caido-843915806748180492' },
     ],
   },
+  
+  {
+  id: 'knight-squad-academy',
+  name: 'Knight Squad Academy',
+  tier: 'Silver',
+  logo: '/static/images/ksa-icon.png',
+  description:
+    'Knight Squad Academy provides hands-on cybersecurity and penetration testing certifications designed to assess real-world, practical skills. Our certifications follow a training-agnostic model, allowing candidates to pursue certification without mandatory training requirements. We emphasize practical methodology, technical depth, and job-relevant competencies aligned with modern security challenges.',
+  website: 'https://knightsquad.academy/',
+},
+
 
   {
     id: 'deadoverflow',
