@@ -67,6 +67,20 @@ export const SPONSORS: Sponsor[] = [
   ],
 },
 
+  {
+  id: 'genxyz',
+  name: 'Gen.xyz',
+  tier: 'Silver',
+  logo: '/static/images/xyz-logo.png',
+  description:
+    'Gen.xyz is the registry behind the .xyz domain, building a global community inspired by the internet’s limitless potential and helping creators and companies launch modern, memorable domains.',
+  website: 'https://gen.xyz/',
+  links: [
+    { label: 'About', href: 'https://gen.xyz/about' },
+  ],
+},
+
+
 
   {
     id: 'deadoverflow',
