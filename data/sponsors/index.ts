@@ -26,6 +26,19 @@ export const SPONSORS: Sponsor[] = [
   },
 
   {
+  id: 'cyberm-delta',
+  name: 'Delta Obscura',
+  tier: 'Partner',
+  logo: '/static/images/cyberm-delta.png',
+  description:
+    'Delta Obscura is a cybersecurity research organization focused on discovering, analyzing, and responsibly disclosing software vulnerabilities, contributing CVE research and advancing the security community through technical collaboration and vulnerability research.',
+  website: 'https://delta.cyberm.ca/',
+  links: [
+    { label: 'Website', href: 'https://delta.cyberm.ca/' },
+  ],
+},
+
+  {
     id: 'hetzner',
     name: 'Hetzner',
     tier: 'Infra',
