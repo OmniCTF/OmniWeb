@@ -31,7 +31,7 @@ export const SPONSORS: Sponsor[] = [
   tier: 'Partner',
   logo: '/static/images/cyberm-delta.png',
   description:
-    'Delta Obscura is a cybersecurity research organization focused on discovering, analyzing, and responsibly disclosing software vulnerabilities, contributing CVE research and advancing the security community through technical collaboration and vulnerability research.',
+    'Delta Obscura is the team behind Mission Vector Zero, an ongoing cybersecurity mission that has already protected 3+ billion users globally through vulnerability research & responsible disclosure. The team has a collective count of over 50 CVEs.',
   website: 'https://delta.cyberm.ca/',
   links: [
     { label: 'Website', href: 'https://delta.cyberm.ca/' },
