@@ -122,7 +122,7 @@ export default function Main({ posts }: { posts: Post[] }) {
             </div>
 
             <div className="mt-8 flex flex-wrap justify-center gap-2">
-              <Pill>9 Spots For 2026 Finals</Pill>
+              <Pill>12 Spots For 2026 Finals</Pill>
             </div>
 
             <div className="mt-10 flex flex-wrap justify-center gap-3">
