@@ -7,6 +7,8 @@ import { Globe, Github, Search } from 'lucide-react'
 
 export interface MemberCardData {
   slug: string
+  id?: number
+  is_admin?: boolean
   name: string
   displayName: string
   avatar?: string
@@ -18,6 +20,11 @@ export interface MemberCardData {
     website?: string
     github?: string
   }
+}
+
+// A member counts as "retired" when their position says so.
+function isRetired(member: MemberCardData): boolean {
+  return (member.position ?? '').toLowerCase().includes('retired')
 }
 
 export default function MembersClient({ members }: { members: MemberCardData[] }) {
@@ -79,10 +86,16 @@ export default function MembersClient({ members }: { members: MemberCardData[] }
       </div>
 
       <div className="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3">
-        {filtered.map((member) => (
+        {filtered.map((member) => {
+          const retired = isRetired(member)
+          return (
           <div
             key={member.slug}
-            className="group rounded-2xl border border-violet-500/15 bg-white/70 p-5 shadow-sm backdrop-blur transition hover:-translate-y-0.5 hover:border-violet-500/40 hover:shadow-md dark:border-violet-400/10 dark:bg-zinc-900/50"
+            className={`group rounded-2xl border p-5 shadow-sm backdrop-blur transition hover:-translate-y-0.5 hover:shadow-md ${
+              retired
+                ? 'border-zinc-300/60 bg-zinc-100/60 opacity-70 grayscale transition hover:opacity-100 hover:grayscale-0 dark:border-white/10 dark:bg-zinc-900/40'
+                : 'border-violet-500/15 bg-white/70 hover:border-violet-500/40 dark:border-violet-400/10 dark:bg-zinc-900/50'
+            }`}
           >
             <Link href={`/members/${member.slug}`} className="flex flex-col items-center text-center">
               {member.avatar ? (
@@ -96,11 +109,29 @@ export default function MembersClient({ members }: { members: MemberCardData[] }
               ) : (
                 <div className="h-24 w-24 rounded-full bg-zinc-200 dark:bg-zinc-700" />
               )}
-              <h2 className="mt-4 text-xl font-extrabold tracking-tight text-zinc-900 dark:text-zinc-100">
-                {member.displayName}
-              </h2>
+              <div className="mt-4 flex flex-wrap items-center justify-center gap-2">
+                <h2 className="text-xl font-extrabold tracking-tight text-zinc-900 dark:text-zinc-100">
+                  {member.displayName}
+                </h2>
+                {member.is_admin ? (
+                  <span className="rounded-full border border-amber-500/40 bg-amber-500/15 px-2 py-0.5 text-[10px] font-extrabold uppercase tracking-wide text-amber-700 dark:text-amber-300">
+                    Admin
+                  </span>
+                ) : null}
+                {retired ? (
+                  <span className="rounded-full border border-zinc-400/40 bg-zinc-400/15 px-2 py-0.5 text-[10px] font-extrabold uppercase tracking-wide text-zinc-600 dark:text-zinc-300">
+                    Retired
+                  </span>
+                ) : null}
+              </div>
               {member.position ? (
-                <p className="mt-1 text-sm font-semibold text-violet-700 dark:text-violet-300">
+                <p
+                  className={`mt-1 text-sm font-semibold ${
+                    retired
+                      ? 'text-zinc-500 dark:text-zinc-400'
+                      : 'text-violet-700 dark:text-violet-300'
+                  }`}
+                >
                   {member.position}
                 </p>
               ) : null}
@@ -158,7 +189,8 @@ export default function MembersClient({ members }: { members: MemberCardData[] }
               ) : null}
             </div>
           </div>
-        ))}
+          )
+        })}
       </div>
 
       {!filtered.length ? (
