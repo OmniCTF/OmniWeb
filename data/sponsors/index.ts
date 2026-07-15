@@ -65,6 +65,19 @@ export const SPONSORS: Sponsor[] = [
       { label: 'Discord', href: 'https://discord.gg/caido-843915806748180492' },
     ],
   },
+
+  {
+    id: 'ottersec',
+    name: 'OtterSec',
+    tier: 'Gold',
+    logo: '/static/images/otter.png',
+    description:
+      'Security audits that protect blockchain ideas. We work with leading teams across multiple blockchains to provide a holistic and collaborative approach to security.',
+    website: 'https://osec.io/',
+    links: [
+      { label: 'X', href: 'https://x.com/osec_io' },
+    ],
+  },
   
   {
   id: 'knight-squad-academy',
