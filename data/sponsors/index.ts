@@ -72,7 +72,7 @@ export const SPONSORS: Sponsor[] = [
     tier: 'Gold',
     logo: '/static/images/otter.png',
     description:
-      'Security audits that protect blockchain ideas. We work with leading teams across multiple blockchains to provide a holistic and collaborative approach to security.',
+      'OtterSec is a blockchain security company focused on identifying and patching critical exploits before our clients go to market. We work closely with leading teams to provide a holistic and collaborative approach to security.',
     website: 'https://osec.io/',
     links: [
       { label: 'X', href: 'https://x.com/osec_io' },
