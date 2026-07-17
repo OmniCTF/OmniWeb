@@ -106,16 +106,6 @@ export const SPONSORS: Sponsor[] = [
   ],
 },
   {
-    id: 'deadoverflow',
-    name: 'DeadOverflow',
-    tier: 'Partner',
-    logo:
-      'https://yt3.ggpht.com/Bi8lwQz0fUcRjfa_33QERvZ2DfCyC2UMEMrBZSJh4KHr-T6JKc_qlifem6Thjn3V7XbaqHLn=s176-c-k-c0x00ffffff-no-rj-mo?size=160',
-    description: 'Cybersecurity | Bug Bounty | Ethical Hacking',
-    website: 'https://www.youtube.com/@deadoverflow',
-    links: [{ label: 'Youtube', href: 'https://www.youtube.com/@deadoverflow' }],
-  },
-  {
   id: 'unbreakable-romania',
   name: 'Unbreakable Romania',
   tier: 'Partner',
