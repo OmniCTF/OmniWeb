@@ -58,7 +58,7 @@ export default function CountdownCard({
 
       {finished ? (
         <div className="rounded-2xl bg-emerald-600/15 px-4 py-3 text-center text-sm font-semibold text-emerald-300">
-          Live now
+          Ended
         </div>
       ) : (
         <div className="flex gap-3 text-center">
