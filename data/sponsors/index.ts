@@ -78,6 +78,20 @@ export const SPONSORS: Sponsor[] = [
       { label: 'X', href: 'https://x.com/osec_io' },
     ],
   },
+
+  {
+  id: 'hyperlinerobotics',
+  name: 'HyperLine Robotics',
+  tier: 'Silver',
+  logo: '/static/images/hyper.png',
+  description:
+    'HyperLine Robotics designs and builds open-source line followers, mini sumos and racing robots - engineered in Romania, raced worldwide.',
+  website: 'https://hyperlinerobotics.com/',
+  links: [
+    { label: 'Instagram', href: 'https://www.instagram.com/hyperlinerobotics_team/' },
+    { label: 'Oshwlab', href: 'https://oshwlab.com/bicicleta11/works' },
+  ],
+},
   
   {
   id: 'knight-squad-academy',
