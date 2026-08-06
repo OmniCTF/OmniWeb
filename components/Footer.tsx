@@ -104,7 +104,7 @@ export default function Footer() {
               className="font-semibold text-gray-700 hover:text-purple-500 dark:text-gray-300 dark:hover:text-purple-400"
               href="/"
             >
-              OmniCTF™
+              OmniCTF
             </Link>{' '}
             is a cybersecurity competition and brand operated by{' '}
             <span className="font-semibold text-gray-700 dark:text-gray-300">
