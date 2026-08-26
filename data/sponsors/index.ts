@@ -78,6 +78,15 @@ export const SPONSORS: Sponsor[] = [
       { label: 'X', href: 'https://x.com/osec_io' },
     ],
   },
+  {
+    id: 'marinahub',
+    name: 'Marina Hub',
+    tier: 'Gold',
+    logo: '/static/images/mhub.png',
+    description:
+      'RO: Noi facem tehnologia să lucreze pentru tine, EN: We make technology work for you.',
+    website: 'https://marinahub.ro/',
+  },
 
   {
   id: 'hyperlinerobotics',
