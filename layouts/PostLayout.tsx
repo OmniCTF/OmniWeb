@@ -41,10 +41,10 @@ export default function PostLayout({ content, authorDetails, next, prev, childre
   const basePath = path.split('/')[0]
 
   return (
-    <div className="w-full p-2 sm:p-3">
+    <div className="w-full p-[var(--hypr-gap-out)]">
       <ScrollTopAndComment />
 
-      <div className="grid grid-cols-1 gap-2 sm:gap-3 xl:grid-cols-[280px_minmax(0,1fr)]">
+      <div className="grid grid-cols-1 gap-[var(--hypr-gap-in)] xl:grid-cols-[280px_minmax(0,1fr)]">
         {/* metadata rail: the file info pane */}
         <aside className="pane sticky top-15 hidden max-h-[calc(100vh-4.5rem)] self-start overflow-hidden xl:flex xl:flex-col">
           <div className="pane-title shrink-0">post.info</div>

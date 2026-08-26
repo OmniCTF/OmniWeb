@@ -3,7 +3,7 @@ import { ArrowLeft } from 'lucide-react'
 
 export default function NotFound() {
   return (
-    <div className="w-full p-2 sm:p-3">
+    <div className="w-full p-[var(--hypr-gap-out)]">
       <div className="pane pane-focus overflow-hidden">
         <div className="pane-title justify-between">
           <span className="normal-case">error</span>

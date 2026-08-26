@@ -5,6 +5,8 @@ import { usePathname, useRouter } from 'next/navigation'
 import siteMetadata from '@/data/siteMetadata'
 import headerNavLinks from '@/data/headerNavLinks'
 import { EVENT } from '@/data/event'
+import { useHypr } from '@/components/session/HyprProvider'
+import { SlidersHorizontal } from 'lucide-react'
 import Logo from '@/data/logo.svg'
 import Link from './Link'
 import MobileNav from './MobileNav'
@@ -81,6 +83,7 @@ function CountdownModule() {
 const Header = () => {
   const pathname = usePathname()
   const router = useRouter()
+  const { configOpen, setConfigOpen, setKeybindsOpen } = useHypr()
 
   const isActive = (href: string) => {
     if (href === '/') return pathname === '/'
@@ -169,6 +172,30 @@ const Header = () => {
           <ClockModule />
           <CountdownModule />
           <SearchButton />
+          <button
+            type="button"
+            onClick={() => setKeybindsOpen(true)}
+            aria-label="Keybindings"
+            title="Keybindings (?)"
+            className="border-line bg-inset text-dim hover:border-accent/50 hover:text-fg hidden h-[26px] w-[26px] items-center justify-center rounded border text-xs font-semibold transition-colors md:flex"
+          >
+            ?
+          </button>
+          <button
+            type="button"
+            onClick={() => setConfigOpen(!configOpen)}
+            aria-label="Edit hyprland.conf"
+            aria-pressed={configOpen}
+            title="hyprland.conf"
+            className={[
+              'flex h-[26px] w-[26px] shrink-0 items-center justify-center rounded border transition-colors',
+              configOpen
+                ? 'border-accent/60 bg-accent-wash text-accent'
+                : 'border-line bg-inset text-dim hover:border-accent/50 hover:text-fg',
+            ].join(' ')}
+          >
+            <SlidersHorizontal className="h-3.5 w-3.5" strokeWidth={2} />
+          </button>
           <ThemeSwitch />
           <MobileNav />
         </div>

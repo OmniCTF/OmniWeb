@@ -64,7 +64,7 @@ export default function MembersClient({ members }: { members: MemberCardData[] }
   }, [members, query, activeTag])
 
   return (
-    <div className="w-full p-2 sm:p-3">
+    <div className="w-full p-[var(--hypr-gap-out)]">
       <div className="pane pane-focus overflow-hidden">
         <div className="pane-title justify-between">
           <span className="normal-case">~/members</span>

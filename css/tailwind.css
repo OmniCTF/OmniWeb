@@ -74,6 +74,13 @@
   --c-red: #f7768e;
   --c-blue: #7aa2f7;
 
+  /* --- hyprland.conf, live-editable at runtime --- */
+  --hypr-gap-in: 8px;
+  --hypr-gap-out: 12px;
+  --hypr-border: 1px;
+  --hypr-rounding: 6px;
+  --hypr-inactive-opacity: 1;
+
   color-scheme: dark;
 }
 
@@ -156,7 +163,7 @@
   --color-gray-900: var(--c-pane);
   --color-gray-950: var(--c-bg);
 
-  --radius-pane: 6px;
+  --radius-pane: var(--hypr-rounding);
 
   --line-height-11: 2.75rem;
   --line-height-12: 3rem;
@@ -232,14 +239,14 @@
   /* A window in the session: 1px frame, WM rounding, no ornament. */
   .pane {
     background: var(--c-pane);
-    border: 1px solid var(--c-line);
-    border-radius: var(--radius-pane);
+    border: var(--hypr-border) solid var(--c-line);
+    border-radius: var(--hypr-rounding);
   }
 
   .pane-inset {
     background: var(--c-inset);
-    border: 1px solid var(--c-line);
-    border-radius: var(--radius-pane);
+    border: var(--hypr-border) solid var(--c-line);
+    border-radius: var(--hypr-rounding);
   }
 
   /* The focused window carries the accent frame - exactly one per view. */
@@ -497,4 +504,58 @@ input:-webkit-autofill:focus {
 /* The launcher ships with pliny's own markup, so its frame is aligned by structure. */
 div.w-full.max-w-xl > div.rounded-2xl {
   border-radius: var(--radius-pane);
+}
+
+/* Unfocused windows dim exactly as decoration:inactive_opacity says they should. */
+.win[data-focused='false'] {
+  opacity: var(--hypr-inactive-opacity);
+  transition: opacity 180ms var(--ease-wm);
+}
+
+/* animations:enabled = false */
+:root[data-hypr-anim='off'] *,
+:root[data-hypr-anim='off'] *::before,
+:root[data-hypr-anim='off'] *::after {
+  animation-duration: 0ms !important;
+  animation-delay: 0ms !important;
+  transition-duration: 0ms !important;
+}
+
+/* A range input is a control in this world too, so it is built like one. */
+input[type='range'] {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 4px;
+  border-radius: 999px;
+  background: var(--c-inset);
+  border: 1px solid var(--c-line);
+  outline: none;
+}
+input[type='range']::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 12px;
+  height: 12px;
+  border-radius: 2px;
+  background: var(--c-accent);
+  cursor: ew-resize;
+}
+input[type='range']::-moz-range-thumb {
+  width: 12px;
+  height: 12px;
+  border: none;
+  border-radius: 2px;
+  background: var(--c-accent);
+  cursor: ew-resize;
+}
+
+/* decoration:blur = false */
+:root[data-hypr-blur='off'] header,
+:root[data-hypr-blur='off'] .backdrop-blur-sm,
+:root[data-hypr-blur='off'] .backdrop-blur-md {
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+}
+:root[data-hypr-blur='off'] header {
+  background: var(--c-pane);
 }

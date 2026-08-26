@@ -90,8 +90,8 @@ export default function ListLayoutWithTags({
   const displayPosts = initialDisplayPosts.length > 0 ? initialDisplayPosts : posts
 
   return (
-    <div className="w-full p-2 sm:p-3">
-      <div className="grid grid-cols-1 gap-2 sm:gap-3 lg:grid-cols-[240px_minmax(0,1fr)] xl:grid-cols-[280px_minmax(0,1fr)]">
+    <div className="w-full p-[var(--hypr-gap-out)]">
+      <div className="grid grid-cols-1 gap-[var(--hypr-gap-in)] lg:grid-cols-[240px_minmax(0,1fr)] xl:grid-cols-[280px_minmax(0,1fr)]">
         <aside className="pane sticky top-15 hidden max-h-[calc(100vh-4.5rem)] self-start overflow-hidden lg:flex lg:flex-col">
           <div className="pane-title shrink-0">filter</div>
           <div className="min-h-0 flex-1 overflow-y-auto p-2">

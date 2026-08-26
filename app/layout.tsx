@@ -8,6 +8,9 @@ import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import siteMetadata from '@/data/siteMetadata'
 import { ThemeProviders } from './theme-providers'
+import { HyprProvider } from '@/components/session/HyprProvider'
+import ConfigWindow from '@/components/session/ConfigWindow'
+import KeybindsSheet from '@/components/session/KeybindsSheet'
 import { Metadata } from 'next'
 import { SpeedInsights } from '@vercel/speed-insights/next'
 import { Analytics as VercelAnalytics } from '@vercel/analytics/next'
@@ -122,16 +125,20 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className="bg-bg text-fg min-h-screen overflow-x-hidden antialiased">
         <div hidden dangerouslySetInnerHTML={{ __html: DIRECTION_CONTRACT }} />
         <ThemeProviders>
-          <Analytics analyticsConfig={siteMetadata.analytics as AnalyticsConfig} />
-          <SearchProvider searchConfig={siteMetadata.search as SearchConfig}>
-            <div className="flex min-h-screen flex-col">
-              <Header />
-              <main className="mb-auto w-full">{children}</main>
-              <Footer />
-            </div>
-            <SpeedInsights />
-            <VercelAnalytics />
-          </SearchProvider>
+          <HyprProvider>
+            <Analytics analyticsConfig={siteMetadata.analytics as AnalyticsConfig} />
+            <SearchProvider searchConfig={siteMetadata.search as SearchConfig}>
+              <div className="flex min-h-screen flex-col">
+                <Header />
+                <main className="mb-auto w-full">{children}</main>
+                <Footer />
+              </div>
+              <ConfigWindow />
+              <KeybindsSheet />
+              <SpeedInsights />
+              <VercelAnalytics />
+            </SearchProvider>
+          </HyprProvider>
         </ThemeProviders>
       </body>
     </html>

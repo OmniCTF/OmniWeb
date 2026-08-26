@@ -19,7 +19,7 @@ export default function PostSimple({ content, next, prev, children }: LayoutProp
   const { path, slug, date, title } = content
 
   return (
-    <div className="w-full p-2 sm:p-3">
+    <div className="w-full p-[var(--hypr-gap-out)]">
       <ScrollTopAndComment />
       <article className="pane overflow-hidden">
         <div className="pane-title justify-between">

@@ -20,7 +20,7 @@ export default function PostBanner({ content, next, prev, children }: LayoutProp
   const displayImage = images && images.length > 0 ? images[0] : null
 
   return (
-    <div className="w-full p-2 sm:p-3">
+    <div className="w-full p-[var(--hypr-gap-out)]">
       <ScrollTopAndComment />
       <article className="pane overflow-hidden">
         <div className="pane-title">

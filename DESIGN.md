@@ -103,6 +103,32 @@ Icons are **lucide-react** at `strokeWidth={2}`, 3.5–4 units. No emoji, no gly
 - **Reading routes**: metadata rail (`post.info`) on the left, document pane on the right at a
   76ch measure.
 
+## The session is operable
+
+The WM metaphor is not a skin — the chrome does what it depicts, and every binding is published
+in the `?` sheet so nothing is hidden behaviour.
+
+**`hyprland.conf` (status bar, sliders icon).** A floating, draggable window holding the real
+config: `general { gaps_in, gaps_out, border_size }`, `decoration { rounding, inactive_opacity,
+blur }`, `animations { enabled }`, `dwindle { layout }`. Values are written onto
+`document.documentElement` as `--hypr-*` custom properties, so a change re-tiles every pane on
+every route immediately, and the choice persists to `localStorage` under
+`omnictf:hyprland.conf`. Reset restores the defaults in `DEFAULT_CONFIG`.
+
+**Anything that should respond to the config must consume the variables**, never a hard-coded
+value: `p-[var(--hypr-gap-out)]` for route gutters, `gap-[var(--hypr-gap-in)]` for tile grids,
+and `.pane` for frames and rounding.
+
+**Homepage windows** (`components/session/Workspace.tsx`) take focus on pointer or keyboard
+focus, swap places, close, restore, and re-tile between `dwindle` (main plus side stack) and
+`master` (main on top, rest in a row). Bindings: `h`/`l` focus, `H`/`L` swap, `q` close, `r`
+restore, `t` layout. Route bindings live in the header: `0`–`4` for workspaces. `/` focuses a
+list filter, `⌘K` opens the launcher, `?` opens the sheet, `Esc` closes overlays. Every handler
+ignores events originating in an input, textarea, select, or contenteditable.
+
+Windows carry `role="region"` with the window title as label; the keybinding sheet and
+`hyprland.conf` are labelled dialogs with real buttons for dismissal.
+
 ## Motion
 
 One authored moment: `.tile-in` — panes arrive on first paint with a 10px rise, 0.985 scale and a

@@ -37,9 +37,11 @@ function Cell({ label, value, live }: { label: string; value: number; live?: boo
 export default function CountdownCard({
   targetIso,
   title = 'Countdown',
+  frameless = false,
 }: {
   targetIso: string
   title?: string
+  frameless?: boolean
 }) {
   const target = useMemo(() => new Date(targetIso), [targetIso])
   const [now, setNow] = useState<Date | null>(null)
@@ -52,20 +54,8 @@ export default function CountdownCard({
 
   const parts = now ? getParts(target, now) : null
 
-  return (
-    <div className="pane flex flex-col">
-      <div className="pane-title justify-between">
-        <span>{title}</span>
-        <span className="text-mute normal-case">
-          {new Intl.DateTimeFormat('en-GB', {
-            day: '2-digit',
-            month: 'short',
-            timeZone: 'UTC',
-          }).format(target)}
-        </span>
-      </div>
-
-      <div className="p-3">
+  const body = (
+    <div className="p-3">
         {parts === null ? (
           <div className="flex gap-2" aria-hidden>
             {['Days', 'Hours', 'Minutes', 'Seconds'].map((l) => (
@@ -84,7 +74,24 @@ export default function CountdownCard({
             <Cell label="Seconds" value={parts.seconds} live />
           </div>
         )}
+    </div>
+  )
+
+  if (frameless) return body
+
+  return (
+    <div className="pane flex flex-col">
+      <div className="pane-title justify-between">
+        <span>{title}</span>
+        <span className="text-mute normal-case">
+          {new Intl.DateTimeFormat('en-GB', {
+            day: '2-digit',
+            month: 'short',
+            timeZone: 'UTC',
+          }).format(target)}
+        </span>
       </div>
+      {body}
     </div>
   )
 }

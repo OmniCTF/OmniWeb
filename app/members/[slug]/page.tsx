@@ -55,10 +55,10 @@ export default async function MemberProfile({ params }: MemberPageProps) {
   const retired = (member.position ?? '').toLowerCase().includes('retired')
 
   return (
-    <div className="w-full p-2 sm:p-3">
-      <div className="grid grid-cols-1 gap-2 sm:gap-3 xl:grid-cols-[minmax(0,420px)_minmax(0,1fr)]">
+    <div className="w-full p-[var(--hypr-gap-out)]">
+      <div className="grid grid-cols-1 gap-[var(--hypr-gap-in)] xl:grid-cols-[minmax(0,420px)_minmax(0,1fr)]">
         {/* identity */}
-        <div className="flex flex-col gap-2 sm:gap-3">
+        <div className="flex flex-col gap-[var(--hypr-gap-in)]">
           <div className="pane pane-focus overflow-hidden">
             <div className="pane-title justify-between">
               <span className="normal-case">whoami</span>
@@ -138,7 +138,6 @@ export default async function MemberProfile({ params }: MemberPageProps) {
                 {member.country ? (
                   <Row label="country">
                     <span className="flex items-center gap-2">
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
                       <img
                         src={`https://flagcdn.com/w40/${member.country.toLowerCase()}.png`}
                         alt={member.country}

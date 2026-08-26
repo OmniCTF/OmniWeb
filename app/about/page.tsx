@@ -9,7 +9,7 @@ export default function AboutPage() {
   const about = allAbouts[0] // there's only one, index.mdx
 
   return (
-    <div className="w-full p-2 sm:p-3">
+    <div className="w-full p-[var(--hypr-gap-out)]">
       <Window title="~/about" meta="cat about.md" focus bodyClassName="p-5 sm:p-8 lg:p-12">
         <h1 className="text-fg text-3xl font-semibold tracking-[-0.035em] sm:text-4xl">About</h1>
         <p className="text-mute mt-3 max-w-[70ch] text-sm">

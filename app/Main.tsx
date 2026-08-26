@@ -8,6 +8,7 @@ import { EVENT, EVENT_SPEC, LINKS } from '@/data/event'
 import SponsorsBoard from '@/components/SponsorsBoard'
 import SectionHeader from '@/components/SectionHeader'
 import CountdownCard from '@/components/CountdownCard'
+import Workspace from '@/components/session/Workspace'
 import { MapPin, ArrowUpRight, ArrowRight } from 'lucide-react'
 
 type Post = {
@@ -36,135 +37,118 @@ export default function Main({ posts }: { posts: Post[] }) {
 
   return (
     <div className="w-full">
-      {/* ---- the event, as the focused window in the session ---- */}
-      <section className="w-full p-2 sm:p-3">
-        <div className="grid w-full grid-cols-1 gap-2 sm:gap-3 lg:grid-cols-12">
-          <div
-            className="pane pane-focus tile-in flex flex-col overflow-hidden lg:col-span-8 xl:col-span-9"
-            style={{ animationDelay: '40ms' }}
-          >
-            <div className="pane-title justify-between">
-              <span className="flex min-w-0 items-center gap-2">
-                <span className="bg-accent inline-block h-1.5 w-1.5 shrink-0 rounded-full" />
-                <span className="text-dim truncate normal-case">omnictf@finals:~</span>
-              </span>
-              <span className="shrink-0">
-                {EVENT.format} · {EVENT.durationLabel}
-              </span>
-            </div>
+      {/* ---- the workspace: real windows, focusable and re-tileable ---- */}
+      <Workspace
+        windows={[
+          {
+            id: 'event',
+            title: 'omnictf@finals:~',
+            meta: `${EVENT.format} · ${EVENT.durationLabel}`,
+            node: (
+              <div className="flex flex-1 flex-col justify-center px-5 py-10 sm:px-10 sm:py-14 xl:px-14">
+                <h1 className="text-fg text-[clamp(2rem,5.2vw,5rem)] leading-[1.02] font-semibold tracking-[-0.045em]">
+                  {EVENT.name}
+                </h1>
 
-            <div className="flex flex-1 flex-col justify-center px-5 py-10 sm:px-10 sm:py-14 xl:px-14">
-              <h1 className="text-fg text-[clamp(2rem,5.2vw,5rem)] leading-[1.02] font-semibold tracking-[-0.045em]">
-                {EVENT.name}
-              </h1>
+                <p className="mt-6 flex flex-wrap items-baseline gap-x-3 gap-y-1 text-base sm:text-xl">
+                  <span className="text-accent" aria-hidden>
+                    {'>'}
+                  </span>
+                  <span className="text-fg font-medium">{EVENT.dateLabel}</span>
+                  <span className="text-line-strong" aria-hidden>
+                    ·
+                  </span>
+                  <span className="text-accent tabnum font-medium">{EVENT.timeLabel}</span>
+                </p>
 
-              <p className="mt-6 flex flex-wrap items-baseline gap-x-3 gap-y-1 text-base sm:text-xl">
-                <span className="text-accent" aria-hidden>
-                  {'>'}
-                </span>
-                <span className="text-fg font-medium">{EVENT.dateLabel}</span>
-                <span className="text-line-strong" aria-hidden>
-                  ·
-                </span>
-                <span className="text-accent tabnum font-medium">{EVENT.timeLabel}</span>
-              </p>
+                <p className="text-mute tabnum mt-1.5 text-xs sm:text-sm">{EVENT.localTimeLabel}</p>
 
-              <p className="text-mute tabnum mt-1.5 text-xs sm:text-sm">{EVENT.localTimeLabel}</p>
-
-              <a
-                href={EVENT.venueUrl}
-                target="_blank"
-                rel="noreferrer"
-                className="border-line bg-inset text-dim hover:border-accent/50 hover:text-fg group mt-6 inline-flex w-fit items-center gap-2 rounded border px-3 py-2 text-sm transition-colors"
-              >
-                <MapPin className="text-accent h-4 w-4 shrink-0" strokeWidth={2} aria-hidden />
-                <span>
-                  {EVENT.venue} · {EVENT.venueCity}
-                </span>
-                <ArrowUpRight
-                  className="text-mute group-hover:text-accent h-3.5 w-3.5 shrink-0 transition-colors"
-                  strokeWidth={2}
-                  aria-hidden
-                />
-              </a>
-
-              <p className="text-dim mt-8 max-w-[68ch] text-sm leading-relaxed sm:text-base">
-                A CTF built on Team work, creativity, and clean execution. Compete at a high level
-                and prove you can ship under pressure.
-              </p>
-
-              <div className="mt-8 flex flex-wrap items-center gap-2">
                 <a
-                  href={LINKS.register}
-                  className="bg-accent text-accent-ink hover:bg-accent-strong inline-flex items-center gap-2 rounded px-4 py-2.5 text-sm font-semibold transition-colors"
+                  href={EVENT.venueUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="border-line bg-inset text-dim hover:border-accent/50 hover:text-fg group mt-6 inline-flex w-fit items-center gap-2 rounded border px-3 py-2 text-sm transition-colors"
                 >
-                  Register
-                  <ArrowRight className="h-4 w-4" strokeWidth={2.5} aria-hidden />
+                  <MapPin className="text-accent h-4 w-4 shrink-0" strokeWidth={2} aria-hidden />
+                  <span>
+                    {EVENT.venue} · {EVENT.venueCity}
+                  </span>
+                  <ArrowUpRight
+                    className="text-mute group-hover:text-accent h-3.5 w-3.5 shrink-0 transition-colors"
+                    strokeWidth={2}
+                    aria-hidden
+                  />
                 </a>
-                <a
-                  href={LINKS.login}
-                  className="border-line-strong text-fg hover:border-accent hover:text-accent inline-flex items-center rounded border px-4 py-2.5 text-sm font-semibold transition-colors"
-                >
-                  Login
-                </a>
-                <a
-                  href={LINKS.discord}
-                  className="text-dim hover:text-fg hover:bg-raise inline-flex items-center gap-2 rounded px-4 py-2.5 text-sm font-medium transition-colors"
-                >
-                  Join Discord
-                  <ArrowUpRight className="h-3.5 w-3.5" strokeWidth={2} aria-hidden />
-                </a>
-              </div>
 
-              <p className="text-mute mt-5 max-w-[62ch] text-xs leading-relaxed">
-                Registration on the competition infrastructure requires completing the form first;
-                you’ll then receive your access code from our staff.
-              </p>
-            </div>
-          </div>
+                <p className="text-dim mt-8 max-w-[68ch] text-sm leading-relaxed sm:text-base">
+                  A CTF built on Team work, creativity, and clean execution. Compete at a high level
+                  and prove you can ship under pressure.
+                </p>
 
-          <div className="flex flex-col gap-2 sm:gap-3 lg:col-span-4 xl:col-span-3">
-            <div className="tile-in" style={{ animationDelay: '120ms' }}>
-              {EVENT.mode === 'countdown' ? (
-                <CountdownCard targetIso={EVENT.countdownTargetIso} title="Time until kickoff" />
-              ) : (
-                <div className="pane">
-                  <div className="pane-title">status</div>
-                  <p className="text-ansi-red p-4 text-sm font-semibold">
-                    Preparing for the 2026 event. Be ready.
-                  </p>
+                <div className="mt-8 flex flex-wrap items-center gap-2">
+                  <a
+                    href={LINKS.register}
+                    className="bg-accent text-accent-ink hover:bg-accent-strong inline-flex items-center gap-2 rounded px-4 py-2.5 text-sm font-semibold transition-colors"
+                  >
+                    Register
+                    <ArrowRight className="h-4 w-4" strokeWidth={2.5} aria-hidden />
+                  </a>
+                  <a
+                    href={LINKS.login}
+                    className="border-line-strong text-fg hover:border-accent hover:text-accent inline-flex items-center rounded border px-4 py-2.5 text-sm font-semibold transition-colors"
+                  >
+                    Login
+                  </a>
+                  <a
+                    href={LINKS.discord}
+                    className="text-dim hover:text-fg hover:bg-raise inline-flex items-center gap-2 rounded px-4 py-2.5 text-sm font-medium transition-colors"
+                  >
+                    Join Discord
+                    <ArrowUpRight className="h-3.5 w-3.5" strokeWidth={2} aria-hidden />
+                  </a>
                 </div>
-              )}
-            </div>
 
-            <div
-              className="pane tile-in flex flex-1 flex-col overflow-hidden"
-              style={{ animationDelay: '180ms' }}
-            >
-              <div className="pane-title">event.spec</div>
-              <dl className="flex-1 divide-y divide-[var(--c-line)] text-xs">
-                {EVENT_SPEC.map(([k, v]) => (
-                  <div key={k} className="flex items-baseline gap-3 px-3 py-2">
-                    <dt className="text-mute w-[4.5rem] shrink-0">{k}</dt>
-                    <dd className="text-dim min-w-0 flex-1 break-words">{v}</dd>
-                  </div>
-                ))}
-              </dl>
-              <div className="border-line bg-accent-wash text-accent border-t px-3 py-2.5 text-xs font-semibold">
-                12 Spots For 2026 Finals
+                <p className="text-mute mt-5 max-w-[62ch] text-xs leading-relaxed">
+                  Registration on the competition infrastructure requires completing the form first;
+                  you’ll then receive your access code from our staff.
+                </p>
               </div>
-            </div>
-          </div>
-        </div>
-      </section>
+            ),
+          },
+          {
+            id: 'countdown',
+            title: 'Time until kickoff',
+            node: <CountdownCard targetIso={EVENT.countdownTargetIso} title="Time until kickoff" frameless />,
+          },
+          {
+            id: 'spec',
+            title: 'event.spec',
+            node: (
+              <div className="flex min-h-0 flex-1 flex-col">
+                <dl className="flex-1 divide-y divide-[var(--c-line)] text-xs">
+                  {EVENT_SPEC.map(([k, v]) => (
+                    <div key={k} className="flex items-baseline gap-3 px-3 py-2">
+                      <dt className="text-mute w-[4.5rem] shrink-0">{k}</dt>
+                      <dd className="text-dim min-w-0 flex-1 break-words">{v}</dd>
+                    </div>
+                  ))}
+                </dl>
+                <div className="border-line bg-accent-wash text-accent border-t px-3 py-2.5 text-xs font-semibold">
+                  12 Spots For 2026 Finals
+                </div>
+              </div>
+            ),
+          },
+        ]}
+      />
 
       {/* ---- categories ---- */}
-      <section id="categories" className="w-full px-2 pt-12 sm:px-3 sm:pt-16">
+      <section id="categories" className="w-full px-[var(--hypr-gap-out)] pt-12 sm:pt-16">
         <SectionHeader
           title="Challenge Categories"
           subtitle="A curated set of problems spanning core offensive & analytical security domains."
         />
-        <div className="mt-6 grid grid-cols-1 gap-2 sm:grid-cols-2 sm:gap-3 lg:grid-cols-4 2xl:grid-cols-8">
+        <div className="mt-6 grid grid-cols-1 gap-[var(--hypr-gap-in)] sm:grid-cols-2 lg:grid-cols-4 2xl:grid-cols-8">
           {categories.map((c) => (
             <div key={c.name} className="pane pane-hover group flex items-stretch overflow-hidden">
               <span
@@ -187,7 +171,7 @@ export default function Main({ posts }: { posts: Post[] }) {
       </section>
 
       {/* ---- sponsors ---- */}
-      <section id="sponsors-partners" className="w-full px-2 pt-16 sm:px-3 sm:pt-20">
+      <section id="sponsors-partners" className="w-full px-[var(--hypr-gap-out)] pt-16 sm:pt-20">
         <SectionHeader
           title="Partnerships & Sponsorships"
           subtitle="Organizations supporting OmniCTF - thank you."
@@ -198,7 +182,7 @@ export default function Main({ posts }: { posts: Post[] }) {
 
       {/* ---- latest posts ---- */}
       {latest.length > 0 && (
-        <section className="w-full px-2 pt-16 pb-16 sm:px-3 sm:pt-20 sm:pb-20">
+        <section className="w-full px-[var(--hypr-gap-out)] pt-16 pb-16 sm:pt-20 sm:pb-20">
           <SectionHeader
             title="Latest posts"
             subtitle="Announcements, writeups, and updates from the team."
@@ -213,7 +197,7 @@ export default function Main({ posts }: { posts: Post[] }) {
             }
           />
 
-          <div className="mt-6 grid grid-cols-1 gap-2 sm:gap-3 md:grid-cols-3">
+          <div className="mt-6 grid grid-cols-1 gap-[var(--hypr-gap-in)] md:grid-cols-3">
             {latest.map((post) => (
               <article key={post.path} className="pane pane-hover flex flex-col overflow-hidden">
                 <div className="pane-title justify-between">

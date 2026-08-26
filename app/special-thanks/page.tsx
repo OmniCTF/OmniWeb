@@ -9,7 +9,7 @@ export default function SpecialThanksPage() {
   const entry = allSpecialThanks[0] // singleton: data/special-thanks/index.mdx
 
   return (
-    <div className="w-full p-2 sm:p-3">
+    <div className="w-full p-[var(--hypr-gap-out)]">
       <Window
         title="~/special-thanks"
         meta="cat thanks.md"

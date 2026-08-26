@@ -12,7 +12,7 @@ export default async function Page() {
   const sortedTags = tagKeys.sort((a, b) => tagCounts[b] - tagCounts[a])
 
   return (
-    <div className="w-full p-2 sm:p-3">
+    <div className="w-full p-[var(--hypr-gap-out)]">
       <Window
         title="~/tags"
         meta={`${tagKeys.length} tags`}
@@ -25,7 +25,7 @@ export default async function Page() {
         {tagKeys.length === 0 ? (
           <p className="text-mute mt-8 text-sm">No tags found.</p>
         ) : (
-          <div className="mt-8 grid grid-cols-1 gap-2 sm:grid-cols-2 sm:gap-3 lg:grid-cols-4 2xl:grid-cols-6">
+          <div className="mt-8 grid grid-cols-1 gap-[var(--hypr-gap-in)] sm:grid-cols-2 lg:grid-cols-4 2xl:grid-cols-6">
             {sortedTags.map((t) => (
               <Link
                 key={t}

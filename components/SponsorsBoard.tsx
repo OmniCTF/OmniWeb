@@ -27,7 +27,7 @@ const TIER_TITLES: Record<string, string> = {
 
 function Detail({ sponsor, onClose }: { sponsor: Sponsor; onClose: () => void }) {
   return (
-    <div id={`sponsor-panel-${sponsor.id}`} role="tabpanel" className="pane pane-focus mt-2 overflow-hidden sm:mt-3">
+    <div id={`sponsor-panel-${sponsor.id}`} role="tabpanel" className="pane pane-focus mt-[var(--hypr-gap-in)] overflow-hidden">
       <div className="pane-title justify-between">
         <span className="normal-case">sponsor.info</span>
         <button
@@ -133,7 +133,7 @@ export default function SponsorsBoard({ sponsors }: { sponsors: Sponsor[] }) {
             </div>
 
             <div
-              className="mt-3 grid grid-cols-1 gap-2 sm:grid-cols-2 sm:gap-3 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-6"
+              className="mt-3 grid grid-cols-1 gap-[var(--hypr-gap-in)] sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-6"
               role="tablist"
               aria-label={TIER_TITLES[tier] ?? tier}
             >
