@@ -122,8 +122,17 @@ and `.pane` for frames and rounding.
 
 **Homepage windows** (`components/session/Workspace.tsx`) take focus on pointer or keyboard
 focus, swap places, close, restore, and re-tile between `dwindle` (main plus side stack) and
-`master` (main on top, rest in a row). Bindings: `h`/`l` focus, `H`/`L` swap, `q` close, `r`
-restore, `t` layout. Route bindings live in the header: `0`–`4` for workspaces. `/` focuses a
+`master` (main on top, rest in a row). Bindings: `h`/`l` focus, `H`/`L` swap, `f` float, `q`
+close, `r` reset, `t` layout.
+
+**Dragging follows the tiling rules, it does not break them.** Grab a tiled window by its title
+bar and drag it over another: the target takes a dashed accent outline and releasing swaps their
+slots, which is what dragging a tiled window does in the WM this borrows from. Free movement
+requires leaving the tiling first — `f` (or the title-bar button) floats the focused window in
+place, after which the title bar moves it and a corner grip resizes it, clamped so it can never
+be dragged fully out of reach. Floating windows carry a `[floating]` marker, stack by last focus,
+and `f` returns them to the tiling. Floating is desktop-only (viewport ≥ 1024px); below that the
+tiling is the layout and the drag gesture stays a swap. Route bindings live in the header: `0`–`4` for workspaces. `/` focuses a
 list filter, `⌘K` opens the launcher, `?` opens the sheet, `Esc` closes overlays. Every handler
 ignores events originating in an input, textarea, select, or contenteditable.
 

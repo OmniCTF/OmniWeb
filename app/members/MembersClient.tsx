@@ -207,7 +207,6 @@ export default function MembersClient({ members }: { members: MemberCardData[] }
 
                   <span className="text-mute flex items-center gap-2.5 lg:justify-end">
                     {member.country ? (
-                      // eslint-disable-next-line @next/next/no-img-element
                       <img
                         src={`https://flagcdn.com/w40/${member.country.toLowerCase()}.png`}
                         alt={member.country}

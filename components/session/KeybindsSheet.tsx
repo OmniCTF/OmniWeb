@@ -19,9 +19,11 @@ const GROUPS: { title: string; binds: [string, string][] }[] = [
     binds: [
       ['h  l', 'Move focus'],
       ['H  L', 'Swap focused window'],
+      ['f', 'Float / tile window'],
       ['q', 'Close focused window'],
-      ['r', 'Restore closed windows'],
+      ['r', 'Reset windows'],
       ['t', 'Toggle layout'],
+      ['drag', 'Title bar: swap, or move if floating'],
     ],
   },
   {
