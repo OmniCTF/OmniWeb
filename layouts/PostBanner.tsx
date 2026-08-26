@@ -1,12 +1,10 @@
 import { ReactNode } from 'react'
 import Image from '@/components/Image'
-import Bleed from 'pliny/ui/Bleed'
 import { CoreContent } from 'pliny/utils/contentlayer'
 import type { Blog } from 'contentlayer/generated'
+import { ChevronLeft, ChevronRight } from 'lucide-react'
 import Comments from '@/components/Comments'
 import Link from '@/components/Link'
-import PageTitle from '@/components/PageTitle'
-import SectionContainer from '@/components/SectionContainer'
 import siteMetadata from '@/data/siteMetadata'
 import ScrollTopAndComment from '@/components/ScrollTopAndComment'
 
@@ -17,62 +15,65 @@ interface LayoutProps {
   prev?: { path: string; title: string }
 }
 
-export default function PostMinimal({ content, next, prev, children }: LayoutProps) {
-  const { slug, title, images } = content
-  const displayImage =
-    images && images.length > 0 ? images[0] : 'https://picsum.photos/seed/picsum/800/400'
+export default function PostBanner({ content, next, prev, children }: LayoutProps) {
+  const { path, slug, title, images } = content
+  const displayImage = images && images.length > 0 ? images[0] : null
 
   return (
-    <SectionContainer>
+    <div className="w-full p-2 sm:p-3">
       <ScrollTopAndComment />
-      <article>
-        <div>
-          <div className="space-y-1 pb-10 text-center dark:border-gray-700">
-            <div className="w-full">
-              <Bleed>
-                <div className="relative aspect-2/1 w-full">
-                  <Image src={displayImage} alt={title} fill className="object-cover" />
-                </div>
-              </Bleed>
-            </div>
-            <div className="relative pt-10">
-              <PageTitle>{title}</PageTitle>
-            </div>
+      <article className="pane overflow-hidden">
+        <div className="pane-title">
+          <span className="min-w-0 truncate normal-case">~/{path}</span>
+        </div>
+
+        {displayImage ? (
+          <div className="border-line relative aspect-2/1 w-full border-b">
+            <Image src={displayImage} alt={title} fill className="object-cover" />
           </div>
-          <div className="prose dark:prose-invert max-w-none py-4">{children}</div>
-          {siteMetadata.comments && (
-            <div className="pt-6 pb-6 text-center text-gray-700 dark:text-gray-300" id="comment">
-              <Comments slug={slug} />
-            </div>
-          )}
-          <footer>
-            <div className="flex flex-col text-sm font-medium sm:flex-row sm:justify-between sm:text-base">
-              {prev && prev.path && (
-                <div className="pt-4 xl:pt-8">
-                  <Link
-                    href={`/${prev.path}`}
-                    className="text-violet-500 hover:text-purple-800 dark:hover:text-purple-400"
-                    aria-label={`Previous post: ${prev.title}`}
-                  >
-                    &larr; {prev.title}
-                  </Link>
-                </div>
+        ) : null}
+
+        <div className="px-5 py-10 sm:px-10 sm:py-14">
+          <div className="mx-auto max-w-[76ch]">
+            <h1 className="text-fg text-3xl leading-tight font-semibold tracking-[-0.04em] sm:text-4xl">
+              {title}
+            </h1>
+            <div className="bg-line mt-8 h-px" />
+            <div className="prose prose-invert mt-10 max-w-none">{children}</div>
+
+            {siteMetadata.comments ? (
+              <div className="border-line mt-12 border-t pt-8" id="comment">
+                <Comments slug={slug} />
+              </div>
+            ) : null}
+
+            <footer className="border-line mt-12 flex flex-col gap-4 border-t pt-6 text-sm sm:flex-row sm:justify-between">
+              {prev?.path ? (
+                <Link
+                  href={`/${prev.path}`}
+                  className="text-accent hover:text-accent-strong flex items-center gap-1.5 transition-colors"
+                  aria-label={`Previous post: ${prev.title}`}
+                >
+                  <ChevronLeft className="h-4 w-4 shrink-0" strokeWidth={2} aria-hidden />
+                  {prev.title}
+                </Link>
+              ) : (
+                <span />
               )}
-              {next && next.path && (
-                <div className="pt-4 xl:pt-8">
-                  <Link
-                    href={`/${next.path}`}
-                    className="text-violet-500 hover:text-purple-800 dark:hover:text-purple-400"
-                    aria-label={`Next post: ${next.title}`}
-                  >
-                    {next.title} &rarr;
-                  </Link>
-                </div>
-              )}
-            </div>
-          </footer>
+              {next?.path ? (
+                <Link
+                  href={`/${next.path}`}
+                  className="text-accent hover:text-accent-strong flex items-center gap-1.5 transition-colors"
+                  aria-label={`Next post: ${next.title}`}
+                >
+                  {next.title}
+                  <ChevronRight className="h-4 w-4 shrink-0" strokeWidth={2} aria-hidden />
+                </Link>
+              ) : null}
+            </footer>
+          </div>
         </div>
       </article>
-    </SectionContainer>
+    </div>
   )
 }

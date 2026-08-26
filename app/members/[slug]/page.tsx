@@ -5,13 +5,12 @@ import { notFound } from 'next/navigation'
 import { allBlogs } from 'contentlayer/generated'
 import Image from 'next/image'
 import Link from 'next/link'
-import { Globe, Github } from 'lucide-react'
+import { Globe, Github, ArrowLeft, ChevronRight } from 'lucide-react'
 
 export const dynamicParams = false
 
-
 interface MemberPageProps {
-  params: { slug: string }
+  params: Promise<{ slug: string }>
 }
 
 export async function generateStaticParams() {
@@ -20,8 +19,18 @@ export async function generateStaticParams() {
   return files.map((file) => ({ slug: file.replace('.mdx', '') }))
 }
 
-export default function MemberProfile({ params }: MemberPageProps) {
-  const filePath = path.join(process.cwd(), 'data/authors', `${params.slug}.mdx`)
+function Row({ label, children }: { label: string; children: React.ReactNode }) {
+  return (
+    <div className="border-line/70 flex flex-col gap-1 border-b py-2.5 last:border-b-0 sm:flex-row sm:gap-4">
+      <dt className="text-mute w-24 shrink-0 text-xs">{label}</dt>
+      <dd className="text-dim min-w-0 flex-1 text-xs leading-relaxed">{children}</dd>
+    </div>
+  )
+}
+
+export default async function MemberProfile({ params }: MemberPageProps) {
+  const { slug } = await params
+  const filePath = path.join(process.cwd(), 'data/authors', `${slug}.mdx`)
   if (!fs.existsSync(filePath)) return notFound()
 
   const fileContent = fs.readFileSync(filePath, 'utf-8')
@@ -37,213 +46,215 @@ export default function MemberProfile({ params }: MemberPageProps) {
       position?: string
       bio?: string
       tags?: string[]
-      links?: {
-        website?: string
-        github?: string
-      }
-      nowListening?: {
-        title: string
-        artist: string
-        url: string
-      }
+      links?: { website?: string; github?: string }
+      nowListening?: { title: string; artist: string; url: string }
     }
   }
 
-  const posts = allBlogs.filter((post) => post.authors?.includes(params.slug))
+  const posts = allBlogs.filter((post) => post.authors?.includes(slug))
   const retired = (member.position ?? '').toLowerCase().includes('retired')
 
   return (
-    <div className="mx-auto max-w-6xl px-4 py-12">
-      <div
-        className={`rounded-3xl p-[1px] ${
-          retired
-            ? 'bg-gradient-to-b from-zinc-400/20 via-transparent to-transparent'
-            : 'bg-gradient-to-b from-violet-500/20 via-transparent to-transparent'
-        }`}
-      >
-        <div
-          className={`rounded-3xl border p-6 shadow-lg backdrop-blur ${
-            retired
-              ? 'border-zinc-300/60 bg-zinc-100/60 opacity-80 shadow-zinc-500/10 grayscale dark:border-white/10 dark:bg-zinc-900/50'
-              : 'border-violet-500/15 bg-white/70 shadow-violet-500/10 dark:border-violet-400/10 dark:bg-zinc-900/60'
-          }`}
-        >
-          <div className="flex flex-col gap-6 sm:flex-row sm:items-start">
-            {member.avatar ? (
-              <Image
-                src={member.avatar}
-                alt={member.name}
-                width={120}
-                height={120}
-                className="rounded-full border border-white/10 object-cover"
-              />
-            ) : (
-              <div className="h-[120px] w-[120px] rounded-full bg-zinc-200 dark:bg-zinc-700" />
-            )}
+    <div className="w-full p-2 sm:p-3">
+      <div className="grid grid-cols-1 gap-2 sm:gap-3 xl:grid-cols-[minmax(0,420px)_minmax(0,1fr)]">
+        {/* identity */}
+        <div className="flex flex-col gap-2 sm:gap-3">
+          <div className="pane pane-focus overflow-hidden">
+            <div className="pane-title justify-between">
+              <span className="normal-case">whoami</span>
+              <span className="tabnum normal-case">{member.id != null ? `#${member.id}` : ''}</span>
+            </div>
 
-            <div className="flex-1">
-              <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
-                <div>
+            <div className="p-5">
+              <div className="flex items-start gap-4">
+                {member.avatar ? (
+                  <Image
+                    src={member.avatar}
+                    alt=""
+                    width={88}
+                    height={88}
+                    className={[
+                      'border-line h-22 w-22 shrink-0 rounded border object-cover',
+                      retired ? 'grayscale' : '',
+                    ].join(' ')}
+                  />
+                ) : (
+                  <div className="bg-inset border-line h-22 w-22 shrink-0 rounded border" />
+                )}
+
+                <div className="min-w-0">
                   <div className="flex flex-wrap items-center gap-2">
-                    <h1 className="text-3xl font-extrabold tracking-tight text-zinc-900 dark:text-zinc-100">
+                    <h1 className="text-fg text-2xl font-semibold tracking-[-0.035em]">
                       {member.displayName}
                     </h1>
                     {member.is_admin ? (
-                      <span className="rounded-full border border-amber-500/40 bg-amber-500/15 px-2.5 py-0.5 text-xs font-extrabold uppercase tracking-wide text-amber-700 dark:text-amber-300">
-                        Admin
+                      <span className="border-ansi-yellow/40 text-ansi-yellow rounded border px-1.5 py-px text-[10px] font-semibold">
+                        admin
                       </span>
                     ) : null}
                     {retired ? (
-                      <span className="rounded-full border border-zinc-400/40 bg-zinc-400/15 px-2.5 py-0.5 text-xs font-extrabold uppercase tracking-wide text-zinc-600 dark:text-zinc-300">
-                        Retired
+                      <span className="border-line-strong text-mute rounded border px-1.5 py-px text-[10px] font-semibold">
+                        retired
                       </span>
                     ) : null}
                   </div>
+
                   {member.position ? (
-                    <p
-                      className={`mt-1 text-sm font-semibold ${
-                        retired
-                          ? 'text-zinc-500 dark:text-zinc-400'
-                          : 'text-violet-700 dark:text-violet-300'
-                      }`}
-                    >
+                    <p className={['mt-1 text-sm', retired ? 'text-mute' : 'text-accent'].join(' ')}>
                       {member.position}
                     </p>
                   ) : null}
-                  <div className="mt-2 flex flex-wrap items-center gap-3 text-sm text-zinc-600 dark:text-zinc-400">
-                    {member.joined ? <span>Joined {member.joined}</span> : null}
-                    {member.country ? (
-                      // eslint-disable-next-line @next/next/no-img-element
-                      <img
-                        src={`https://flagcdn.com/w40/${member.country.toLowerCase()}.png`}
-                        alt={member.country}
-                        className="h-4 w-6 rounded-sm object-cover"
-                      />
+
+                  <div className="mt-3 flex flex-wrap items-center gap-2">
+                    {member.links?.website ? (
+                      <a
+                        href={member.links.website}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="border-line bg-inset text-dim hover:border-accent/50 hover:text-accent flex h-7 w-7 items-center justify-center rounded border transition-colors"
+                        aria-label="Website"
+                      >
+                        <Globe className="h-3.5 w-3.5" strokeWidth={2} />
+                      </a>
+                    ) : null}
+                    {member.links?.github ? (
+                      <a
+                        href={member.links.github}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="border-line bg-inset text-dim hover:border-accent/50 hover:text-accent flex h-7 w-7 items-center justify-center rounded border transition-colors"
+                        aria-label="GitHub"
+                      >
+                        <Github className="h-3.5 w-3.5" strokeWidth={2} />
+                      </a>
                     ) : null}
                   </div>
                 </div>
-
-                <div className="flex items-center gap-3">
-                  {member.links?.website ? (
-                    <a
-                      href={member.links.website}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center justify-center rounded-xl border border-zinc-300 bg-white/70 p-2 text-zinc-700 shadow-sm backdrop-blur transition hover:bg-white hover:shadow-md dark:border-white/15 dark:bg-zinc-950/20 dark:text-zinc-200"
-                      aria-label="Website"
-                    >
-                      <Globe className="h-5 w-5" />
-                    </a>
-                  ) : null}
-                  {member.links?.github ? (
-                    <a
-                      href={member.links.github}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center justify-center rounded-xl border border-zinc-300 bg-white/70 p-2 text-zinc-700 shadow-sm backdrop-blur transition hover:bg-white hover:shadow-md dark:border-white/15 dark:bg-zinc-950/20 dark:text-zinc-200"
-                      aria-label="GitHub"
-                    >
-                      <Github className="h-5 w-5" />
-                    </a>
-                  ) : null}
-                </div>
               </div>
 
-              {(member.tags ?? []).length ? (
-                <div className="mt-4 flex flex-wrap gap-2">
-                  {member.tags?.map((tag) => (
-                    <Link
-                      key={tag}
-                      href={`/tags/${encodeURIComponent(tag)}`}
-                      className="rounded-full border border-violet-500/20 bg-violet-500/5 px-2.5 py-1 text-xs font-semibold text-violet-800 transition hover:border-violet-500/40 hover:bg-violet-500/10 dark:border-violet-400/15 dark:text-violet-200"
-                    >
-                      {tag}
-                    </Link>
-                  ))}
-                </div>
-              ) : null}
-
-              {member.nowListening?.url ? (
-                <div className="mt-6 rounded-2xl border border-violet-500/20 bg-violet-500/10 p-4">
-                  <div className="text-xs font-extrabold uppercase tracking-wide text-violet-700 dark:text-violet-200">
-                    Now playing
-                  </div>
-                  <div className="mt-2 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
-                    <div>
-                      <div className="text-lg font-semibold text-zinc-900 dark:text-zinc-100">
-                        {member.nowListening.title}
-                      </div>
-                      <div className="text-sm text-zinc-600 dark:text-zinc-300">
-                        {member.nowListening.artist}
-                      </div>
-                    </div>
-                    <audio controls className="h-10 w-full rounded md:w-[360px]">
-                      <source src={member.nowListening.url} type="audio/mpeg" />
-                      Your browser does not support the audio element.
-                    </audio>
-                  </div>
-                </div>
-              ) : null}
+              <dl className="mt-5">
+                <Row label="handle">{member.name}</Row>
+                {member.joined ? <Row label="joined">Joined {member.joined}</Row> : null}
+                {member.country ? (
+                  <Row label="country">
+                    <span className="flex items-center gap-2">
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src={`https://flagcdn.com/w40/${member.country.toLowerCase()}.png`}
+                        alt={member.country}
+                        className="border-line h-3 w-[18px] rounded-[2px] border object-cover"
+                      />
+                      <span className="uppercase">{member.country}</span>
+                    </span>
+                  </Row>
+                ) : null}
+                {member.tags?.length ? (
+                  <Row label="focus">
+                    <span className="flex flex-wrap gap-x-3 gap-y-1">
+                      {member.tags.map((tag) => (
+                        <Link
+                          key={tag}
+                          href={`/tags/${encodeURIComponent(tag)}`}
+                          className="text-accent hover:text-accent-strong transition-colors"
+                        >
+                          <span className="text-mute" aria-hidden>
+                            --
+                          </span>
+                          {tag}
+                        </Link>
+                      ))}
+                    </span>
+                  </Row>
+                ) : null}
+                <Row label="writeups">{posts.length}</Row>
+              </dl>
             </div>
           </div>
-        </div>
-      </div>
 
-      {member.bio ? (
-        <div className="mt-8 rounded-2xl border border-zinc-300 bg-white/70 p-6 text-zinc-700 shadow-sm backdrop-blur dark:border-white/15 dark:bg-zinc-900/50 dark:text-zinc-300">
-          {member.bio}
-        </div>
-      ) : null}
+          {member.bio ? (
+            <div className="pane overflow-hidden">
+              <div className="pane-title">bio</div>
+              <p className="text-dim p-5 text-sm leading-relaxed">{member.bio}</p>
+            </div>
+          ) : null}
 
-      <div className="mt-10">
-        <h2 className="text-2xl font-extrabold tracking-tight text-zinc-900 dark:text-zinc-100">
-          Writeups
-        </h2>
-        <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">
-          Posts authored by this member.
-        </p>
-
-        <div className="mt-6 grid grid-cols-1 gap-4 md:grid-cols-2">
-          {posts.map((post) => (
-            <Link
-              key={post.slug}
-              href={`/blog/${post.slug}`}
-              className="rounded-2xl border border-violet-500/15 bg-white/70 p-5 shadow-sm backdrop-blur transition hover:-translate-y-0.5 hover:shadow-md dark:border-violet-400/10 dark:bg-zinc-900/50"
-            >
-              <div className="flex items-start justify-between gap-4">
-                <h3 className="text-lg font-extrabold tracking-tight text-zinc-900 dark:text-zinc-100">
-                  {post.title}
-                </h3>
-                <span className="shrink-0 text-xs font-semibold uppercase tracking-wide text-zinc-500 dark:text-zinc-400">
-                  {post.date}
-                </span>
+          {member.nowListening?.url ? (
+            <div className="pane overflow-hidden">
+              <div className="pane-title justify-between">
+                <span>Now playing</span>
+                <span className="bg-ansi-green inline-block h-1.5 w-1.5 rounded-full" aria-hidden />
               </div>
-              {post.summary ? (
-                <p className="mt-2 line-clamp-2 text-sm text-zinc-600 dark:text-zinc-400">
-                  {post.summary}
-                </p>
-              ) : null}
-              {post.tags?.length ? (
-                <div className="mt-3 flex flex-wrap gap-2">
-                  {post.tags.slice(0, 5).map((tag) => (
-                    <span
-                      key={`${post.slug}-${tag}`}
-                      className="rounded-full border border-violet-500/20 bg-violet-500/5 px-2.5 py-1 text-xs font-semibold text-violet-800 dark:border-violet-400/15 dark:text-violet-200"
-                    >
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-              ) : null}
-            </Link>
-          ))}
+              <div className="p-5">
+                <div className="text-fg text-sm font-semibold">{member.nowListening.title}</div>
+                <div className="text-mute mt-0.5 text-xs">{member.nowListening.artist}</div>
+                <audio controls className="mt-3 h-9 w-full">
+                  <source src={member.nowListening.url} type="audio/mpeg" />
+                  Your browser does not support the audio element.
+                </audio>
+              </div>
+            </div>
+          ) : null}
+
+          <Link
+            href="/members"
+            className="text-mute hover:text-fg flex items-center gap-1.5 px-1 py-1 text-xs transition-colors"
+          >
+            <ArrowLeft className="h-3 w-3" strokeWidth={2} aria-hidden />
+            All members
+          </Link>
         </div>
 
-        {!posts.length ? (
-          <div className="mt-6 rounded-2xl border border-zinc-300 bg-white/70 p-6 text-sm text-zinc-600 shadow-sm backdrop-blur dark:border-white/15 dark:bg-zinc-900/50 dark:text-zinc-300">
-            No posts yet.
+        {/* output */}
+        <div className="pane min-w-0 overflow-hidden">
+          <div className="pane-title justify-between">
+            <span className="normal-case">~/members/{slug}/writeups</span>
+            <span className="tabnum normal-case">{posts.length}</span>
           </div>
-        ) : null}
+
+          <div className="border-line border-b px-5 py-5">
+            <h2 className="text-fg text-xl font-semibold tracking-tight">Writeups</h2>
+            <p className="text-mute mt-1.5 text-sm">Posts authored by this member.</p>
+          </div>
+
+          {posts.length ? (
+            <ul className="divide-y divide-[var(--c-line)]">
+              {posts.map((post) => (
+                <li key={post.slug} className="hover:bg-raise/70 group transition-colors">
+                  <Link href={`/blog/${post.slug}`} className="block px-5 py-4">
+                    <div className="flex items-start justify-between gap-4">
+                      <h3 className="text-fg group-hover:text-accent text-base font-semibold tracking-tight transition-colors">
+                        {post.title}
+                      </h3>
+                      <span className="text-mute tabnum shrink-0 text-xs">{post.date}</span>
+                    </div>
+                    {post.summary ? (
+                      <p className="text-dim mt-2 line-clamp-2 max-w-[85ch] text-sm leading-relaxed">
+                        {post.summary}
+                      </p>
+                    ) : null}
+                    {post.tags?.length ? (
+                      <div className="mt-2.5 flex flex-wrap items-center gap-x-3 gap-y-1">
+                        {post.tags.slice(0, 5).map((tag) => (
+                          <span key={`${post.slug}-${tag}`} className="text-mute text-xs">
+                            <span aria-hidden>--</span>
+                            {tag}
+                          </span>
+                        ))}
+                        <ChevronRight
+                          className="text-line-strong group-hover:text-accent ml-auto h-3.5 w-3.5 transition-colors"
+                          strokeWidth={2}
+                          aria-hidden
+                        />
+                      </div>
+                    ) : null}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p className="text-mute px-5 py-10 text-sm">No posts yet.</p>
+          )}
+        </div>
       </div>
     </div>
   )

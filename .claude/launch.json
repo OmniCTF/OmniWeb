@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "omniweb",
+      "runtimeExecutable": "node",
+      "runtimeArgs": [".yarn/releases/yarn-3.6.1.cjs", "dev"],
+      "port": 3000
+    }
+  ]
+}

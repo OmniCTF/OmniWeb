@@ -1,34 +1,33 @@
+'use client'
+
 import { AlgoliaButton } from 'pliny/search/AlgoliaButton'
 import { KBarButton } from 'pliny/search/KBarButton'
+import { Search } from 'lucide-react'
 import siteMetadata from '@/data/siteMetadata'
 
+/**
+ * The launcher. Same role SUPER holds in the session it borrows from, so it
+ * advertises its binding instead of hiding behind a magnifier.
+ */
 const SearchButton = () => {
   if (
-    siteMetadata.search &&
-    (siteMetadata.search.provider === 'algolia' || siteMetadata.search.provider === 'kbar')
+    !siteMetadata.search ||
+    (siteMetadata.search.provider !== 'algolia' && siteMetadata.search.provider !== 'kbar')
   ) {
-    const SearchButtonWrapper =
-      siteMetadata.search.provider === 'algolia' ? AlgoliaButton : KBarButton
-
-    return (
-      <SearchButtonWrapper aria-label="Search">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          strokeWidth={1.5}
-          stroke="currentColor"
-          className="hover:text-purple-500 dark:hover:text-purple-400 h-6 w-6 text-gray-900 dark:text-gray-100"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
-          />
-        </svg>
-      </SearchButtonWrapper>
-    )
+    return null
   }
+
+  const SearchButtonWrapper = siteMetadata.search.provider === 'algolia' ? AlgoliaButton : KBarButton
+
+  return (
+    <SearchButtonWrapper aria-label="Open launcher">
+      <span className="border-line bg-inset text-dim hover:border-accent/50 hover:text-fg flex items-center gap-2 rounded border px-2 py-1 text-xs transition-colors">
+        <Search className="h-3.5 w-3.5" strokeWidth={2} aria-hidden />
+        <span className="hidden md:inline">search</span>
+        <kbd className="kbd hidden md:inline-flex">⌘K</kbd>
+      </span>
+    </SearchButtonWrapper>
+  )
 }
 
 export default SearchButton

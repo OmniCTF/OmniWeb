@@ -1,7 +1,7 @@
 const TableWrapper = ({ children }) => {
   return (
-    <div className="w-full overflow-x-auto">
-      <table>{children}</table>
+    <div className="border-line my-6 w-full overflow-x-auto rounded border">
+      <table className="my-0 w-full">{children}</table>
     </div>
   )
 }

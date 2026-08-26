@@ -1,24 +1,34 @@
 import Link from '@/components/Link'
+import { ArrowLeft } from 'lucide-react'
 
 export default function NotFound() {
   return (
-    <div className="flex flex-col items-start justify-start md:mt-24 md:flex-row md:items-center md:justify-center md:space-x-6">
-      <div className="space-x-2 pt-6 pb-8 md:space-y-5">
-        <h1 className="text-6xl leading-9 font-extrabold tracking-tight text-gray-900 md:border-r-2 md:px-6 md:text-8xl md:leading-14 dark:text-gray-100">
-          404
-        </h1>
-      </div>
-      <div className="max-w-md">
-        <p className="mb-4 text-xl leading-normal font-bold md:text-2xl">
-          Sorry we couldn't find this page.
-        </p>
-        <p className="mb-8">But dont worry, you can find plenty of other things on our homepage.</p>
-        <Link
-          href="/"
-          className="focus:shadow-outline-blue inline rounded-lg border border-transparent bg-blue-600 px-4 py-2 text-sm leading-5 font-medium text-white shadow-xs transition-colors duration-150 hover:bg-blue-700 focus:outline-hidden dark:hover:bg-blue-500"
-        >
-          Back to homepage
-        </Link>
+    <div className="w-full p-2 sm:p-3">
+      <div className="pane pane-focus overflow-hidden">
+        <div className="pane-title justify-between">
+          <span className="normal-case">error</span>
+          <span className="text-ansi-red normal-case">exit 404</span>
+        </div>
+
+        <div className="flex flex-col gap-8 p-8 sm:p-14 md:flex-row md:items-center md:gap-14">
+          <div className="text-ansi-red text-[clamp(4rem,14vw,10rem)] leading-none font-semibold tracking-[-0.05em]">
+            404
+          </div>
+
+          <div className="border-line max-w-lg md:border-l md:pl-14">
+            <p className="text-fg text-lg font-semibold">Sorry we couldn't find this page.</p>
+            <p className="text-dim mt-3 text-sm leading-relaxed">
+              But dont worry, you can find plenty of other things on our homepage.
+            </p>
+            <Link
+              href="/"
+              className="bg-accent text-accent-ink hover:bg-accent-strong mt-7 inline-flex items-center gap-2 rounded px-4 py-2.5 text-sm font-semibold transition-colors"
+            >
+              <ArrowLeft className="h-4 w-4" strokeWidth={2.5} aria-hidden />
+              Back to homepage
+            </Link>
+          </div>
+        </div>
       </div>
     </div>
   )

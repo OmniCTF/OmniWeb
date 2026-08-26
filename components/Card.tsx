@@ -2,53 +2,47 @@ import Image from './Image'
 import Link from './Link'
 
 const Card = ({ title, description, imgSrc, href }) => (
-  <div className="md max-w-[544px] p-4 md:w-1/2">
-    <div
-      className={`${
-        imgSrc && 'h-full'
-      } overflow-hidden rounded-md border-2 border-gray-200/60 dark:border-gray-700/60`}
-    >
-      {imgSrc &&
-        (href ? (
-          <Link href={href} aria-label={`Link to ${title}`}>
-            <Image
-              alt={title}
-              src={imgSrc}
-              className="object-cover object-center md:h-36 lg:h-48"
-              width={544}
-              height={306}
-            />
-          </Link>
-        ) : (
+  <div className="pane pane-hover flex flex-col overflow-hidden">
+    {imgSrc &&
+      (href ? (
+        <Link href={href} aria-label={`Link to ${title}`} className="border-line block border-b">
           <Image
             alt={title}
             src={imgSrc}
-            className="object-cover object-center md:h-36 lg:h-48"
+            className="h-44 w-full object-cover object-center"
             width={544}
             height={306}
           />
-        ))}
-      <div className="p-6">
-        <h2 className="mb-3 text-2xl leading-8 font-bold tracking-tight">
-          {href ? (
-            <Link href={href} aria-label={`Link to ${title}`}>
-              {title}
-            </Link>
-          ) : (
-            title
-          )}
-        </h2>
-        <p className="prose mb-3 max-w-none text-gray-500 dark:text-gray-400">{description}</p>
-        {href && (
-          <Link
-            href={href}
-            className="text-violet-500 hover:text-purple-800 dark:hover:text-purple-400 text-base leading-6 font-medium"
-            aria-label={`Link to ${title}`}
-          >
-            Learn more &rarr;
+        </Link>
+      ) : (
+        <Image
+          alt={title}
+          src={imgSrc}
+          className="border-line h-44 w-full border-b object-cover object-center"
+          width={544}
+          height={306}
+        />
+      ))}
+    <div className="flex flex-1 flex-col p-5">
+      <h2 className="text-fg text-base font-semibold tracking-tight">
+        {href ? (
+          <Link href={href} aria-label={`Link to ${title}`} className="hover:text-accent transition-colors">
+            {title}
           </Link>
+        ) : (
+          title
         )}
-      </div>
+      </h2>
+      <p className="text-dim mt-2 flex-1 text-sm leading-relaxed">{description}</p>
+      {href && (
+        <Link
+          href={href}
+          className="text-accent hover:text-accent-strong mt-4 text-sm font-medium transition-colors"
+          aria-label={`Link to ${title}`}
+        >
+          Learn more &rarr;
+        </Link>
+      )}
     </div>
   </div>
 )

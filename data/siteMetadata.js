@@ -5,7 +5,7 @@ const siteMetadata = {
   headerTitle: 'OmniCTF',
   description: 'You Play. You Hack. You Write.',
   language: 'en-us',
-  theme: 'system', // system, dark or light
+  theme: 'dark', // system, dark or light
   siteUrl: 'https://omnictf.com',
   siteRepo: 'https://github.com/OmniCTF/OmniWeb',
   siteLogo: `${process.env.BASE_PATH || ''}/static/images/logo.png`,
@@ -51,7 +51,7 @@ const siteMetadata = {
   newsletter: {
     // supports mailchimp, buttondown, convertkit, klaviyo, revue, emailoctopus, beehive
     // Please add your .env file and modify it according to your selection
-    provider: 'emailoctopus',
+    provider: '',
   },
   comments: {
     // If you want to use an analytics provider you have to add it to the

@@ -1,142 +1,157 @@
-@reference "./tailwind.css";
-
 /**
- * CSS Styles for code highlighting.
- * Feel free to customize token styles 
- * by copying from a prismjs compatible theme:
- * https://github.com/PrismJS/prism-themes
+ * Code blocks in the session's own palette: the ANSI channels already declared
+ * in tailwind.css, so a snippet and the UI around it agree on what blue means.
  */
 
-/* Code title styles */
-.remark-code-title {
-  @apply rounded-xs bg-gray-700 px-5 py-3 font-mono text-sm font-bold text-gray-200 dark:bg-gray-800;
+pre[class*='language-'],
+code[class*='language-'] {
+  color: var(--c-fg);
+  background: none;
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  line-height: 1.7;
+  direction: ltr;
+  text-align: left;
+  white-space: pre;
+  word-spacing: normal;
+  word-break: normal;
+  tab-size: 2;
+  hyphens: none;
 }
 
-.remark-code-title + div > pre {
-  @apply mt-0 rounded-t-none;
+pre[class*='language-'] {
+  overflow: auto;
+  padding: 1rem 1.25rem;
+  margin: 1.75rem 0;
+  border: 1px solid var(--c-line);
+  border-radius: var(--radius-pane);
+  background: var(--c-inset);
 }
 
-/* Code block styles */
-.code-highlight {
-  @apply float-left min-w-full;
+:not(pre) > code[class*='language-'] {
+  padding: 0.1em 0.35em;
+  border: 1px solid var(--c-line);
+  border-radius: 3px;
+  background: var(--c-inset);
+  white-space: normal;
 }
 
-.code-line {
-  @apply -mx-4 block border-l-4 border-transparent pr-4 pl-4;
-}
-
-.code-line.inserted {
-  @apply bg-green-500/20;
-}
-
-.code-line.deleted {
-  @apply bg-red-500/20;
-}
-
-.highlight-line {
-  @apply border-primary-500 -mx-4 border-l-4 bg-gray-700/50;
-}
-
-.line-number::before {
-  @apply mr-4 -ml-2 inline-block w-4 text-right text-gray-400;
-  content: attr(line);
-}
-
-/* Token styles */
-/**
- * MIT License
- * Copyright (c) 2018 Sarah Drasner
- * Sarah Drasner's[@sdras] Night Owl
- * Ported by Sara vieria [@SaraVieira]
- * Added by Souvik Mandal [@SimpleIndian]
- */
 .token.comment,
 .token.prolog,
 .token.cdata {
-  color: rgb(99, 119, 119);
+  color: var(--c-mute);
   font-style: italic;
 }
 
 .token.punctuation {
-  color: rgb(199, 146, 234);
+  color: var(--c-dim);
 }
 
-.namespace {
-  color: rgb(178, 204, 214);
+.token.namespace {
+  opacity: 0.75;
 }
 
 .token.deleted {
-  color: rgba(239, 83, 80, 0.56);
-  font-style: italic;
+  color: var(--c-red);
 }
 
 .token.symbol,
-.token.property {
-  color: rgb(128, 203, 196);
-}
-
+.token.property,
 .token.tag,
-.token.operator,
-.token.keyword {
-  color: rgb(127, 219, 202);
-}
-
-.token.boolean {
-  color: rgb(255, 88, 116);
-}
-
-.token.number {
-  color: rgb(247, 140, 108);
-}
-
-.token.constant,
-.token.function,
-.token.builtin,
-.token.char {
-  color: rgb(130, 170, 255);
-}
-
 .token.selector,
-.token.doctype {
-  color: rgb(199, 146, 234);
-  font-style: italic;
+.token.keyword,
+.token.important,
+.token.atrule {
+  color: var(--c-accent);
 }
 
-.token.attr-name,
-.token.inserted {
-  color: rgb(173, 219, 103);
-  font-style: italic;
+.token.boolean,
+.token.constant,
+.token.number,
+.token.entity,
+.token.url {
+  color: var(--c-orange);
 }
 
 .token.string,
-.token.url,
-.token.entity,
-.language-css .token.string,
-.style .token.string {
-  color: rgb(173, 219, 103);
+.token.char,
+.token.attr-value,
+.token.inserted {
+  color: var(--c-green);
 }
 
-.token.class-name,
-.token.atrule,
-.token.attr-value {
-  color: rgb(255, 203, 139);
-}
-
-.token.regex,
-.token.important,
+.token.operator,
 .token.variable {
-  color: rgb(214, 222, 235);
+  color: var(--c-cyan);
 }
 
-.token.important,
+.token.function,
+.token.class-name {
+  color: var(--c-blue);
+}
+
+.token.attr-name,
+.token.regex {
+  color: var(--c-yellow);
+}
+
 .token.bold {
-  font-weight: bold;
+  font-weight: 600;
 }
-
 .token.italic {
   font-style: italic;
 }
 
-.token.table {
-  display: inline;
+/* rehype-prism-plus: line numbers and highlighted lines */
+pre > code[class*='language-'] {
+  display: grid;
+}
+
+.code-line {
+  display: block;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  margin-left: -1.25rem;
+  margin-right: -1.25rem;
+  border-left: 2px solid transparent;
+}
+
+.code-line.inserted {
+  background-color: color-mix(in oklab, var(--c-green) 14%, transparent);
+}
+
+.code-line.deleted {
+  background-color: color-mix(in oklab, var(--c-red) 14%, transparent);
+}
+
+.highlight-line {
+  background-color: color-mix(in oklab, var(--c-accent) 12%, transparent);
+  border-left-color: var(--c-accent);
+}
+
+.line-number::before {
+  display: inline-block;
+  width: 1.4rem;
+  margin-right: 1rem;
+  text-align: right;
+  color: var(--c-line-strong);
+  content: attr(line);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Language flag on the block, the way a fenced file announces its type. */
+.remark-code-title {
+  display: inline-flex;
+  align-items: center;
+  margin-bottom: -1.5rem;
+  padding: 0.35rem 0.75rem;
+  border: 1px solid var(--c-line);
+  border-bottom: none;
+  border-radius: var(--radius-pane) var(--radius-pane) 0 0;
+  background: var(--c-raise);
+  color: var(--c-dim);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
 }

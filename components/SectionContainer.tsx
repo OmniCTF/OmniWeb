@@ -2,10 +2,13 @@ import { ReactNode } from 'react'
 
 interface Props {
   children: ReactNode
+  className?: string
 }
 
-export default function SectionContainer({ children }: Props) {
-  return (
-    <section className="mx-auto w-full max-w-6xl px-4 sm:px-6 xl:px-8">{children}</section>
-  )
+/**
+ * The session fills the display. Content runs edge to edge with a WM gutter,
+ * and only long-form reading columns re-impose a measure.
+ */
+export default function SectionContainer({ children, className = '' }: Props) {
+  return <div className={`w-full px-4 sm:px-6 lg:px-8 ${className}`}>{children}</div>
 }

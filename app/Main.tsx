@@ -3,11 +3,12 @@ import Link from '@/components/Link'
 import Tag from '@/components/Tag'
 import siteMetadata from '@/data/siteMetadata'
 import { formatDate } from 'pliny/utils/formatDate'
-import NewsletterForm from 'pliny/ui/NewsletterForm'
 import { SPONSORS } from '@/data/sponsors'
-import SponsorsTabs from '@/components/SponsorsTabs'
+import { EVENT, EVENT_SPEC, LINKS } from '@/data/event'
+import SponsorsBoard from '@/components/SponsorsBoard'
 import SectionHeader from '@/components/SectionHeader'
 import CountdownCard from '@/components/CountdownCard'
+import { MapPin, ArrowUpRight, ArrowRight } from 'lucide-react'
 
 type Post = {
   path: string
@@ -18,278 +19,254 @@ type Post = {
   authorsData?: { slug?: string; name?: string; avatar?: string }[]
 }
 
-const EVENT = {
-  name: 'OmniCTF 2026 Finals',
-  format: 'On-site',
-  durationLabel: '10 hours',
-  dateLabel: '19th September',
-  timeLabel: '06:00 – 16:00 UTC',
-  localTimeLabel: '09:00 – 19:00 local time (EEST)',
-  venue: 'Ovidius University',
-  venueCity: 'Constanța, Romania',
-  venueUrl:
-    'https://www.google.com/maps/search/?api=1&query=Universitatea+Ovidius+din+Constanta',
-  mode: 'countdown' as 'preparing' | 'countdown',
-  countdownTargetIso: '2026-09-19T06:00:00.000Z',
-}
-
-const LINKS = {
-  discord: 'https://discord.gg/jzZkfh9UFR',
-  register: 'https://ctf.omnictf.com/register',
-  login: 'https://ctf.omnictf.com/login',
-  requirements: 'https://ctf.omnictf.com/requirements',
-}
-
+/** Each domain gets its own channel colour, the way a terminal palette assigns one. */
 const categories = [
-  { name: 'Reverse', hint: 'VMs, crackmes, obfuscation' },
-  { name: 'Web', hint: 'Realistic bugs & chains' },
-  { name: 'Forensics', hint: 'Artifacts, memory, traffic' },
-  { name: 'PWN', hint: 'Exploitation & primitives' },
-  { name: 'Crypto', hint: 'Attacks over theory' },
-  { name: 'OSINT', hint: 'Trace, pivot, verify' },
-  { name: 'Blockchain', hint: 'Blockchain stuff' },
-  { name: 'Misc', hint: 'Curveballs & creativity' },
+  { name: 'Reverse', hint: 'VMs, crackmes, obfuscation', color: 'var(--c-orange)' },
+  { name: 'Web', hint: 'Realistic bugs & chains', color: 'var(--c-cyan)' },
+  { name: 'Forensics', hint: 'Artifacts, memory, traffic', color: 'var(--c-green)' },
+  { name: 'PWN', hint: 'Exploitation & primitives', color: 'var(--c-red)' },
+  { name: 'Crypto', hint: 'Attacks over theory', color: 'var(--c-accent)' },
+  { name: 'OSINT', hint: 'Trace, pivot, verify', color: 'var(--c-yellow)' },
+  { name: 'Blockchain', hint: 'Blockchain stuff', color: 'var(--c-blue)' },
+  { name: 'Misc', hint: 'Curveballs & creativity', color: 'var(--c-mute)' },
 ]
-
-function Pill({ children }: { children: React.ReactNode }) {
-  return (
-    <span className="rounded-full border border-violet-500/20 bg-white/70 px-3 py-1 text-xs font-semibold text-zinc-800 shadow-sm backdrop-blur dark:border-violet-400/15 dark:bg-zinc-900/45 dark:text-zinc-200">
-      {children}
-    </span>
-  )
-}
-
-function TierBlock({
-  title,
-  list,
-}: {
-  title: string
-  list: typeof SPONSORS
-}) {
-  if (!list.length) return null
-  return (
-    <div className="mt-12">
-      <h2 className="text-2xl font-extrabold tracking-tight text-zinc-900 dark:text-zinc-100">
-        {title}
-      </h2>
-      <div className="mt-4 h-px w-full bg-gradient-to-r from-violet-500/25 via-transparent to-transparent" />
-      {}
-      <SponsorsTabs sponsors={list} initialSelectedId={null} />
-    </div>
-  )
-}
 
 export default function Main({ posts }: { posts: Post[] }) {
   const latest = posts?.slice(0, 3) ?? []
 
-  const partners = SPONSORS.filter((s) => s.tier === 'Partner')
-  const platinum = SPONSORS.filter((s) => s.tier === 'Platinum')
-  const gold = SPONSORS.filter((s) => s.tier === 'Gold')
-  const silver = SPONSORS.filter((s) => s.tier === 'Silver')
-  const bronze = SPONSORS.filter((s) => s.tier === 'Bronze')
-  const infra = SPONSORS.filter((s) => s.tier === 'Infra')
-
   return (
-    <div className="space-y-24 overflow-x-hidden">
-      <section className="relative overflow-hidden">
-        <div aria-hidden className="pointer-events-none absolute inset-0 -z-10">
-          <div className="absolute left-1/2 top-[-220px] h-[520px] w-[900px] -translate-x-1/2 rounded-full bg-[radial-gradient(closest-side,rgba(139,92,246,0.20),transparent_70%)] blur-2xl" />
-        </div>
+    <div className="w-full">
+      {/* ---- the event, as the focused window in the session ---- */}
+      <section className="w-full p-2 sm:p-3">
+        <div className="grid w-full grid-cols-1 gap-2 sm:gap-3 lg:grid-cols-12">
+          <div
+            className="pane pane-focus tile-in flex flex-col overflow-hidden lg:col-span-8 xl:col-span-9"
+            style={{ animationDelay: '40ms' }}
+          >
+            <div className="pane-title justify-between">
+              <span className="flex min-w-0 items-center gap-2">
+                <span className="bg-accent inline-block h-1.5 w-1.5 shrink-0 rounded-full" />
+                <span className="text-dim truncate normal-case">omnictf@finals:~</span>
+              </span>
+              <span className="shrink-0">
+                {EVENT.format} · {EVENT.durationLabel}
+              </span>
+            </div>
 
-        <div className="mx-auto max-w-6xl px-4 pt-14 pb-10 sm:pt-20 sm:pb-16">
-          <div className="mx-auto max-w-4xl text-center">
-            <span className="inline-flex items-center gap-2 rounded-full border border-violet-500/25 bg-white/70 px-3 py-1 text-xs font-semibold tracking-wide text-violet-700 shadow-sm backdrop-blur dark:border-violet-400/20 dark:bg-zinc-900/55 dark:text-violet-300">
-              <span className="inline-block h-1.5 w-1.5 rounded-full bg-violet-500" />
-              {EVENT.format.toUpperCase()} · {EVENT.durationLabel.toUpperCase()}
-            </span>
+            <div className="flex flex-1 flex-col justify-center px-5 py-10 sm:px-10 sm:py-14 xl:px-14">
+              <h1 className="text-fg text-[clamp(2rem,5.2vw,5rem)] leading-[1.02] font-semibold tracking-[-0.045em]">
+                {EVENT.name}
+              </h1>
 
-            <h1 className="mt-6 bg-gradient-to-b from-zinc-950 to-zinc-700 bg-clip-text text-4xl font-extrabold leading-tight tracking-tight text-transparent sm:text-5xl md:text-6xl dark:from-white dark:to-zinc-300">
-              {EVENT.name}
-            </h1>
+              <p className="mt-6 flex flex-wrap items-baseline gap-x-3 gap-y-1 text-base sm:text-xl">
+                <span className="text-accent" aria-hidden>
+                  {'>'}
+                </span>
+                <span className="text-fg font-medium">{EVENT.dateLabel}</span>
+                <span className="text-line-strong" aria-hidden>
+                  ·
+                </span>
+                <span className="text-accent tabnum font-medium">{EVENT.timeLabel}</span>
+              </p>
 
-            <p className="mt-4 text-lg font-semibold text-violet-700 dark:text-violet-300 sm:text-xl">
-              {'>'} &nbsp; {EVENT.dateLabel} &nbsp; {'·'} &nbsp; {EVENT.timeLabel}
-            </p>
+              <p className="text-mute tabnum mt-1.5 text-xs sm:text-sm">{EVENT.localTimeLabel}</p>
 
-            <p className="mt-2 text-sm font-medium text-zinc-600 dark:text-zinc-400">
-              {EVENT.localTimeLabel}
-            </p>
-
-            <a
-              href={EVENT.venueUrl}
-              target="_blank"
-              rel="noreferrer"
-              className="mt-5 inline-flex items-center gap-2 rounded-full border border-violet-500/25 bg-white/70 px-4 py-2 text-sm font-semibold text-zinc-800 shadow-sm backdrop-blur transition hover:border-violet-500/50 hover:bg-white hover:shadow-md focus:outline-none focus:ring-2 focus:ring-violet-400/50 dark:border-violet-400/20 dark:bg-zinc-900/50 dark:text-zinc-100 dark:hover:bg-zinc-900"
-            >
-              <svg
-                aria-hidden
-                viewBox="0 0 24 24"
-                fill="currentColor"
-                className="h-4 w-4 text-violet-600 dark:text-violet-300"
+              <a
+                href={EVENT.venueUrl}
+                target="_blank"
+                rel="noreferrer"
+                className="border-line bg-inset text-dim hover:border-accent/50 hover:text-fg group mt-6 inline-flex w-fit items-center gap-2 rounded border px-3 py-2 text-sm transition-colors"
               >
-                <path d="M12 2a7 7 0 0 0-7 7c0 5.25 7 13 7 13s7-7.75 7-13a7 7 0 0 0-7-7zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5z" />
-              </svg>
-              {EVENT.venue} {'·'} {EVENT.venueCity}
-            </a>
+                <MapPin className="text-accent h-4 w-4 shrink-0" strokeWidth={2} aria-hidden />
+                <span>
+                  {EVENT.venue} · {EVENT.venueCity}
+                </span>
+                <ArrowUpRight
+                  className="text-mute group-hover:text-accent h-3.5 w-3.5 shrink-0 transition-colors"
+                  strokeWidth={2}
+                  aria-hidden
+                />
+              </a>
 
-            <p className="mx-auto mt-6 max-w-2xl text-balance text-zinc-700 dark:text-zinc-300">
-              A CTF built on Team work, creativity, and clean execution. Compete at a high level and
-              prove you can ship under pressure.
-            </p>
+              <p className="text-dim mt-8 max-w-[68ch] text-sm leading-relaxed sm:text-base">
+                A CTF built on Team work, creativity, and clean execution. Compete at a high level
+                and prove you can ship under pressure.
+              </p>
 
-            <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
+              <div className="mt-8 flex flex-wrap items-center gap-2">
+                <a
+                  href={LINKS.register}
+                  className="bg-accent text-accent-ink hover:bg-accent-strong inline-flex items-center gap-2 rounded px-4 py-2.5 text-sm font-semibold transition-colors"
+                >
+                  Register
+                  <ArrowRight className="h-4 w-4" strokeWidth={2.5} aria-hidden />
+                </a>
+                <a
+                  href={LINKS.login}
+                  className="border-line-strong text-fg hover:border-accent hover:text-accent inline-flex items-center rounded border px-4 py-2.5 text-sm font-semibold transition-colors"
+                >
+                  Login
+                </a>
+                <a
+                  href={LINKS.discord}
+                  className="text-dim hover:text-fg hover:bg-raise inline-flex items-center gap-2 rounded px-4 py-2.5 text-sm font-medium transition-colors"
+                >
+                  Join Discord
+                  <ArrowUpRight className="h-3.5 w-3.5" strokeWidth={2} aria-hidden />
+                </a>
+              </div>
+
+              <p className="text-mute mt-5 max-w-[62ch] text-xs leading-relaxed">
+                Registration on the competition infrastructure requires completing the form first;
+                you’ll then receive your access code from our staff.
+              </p>
+            </div>
+          </div>
+
+          <div className="flex flex-col gap-2 sm:gap-3 lg:col-span-4 xl:col-span-3">
+            <div className="tile-in" style={{ animationDelay: '120ms' }}>
               {EVENT.mode === 'countdown' ? (
                 <CountdownCard targetIso={EVENT.countdownTargetIso} title="Time until kickoff" />
               ) : (
-                <div className="rounded-2xl border border-red-500/25 bg-red-500/10 px-6 py-4 text-center text-sm font-semibold text-red-600 shadow-sm dark:border-red-400/20 dark:text-red-300">
-                  Preparing for the 2026 event. Be ready.
+                <div className="pane">
+                  <div className="pane-title">status</div>
+                  <p className="text-ansi-red p-4 text-sm font-semibold">
+                    Preparing for the 2026 event. Be ready.
+                  </p>
                 </div>
               )}
             </div>
 
-            <div className="mt-8 flex flex-wrap justify-center gap-2">
-              <Pill>12 Spots For 2026 Finals</Pill>
+            <div
+              className="pane tile-in flex flex-1 flex-col overflow-hidden"
+              style={{ animationDelay: '180ms' }}
+            >
+              <div className="pane-title">event.spec</div>
+              <dl className="flex-1 divide-y divide-[var(--c-line)] text-xs">
+                {EVENT_SPEC.map(([k, v]) => (
+                  <div key={k} className="flex items-baseline gap-3 px-3 py-2">
+                    <dt className="text-mute w-[4.5rem] shrink-0">{k}</dt>
+                    <dd className="text-dim min-w-0 flex-1 break-words">{v}</dd>
+                  </div>
+                ))}
+              </dl>
+              <div className="border-line bg-accent-wash text-accent border-t px-3 py-2.5 text-xs font-semibold">
+                12 Spots For 2026 Finals
+              </div>
             </div>
-
-            <div className="mt-10 flex flex-wrap justify-center gap-3">
-              <a
-                href={LINKS.discord}
-                className="inline-flex items-center justify-center rounded-xl border border-zinc-300 bg-white/70 px-5 py-2.5 text-sm font-semibold text-zinc-900 shadow-sm backdrop-blur transition hover:bg-white hover:shadow-md focus:outline-none focus:ring-2 focus:ring-violet-400/50 dark:border-white/15 dark:bg-zinc-900/50 dark:text-white dark:hover:bg-zinc-900"
-              >
-                Join Discord
-              </a>
-            </div>
-
-            <p className="mx-auto mt-6 max-w-2xl text-center text-sm text-zinc-600 dark:text-zinc-400">
-              Registration on the competition infrastructure requires completing the form first;
-              you’ll then receive your access code from our staff.
-            </p>
-
-            <div className="mt-10 flex flex-wrap justify-center gap-3">
-              <a
-                href={LINKS.register}
-                className="inline-flex items-center justify-center rounded-xl border border-violet-500/25 bg-white/70 px-5 py-2.5 text-sm font-semibold text-violet-800 shadow-sm backdrop-blur transition hover:border-violet-500/50 hover:bg-white hover:shadow-md focus:outline-none focus:ring-2 focus:ring-violet-400/50 dark:border-violet-400/20 dark:bg-zinc-900/50 dark:text-violet-200 dark:hover:bg-zinc-900"
-              >
-                Register
-              </a>
-              <a
-                href={LINKS.login}
-                className="inline-flex items-center justify-center rounded-xl bg-violet-600 px-5 py-2.5 text-sm font-semibold text-white shadow-lg shadow-violet-600/20 transition hover:bg-violet-500 focus:outline-none focus:ring-2 focus:ring-violet-400/60"
-              >
-                Login
-              </a>
-            </div>
-
-            <div className="mx-auto mt-14 h-px max-w-4xl bg-gradient-to-r from-transparent via-violet-500/25 to-transparent" />
           </div>
         </div>
       </section>
 
-      <section id="sponsors-partners" className="mx-auto max-w-6xl px-4">
-        <SectionHeader title="Partnerships & Sponsorships" subtitle="Organizations supporting OmniCTF - thank you." />
-
-        <TierBlock title="Partners" list={partners} />
-        <TierBlock title="Platinum Sponsors" list={platinum} />
-        <TierBlock title="Gold Sponsors" list={gold} />
-        <TierBlock title="Silver Sponsors" list={silver} />
-        <TierBlock title="Bronze Sponsors" list={bronze} />
-        <TierBlock title="Infrastructure Sponsor" list={infra} />
-
-        <div className="mx-auto mt-12 h-px max-w-5xl bg-gradient-to-r from-transparent via-violet-500/25 to-transparent" />
-      </section>
-
-      <section id="categories" className="mx-auto max-w-6xl px-4">
+      {/* ---- categories ---- */}
+      <section id="categories" className="w-full px-2 pt-12 sm:px-3 sm:pt-16">
         <SectionHeader
           title="Challenge Categories"
           subtitle="A curated set of problems spanning core offensive & analytical security domains."
         />
-        <div className="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-4">
+        <div className="mt-6 grid grid-cols-1 gap-2 sm:grid-cols-2 sm:gap-3 lg:grid-cols-4 2xl:grid-cols-8">
           {categories.map((c) => (
-            <div
-              key={c.name}
-              className="group relative overflow-hidden rounded-2xl border border-violet-500/15 bg-white/70 p-5 shadow-sm backdrop-blur transition hover:-translate-y-0.5 hover:border-violet-500/40 hover:shadow-md dark:border-violet-400/10 dark:bg-zinc-900/50"
-            >
-              <div className="absolute inset-0 opacity-0 transition group-hover:opacity-100">
-                <div className="absolute -left-10 top-1/2 h-32 w-32 -translate-y-1/2 rounded-full bg-violet-500/15 blur-2xl" />
-                <div className="absolute -right-10 top-1/2 h-32 w-32 -translate-y-1/2 rounded-full bg-fuchsia-500/10 blur-2xl" />
-              </div>
-              <div className="relative">
-                <div className="text-lg font-extrabold tracking-tight text-violet-800 dark:text-violet-300">
+            <div key={c.name} className="pane pane-hover group flex items-stretch overflow-hidden">
+              <span
+                className="w-[3px] shrink-0 opacity-70 transition-opacity group-hover:opacity-100"
+                style={{ background: c.color }}
+                aria-hidden
+              />
+              <div className="min-w-0 p-4">
+                <div
+                  className="truncate text-sm font-semibold tracking-tight"
+                  style={{ color: c.color }}
+                >
                   {c.name}
                 </div>
-                <div className="mt-1 text-sm text-zinc-600 dark:text-zinc-400">{c.hint}</div>
+                <div className="text-mute mt-1 text-xs">{c.hint}</div>
               </div>
             </div>
           ))}
         </div>
       </section>
 
+      {/* ---- sponsors ---- */}
+      <section id="sponsors-partners" className="w-full px-2 pt-16 sm:px-3 sm:pt-20">
+        <SectionHeader
+          title="Partnerships & Sponsorships"
+          subtitle="Organizations supporting OmniCTF - thank you."
+        />
+
+        <SponsorsBoard sponsors={SPONSORS} />
+      </section>
+
+      {/* ---- latest posts ---- */}
       {latest.length > 0 && (
-        <section className="mx-auto max-w-6xl px-4">
+        <section className="w-full px-2 pt-16 pb-16 sm:px-3 sm:pt-20 sm:pb-20">
           <SectionHeader
             title="Latest posts"
             subtitle="Announcements, writeups, and updates from the team."
             right={
               <Link
                 href="/blog"
-                className="inline-flex items-center gap-2 rounded-xl border border-zinc-300 bg-white/70 px-4 py-2 text-sm font-semibold text-zinc-900 shadow-sm backdrop-blur transition hover:bg-white hover:shadow-md focus:outline-none focus:ring-2 focus:ring-violet-400/50 dark:border-violet-400/20 dark:bg-zinc-900/50 dark:text-violet-200 dark:hover:bg-zinc-900"
+                className="text-dim hover:text-accent inline-flex items-center gap-1.5 text-sm font-medium transition-colors"
               >
-                View all <span className="opacity-70">→</span>
+                View all
+                <ArrowRight className="h-3.5 w-3.5" strokeWidth={2} aria-hidden />
               </Link>
             }
           />
 
-          <div className="mt-10 grid grid-cols-1 gap-4 md:grid-cols-3">
+          <div className="mt-6 grid grid-cols-1 gap-2 sm:gap-3 md:grid-cols-3">
             {latest.map((post) => (
-              <article
-                key={post.path}
-                className="rounded-2xl border border-violet-500/15 bg-white/70 p-5 shadow-sm backdrop-blur transition hover:-translate-y-0.5 hover:shadow-md dark:border-violet-400/10 dark:bg-zinc-900/50"
-              >
-                <dl>
-                  <dt className="sr-only">Published on</dt>
-                  <dd className="text-xs font-semibold uppercase tracking-wide text-zinc-500 dark:text-zinc-400">
-                    <time dateTime={post.date} suppressHydrationWarning>
-                      {formatDate(post.date, siteMetadata.locale)}
-                    </time>
-                  </dd>
-                </dl>
+              <article key={post.path} className="pane pane-hover flex flex-col overflow-hidden">
+                <div className="pane-title justify-between">
+                  <time className="tabnum normal-case" dateTime={post.date} suppressHydrationWarning>
+                    {formatDate(post.date, siteMetadata.locale)}
+                  </time>
+                </div>
 
-                <h3 className="mt-3 text-xl font-extrabold tracking-tight text-zinc-900 dark:text-zinc-100">
-                  <Link href={`/${post.path}`}>{post.title}</Link>
-                </h3>
+                <div className="flex flex-1 flex-col p-4">
+                  <h3 className="text-fg hover:text-accent text-base font-semibold tracking-tight transition-colors">
+                    <Link href={`/${post.path}`}>{post.title}</Link>
+                  </h3>
 
-                {post.authorsData?.length ? (
-                  <div className="mt-2 flex flex-wrap items-center gap-2 text-xs text-zinc-600 dark:text-zinc-400">
-                    {post.authorsData.map((a) => (
-                      <span key={`${post.path}-${a.slug ?? a.name}`} className="inline-flex items-center gap-2">
-                        {a.avatar ? <img src={a.avatar} alt={a.name ?? 'Author'} className="h-5 w-5 rounded-full" /> : null}
-                        {a.slug ? <Link href={`/members/${a.slug}`}>{a.name}</Link> : <span>{a.name}</span>}
-                      </span>
-                    ))}
-                  </div>
-                ) : null}
+                  {post.authorsData?.length ? (
+                    <div className="text-mute mt-2 flex flex-wrap items-center gap-2 text-xs">
+                      {post.authorsData.map((a) => (
+                        <span
+                          key={`${post.path}-${a.slug ?? a.name}`}
+                          className="inline-flex items-center gap-1.5"
+                        >
+                          {a.avatar ? (
+                            <img
+                              src={a.avatar}
+                              alt=""
+                              className="border-line h-4 w-4 rounded-full border object-cover"
+                            />
+                          ) : null}
+                          {a.slug ? (
+                            <Link href={`/members/${a.slug}`} className="hover:text-accent">
+                              {a.name}
+                            </Link>
+                          ) : (
+                            <span>{a.name}</span>
+                          )}
+                        </span>
+                      ))}
+                    </div>
+                  ) : null}
 
-                <p className="mt-3 line-clamp-3 text-sm text-zinc-600 dark:text-zinc-400">{post.summary}</p>
+                  <p className="text-dim mt-3 line-clamp-3 flex-1 text-sm leading-relaxed">
+                    {post.summary}
+                  </p>
 
-                {post.tags?.length ? (
-                  <div className="mt-4 flex flex-wrap">
-                    {post.tags.slice(0, 3).map((t) => (
-                      <Tag key={`${post.path}-${t}`} text={t} />
-                    ))}
-                  </div>
-                ) : null}
+                  {post.tags?.length ? (
+                    <div className="mt-4 flex flex-wrap gap-x-3 gap-y-1">
+                      {post.tags.slice(0, 3).map((t) => (
+                        <Tag key={`${post.path}-${t}`} text={t} />
+                      ))}
+                    </div>
+                  ) : null}
+                </div>
               </article>
             ))}
-          </div>
-        </section>
-      )}
-
-      {siteMetadata.newsletter?.provider && (
-        <section className="mx-auto max-w-2xl px-4 pb-8">
-          <div className="rounded-3xl bg-gradient-to-b from-violet-500/25 via-violet-500/10 to-transparent p-[1px]">
-            <div className="rounded-3xl border border-violet-500/15 bg-white/70 p-6 shadow-lg shadow-violet-500/10 backdrop-blur dark:border-violet-400/10 dark:bg-zinc-900/60">
-              <NewsletterForm />
-            </div>
           </div>
         </section>
       )}

@@ -7,26 +7,27 @@ type Parts = { days: number; hours: number; minutes: number; seconds: number; fi
 function getParts(target: Date, now: Date): Parts {
   const diff = target.getTime() - now.getTime()
   if (diff <= 0) return { days: 0, hours: 0, minutes: 0, seconds: 0, finished: true }
-  const days = Math.floor(diff / (1000 * 60 * 60 * 24))
-  const hours = Math.floor((diff / (1000 * 60 * 60)) % 24)
-  const minutes = Math.floor((diff / (1000 * 60)) % 60)
-  const seconds = Math.floor((diff / 1000) % 60)
-  return { days, hours, minutes, seconds, finished: false }
+  return {
+    days: Math.floor(diff / 86400000),
+    hours: Math.floor((diff / 3600000) % 24),
+    minutes: Math.floor((diff / 60000) % 60),
+    seconds: Math.floor((diff / 1000) % 60),
+    finished: false,
+  }
 }
 
-function TimeBox({ label, value, pulse }: { label: string; value: number; pulse?: boolean }) {
+function Cell({ label, value, live }: { label: string; value: number; live?: boolean }) {
   return (
-    <div className="flex flex-col items-center">
+    <div className="flex min-w-0 flex-1 flex-col items-center">
       <div
         className={[
-          'w-20 rounded-2xl border border-white/10 bg-zinc-950/85 px-3 py-3 text-center font-mono text-2xl font-extrabold text-violet-200 shadow-inner shadow-black/20',
-          'dark:bg-black/40 dark:text-violet-200',
-          pulse ? 'motion-safe:animate-[pulse_1.2s_ease-in-out_infinite]' : '',
+          'tabnum border-line bg-inset w-full rounded border py-2.5 text-center text-2xl font-semibold sm:text-3xl',
+          live ? 'text-accent' : 'text-fg',
         ].join(' ')}
       >
         {String(value).padStart(2, '0')}
       </div>
-      <span className="mt-2 text-xs font-semibold uppercase tracking-wide text-zinc-600 dark:text-zinc-400">
+      <span className="text-mute mt-1.5 text-[10px] font-semibold tracking-[0.12em] uppercase">
         {label}
       </span>
     </div>
@@ -41,33 +42,49 @@ export default function CountdownCard({
   title?: string
 }) {
   const target = useMemo(() => new Date(targetIso), [targetIso])
-  const [now, setNow] = useState<Date>(() => new Date())
+  const [now, setNow] = useState<Date | null>(null)
 
   useEffect(() => {
+    setNow(new Date())
     const id = setInterval(() => setNow(new Date()), 1000)
     return () => clearInterval(id)
   }, [])
 
-  const { days, hours, minutes, seconds, finished } = getParts(target, now)
+  const parts = now ? getParts(target, now) : null
 
   return (
-    <div className="rounded-3xl border border-violet-500/20 bg-white/60 p-4 shadow-lg shadow-violet-500/10 backdrop-blur dark:border-violet-400/15 dark:bg-zinc-900/55">
-      <div className="mb-3 flex items-center justify-center text-xs font-semibold uppercase tracking-wide text-zinc-600 dark:text-zinc-400">
-        {title}
+    <div className="pane flex flex-col">
+      <div className="pane-title justify-between">
+        <span>{title}</span>
+        <span className="text-mute normal-case">
+          {new Intl.DateTimeFormat('en-GB', {
+            day: '2-digit',
+            month: 'short',
+            timeZone: 'UTC',
+          }).format(target)}
+        </span>
       </div>
 
-      {finished ? (
-        <div className="rounded-2xl bg-emerald-600/15 px-4 py-3 text-center text-sm font-semibold text-emerald-300">
-          Ended
-        </div>
-      ) : (
-        <div className="flex gap-3 text-center">
-          <TimeBox label="Days" value={days} />
-          <TimeBox label="Hours" value={hours} />
-          <TimeBox label="Minutes" value={minutes} />
-          <TimeBox label="Seconds" value={seconds} pulse />
-        </div>
-      )}
+      <div className="p-3">
+        {parts === null ? (
+          <div className="flex gap-2" aria-hidden>
+            {['Days', 'Hours', 'Minutes', 'Seconds'].map((l) => (
+              <Cell key={l} label={l} value={0} />
+            ))}
+          </div>
+        ) : parts.finished ? (
+          <div className="border-ansi-green/40 bg-ansi-green/10 text-ansi-green rounded border px-4 py-4 text-center text-sm font-semibold">
+            Ended
+          </div>
+        ) : (
+          <div className="flex gap-2">
+            <Cell label="Days" value={parts.days} />
+            <Cell label="Hours" value={parts.hours} />
+            <Cell label="Minutes" value={parts.minutes} />
+            <Cell label="Seconds" value={parts.seconds} live />
+          </div>
+        )}
+      </div>
     </div>
   )
 }

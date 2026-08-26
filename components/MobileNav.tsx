@@ -3,9 +3,15 @@
 import { Dialog, DialogPanel, Transition, TransitionChild } from '@headlessui/react'
 import { disableBodyScroll, enableBodyScroll, clearAllBodyScrollLocks } from 'body-scroll-lock'
 import { Fragment, useState, useEffect, useRef } from 'react'
+import { Menu as MenuIcon, X } from 'lucide-react'
 import Link from './Link'
 import headerNavLinks from '@/data/headerNavLinks'
+import { EVENT } from '@/data/event'
 
+/**
+ * On a phone there is no keyboard to bind, so the workspace list becomes the
+ * launcher itself: full screen, one row per route, digits kept as addresses.
+ */
 const MobileNav = () => {
   const [navShow, setNavShow] = useState(false)
   const navRef = useRef(null)
@@ -15,88 +21,88 @@ const MobileNav = () => {
       if (status) {
         enableBodyScroll(navRef.current)
       } else {
-        // Prevent scrolling
         disableBodyScroll(navRef.current)
       }
       return !status
     })
   }
 
-  useEffect(() => {
-    return clearAllBodyScrollLocks
-  })
+  useEffect(() => clearAllBodyScrollLocks, [])
 
   return (
     <>
-      <button aria-label="Toggle Menu" onClick={onToggleNav} className="sm:hidden">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 20 20"
-          fill="currentColor"
-          className="hover:text-purple-500 dark:hover:text-purple-400 h-8 w-8 text-gray-900 dark:text-gray-100"
-        >
-          <path
-            fillRule="evenodd"
-            d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
-            clipRule="evenodd"
-          />
-        </svg>
+      <button
+        aria-label="Toggle Menu"
+        onClick={onToggleNav}
+        className="border-line bg-inset text-dim hover:text-fg flex h-[26px] w-[26px] items-center justify-center rounded border transition-colors sm:hidden"
+      >
+        <MenuIcon className="h-3.5 w-3.5" strokeWidth={2} />
       </button>
+
       <Transition appear show={navShow} as={Fragment} unmount={false}>
         <Dialog as="div" onClose={onToggleNav} unmount={false}>
           <TransitionChild
             as={Fragment}
-            enter="ease-out duration-300"
+            enter="ease-out duration-200"
             enterFrom="opacity-0"
             enterTo="opacity-100"
-            leave="ease-in duration-200"
+            leave="ease-in duration-150"
             leaveFrom="opacity-100"
             leaveTo="opacity-0"
             unmount={false}
           >
-            <div className="fixed inset-0 z-60 bg-black/25" />
+            <div className="bg-bg/80 fixed inset-0 z-60 backdrop-blur-sm" />
           </TransitionChild>
 
           <TransitionChild
             as={Fragment}
-            enter="transition ease-in-out duration-300 transform"
-            enterFrom="translate-x-full opacity-0"
-            enterTo="translate-x-0 opacity-95"
-            leave="transition ease-in duration-200 transform"
-            leaveFrom="translate-x-0 opacity-95"
-            leaveTo="translate-x-full opacity-0"
+            enter="transition ease-out duration-200"
+            enterFrom="opacity-0 scale-[0.98]"
+            enterTo="opacity-100 scale-100"
+            leave="transition ease-in duration-150"
+            leaveFrom="opacity-100 scale-100"
+            leaveTo="opacity-0 scale-[0.98]"
             unmount={false}
           >
-            <DialogPanel className="fixed top-0 left-0 z-70 h-full w-full bg-white/95 duration-300 dark:bg-gray-950/98">
-              <nav
-                ref={navRef}
-                className="mt-8 flex h-full basis-0 flex-col items-start overflow-y-auto pt-2 pl-12 text-left"
-              >
-                {headerNavLinks.map((link) => (
-                  <Link
-                    key={link.title}
-                    href={link.href}
-                    className="hover:text-purple-500 dark:hover:text-purple-400 mb-4 py-2 pr-4 text-2xl font-bold tracking-widest text-gray-900 outline outline-0 dark:text-gray-100"
+            <DialogPanel className="fixed inset-0 z-70 flex flex-col p-3">
+              <div className="pane flex min-h-0 flex-1 flex-col overflow-hidden">
+                <div className="pane-title justify-between">
+                  <span>launcher</span>
+                  <button
+                    aria-label="Close menu"
                     onClick={onToggleNav}
+                    className="text-mute hover:text-fg -mr-1 flex h-6 w-6 items-center justify-center rounded transition-colors"
                   >
-                    {link.title}
-                  </Link>
-                ))}
-              </nav>
+                    <X className="h-4 w-4" strokeWidth={2} />
+                  </button>
+                </div>
 
-              <button
-                className="hover:text-purple-500 dark:hover:text-purple-400 fixed top-7 right-4 z-80 h-16 w-16 p-4 text-gray-900 dark:text-gray-100"
-                aria-label="Toggle Menu"
-                onClick={onToggleNav}
-              >
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                  <path
-                    fillRule="evenodd"
-                    d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-                    clipRule="evenodd"
-                  />
-                </svg>
-              </button>
+                <nav ref={navRef} className="min-h-0 flex-1 overflow-y-auto p-2">
+                  {headerNavLinks.map((link, i) => (
+                    <Link
+                      key={link.title}
+                      href={link.href}
+                      className="text-fg hover:bg-raise hover:text-accent flex items-center gap-3 rounded px-3 py-3 text-base font-medium transition-colors"
+                      onClick={onToggleNav}
+                    >
+                      <span className="text-mute tabnum w-4 text-xs" aria-hidden>
+                        {i === 0 ? 0 : i}
+                      </span>
+                      {link.title}
+                    </Link>
+                  ))}
+                </nav>
+
+                <div className="border-line text-mute border-t px-4 py-3 text-xs">
+                  <div className="text-dim">{EVENT.name}</div>
+                  <div className="tabnum mt-0.5">
+                    {EVENT.dateLabel} · {EVENT.timeLabel}
+                  </div>
+                  <div className="mt-0.5">
+                    {EVENT.venue} · {EVENT.venueCity}
+                  </div>
+                </div>
+              </div>
             </DialogPanel>
           </TransitionChild>
         </Dialog>
