@@ -16,10 +16,11 @@ The audience reads logs for fun. Density and precision are the courtesy; decorat
 ## Ground rules
 
 1. **Full bleed.** The session fills the display. Content runs edge to edge with a WM gutter
-   (`p-2 sm:p-3`, an 8–12px gap between panes). Only long-form reading re-imposes a measure.
+   (`p-[var(--hypr-gap-out)]`, default 12px, with `--hypr-gap-in` between panes, default 8px —
+   both live-editable from hyprland.conf). Only long-form reading re-imposes a measure.
 2. **One focused pane per view.** `.pane-focus` marks the single window that matters on a route:
    the event on `/`, the roster on `/members`, the document on a post. Never two.
-3. **Panes, not cards.** A pane is `background + 1px line + 6px radius`, optionally with a
+3. **Panes, not cards.** A pane is `background + var(--hypr-border) line + var(--hypr-rounding)`, optionally with a
    `.pane-title` strip naming what it holds. Nested panes are wrong.
 4. **Colour is data.** Violet is the brand and the only accent that means "act" or "you are
    here". The ANSI channels carry meaning (a category, a status, a diff) and never decorate.
