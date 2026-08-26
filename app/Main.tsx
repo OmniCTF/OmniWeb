@@ -19,13 +19,18 @@ type Post = {
 }
 
 const EVENT = {
-  name: 'OmniCTF 2026',
-  format: 'Online',
-  durationLabel: '48 hours',
-  dateLabel: '17th - 19th July',
-  timeLabel: '15:00 PM – 15:00 PM UTC',
+  name: 'OmniCTF 2026 Finals',
+  format: 'On-site',
+  durationLabel: '10 hours',
+  dateLabel: '19th September',
+  timeLabel: '06:00 – 16:00 UTC',
+  localTimeLabel: '09:00 – 19:00 local time (EEST)',
+  venue: 'Ovidius University',
+  venueCity: 'Constanța, Romania',
+  venueUrl:
+    'https://www.google.com/maps/search/?api=1&query=Universitatea+Ovidius+din+Constanta',
   mode: 'countdown' as 'preparing' | 'countdown',
-  countdownTargetIso: '2026-07-17T15:00:00.000Z',
+  countdownTargetIso: '2026-09-19T06:00:00.000Z',
 }
 
 const LINKS = {
@@ -105,6 +110,27 @@ export default function Main({ posts }: { posts: Post[] }) {
             <p className="mt-4 text-lg font-semibold text-violet-700 dark:text-violet-300 sm:text-xl">
               {'>'} &nbsp; {EVENT.dateLabel} &nbsp; {'·'} &nbsp; {EVENT.timeLabel}
             </p>
+
+            <p className="mt-2 text-sm font-medium text-zinc-600 dark:text-zinc-400">
+              {EVENT.localTimeLabel}
+            </p>
+
+            <a
+              href={EVENT.venueUrl}
+              target="_blank"
+              rel="noreferrer"
+              className="mt-5 inline-flex items-center gap-2 rounded-full border border-violet-500/25 bg-white/70 px-4 py-2 text-sm font-semibold text-zinc-800 shadow-sm backdrop-blur transition hover:border-violet-500/50 hover:bg-white hover:shadow-md focus:outline-none focus:ring-2 focus:ring-violet-400/50 dark:border-violet-400/20 dark:bg-zinc-900/50 dark:text-zinc-100 dark:hover:bg-zinc-900"
+            >
+              <svg
+                aria-hidden
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                className="h-4 w-4 text-violet-600 dark:text-violet-300"
+              >
+                <path d="M12 2a7 7 0 0 0-7 7c0 5.25 7 13 7 13s7-7.75 7-13a7 7 0 0 0-7-7zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5z" />
+              </svg>
+              {EVENT.venue} {'·'} {EVENT.venueCity}
+            </a>
 
             <p className="mx-auto mt-6 max-w-2xl text-balance text-zinc-700 dark:text-zinc-300">
               A CTF built on Team work, creativity, and clean execution. Compete at a high level and
