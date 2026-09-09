@@ -63,7 +63,6 @@ const ContentSecurityPolicy = `
   media-src 'self' *.s3.amazonaws.com;
 `;
 
-
 const securityHeaders = [
   {
     key: 'Content-Security-Policy',
@@ -81,7 +80,6 @@ const output = process.env.EXPORT ? 'export' : undefined
 const basePath = process.env.BASE_PATH || undefined
 const unoptimized = process.env.UNOPTIMIZED ? true : undefined
 
-/** @type {import('next').NextConfig} */
 const baseConfig = {
   output,
   basePath,

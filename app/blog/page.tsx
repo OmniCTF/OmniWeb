@@ -10,7 +10,6 @@ export const metadata = genPageMetadata({ title: 'Blog' })
 export default async function BlogPage(props: { searchParams: Promise<{ page: string }> }) {
   const posts = allCoreContent(sortPosts(allBlogs))
 
-  // Enrich posts with author data
   const enrichedPosts = posts.map((post) => {
     const authorsData = post.authors?.map((slug) => {
       const author = allAuthors.find((a) => a.slug === slug)

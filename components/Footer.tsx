@@ -4,10 +4,6 @@ import SocialIcon from '@/components/social-icons'
 import Logo from '@/data/logo.svg'
 import { EVENT } from '@/data/event'
 
-/**
- * The footer is the session's system readout: the art slot on the left, a
- * key/value column on the right. Every legal string is carried verbatim.
- */
 function Row({ label, children }: { label: string; children: React.ReactNode }) {
   return (
     <div className="border-line/70 flex flex-col gap-1 border-b py-2.5 last:border-b-0 sm:flex-row sm:gap-4">
@@ -31,7 +27,7 @@ export default function Footer() {
             <div className="flex flex-col items-start gap-5">
               <Logo className="h-20 w-20" />
               <div>
-                <div className="text-fg text-lg font-semibold tracking-tight">
+                <div className="text-fg text-lg font-semibold tracking-normal">
                   {siteMetadata.title}
                 </div>
                 <p className="text-mute mt-1 text-xs">{siteMetadata.description}</p>

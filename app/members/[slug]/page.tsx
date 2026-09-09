@@ -57,7 +57,6 @@ export default async function MemberProfile({ params }: MemberPageProps) {
   return (
     <div className="w-full p-[var(--hypr-gap-out)]">
       <div className="grid grid-cols-1 gap-[var(--hypr-gap-in)] xl:grid-cols-[minmax(0,420px)_minmax(0,1fr)]">
-        {/* identity */}
         <div className="flex flex-col gap-[var(--hypr-gap-in)]">
           <div className="pane pane-focus overflow-hidden">
             <div className="pane-title justify-between">
@@ -84,23 +83,25 @@ export default async function MemberProfile({ params }: MemberPageProps) {
 
                 <div className="min-w-0">
                   <div className="flex flex-wrap items-center gap-2">
-                    <h1 className="text-fg text-2xl font-semibold tracking-[-0.035em]">
+                    <h1 className="text-fg text-2xl font-semibold tracking-normal">
                       {member.displayName}
                     </h1>
                     {member.is_admin ? (
-                      <span className="border-ansi-yellow/40 text-ansi-yellow rounded border px-1.5 py-px text-[10px] font-semibold">
+                      <span className="border-ansi-yellow/40 text-ansi-yellow rounded border px-1.5 py-px text-[11px] font-semibold">
                         admin
                       </span>
                     ) : null}
                     {retired ? (
-                      <span className="border-line-strong text-mute rounded border px-1.5 py-px text-[10px] font-semibold">
+                      <span className="border-line-strong text-mute rounded border px-1.5 py-px text-[11px] font-semibold">
                         retired
                       </span>
                     ) : null}
                   </div>
 
                   {member.position ? (
-                    <p className={['mt-1 text-sm', retired ? 'text-mute' : 'text-accent'].join(' ')}>
+                    <p
+                      className={['mt-1 text-sm', retired ? 'text-mute' : 'text-accent'].join(' ')}
+                    >
                       {member.position}
                     </p>
                   ) : null}
@@ -203,7 +204,6 @@ export default async function MemberProfile({ params }: MemberPageProps) {
           </Link>
         </div>
 
-        {/* output */}
         <div className="pane min-w-0 overflow-hidden">
           <div className="pane-title justify-between">
             <span className="normal-case">~/members/{slug}/writeups</span>
@@ -211,7 +211,7 @@ export default async function MemberProfile({ params }: MemberPageProps) {
           </div>
 
           <div className="border-line border-b px-5 py-5">
-            <h2 className="text-fg text-xl font-semibold tracking-tight">Writeups</h2>
+            <h2 className="text-fg text-xl font-semibold tracking-normal">Writeups</h2>
             <p className="text-mute mt-1.5 text-sm">Posts authored by this member.</p>
           </div>
 
@@ -221,7 +221,7 @@ export default async function MemberProfile({ params }: MemberPageProps) {
                 <li key={post.slug} className="hover:bg-raise/70 group transition-colors">
                   <Link href={`/blog/${post.slug}`} className="block px-5 py-4">
                     <div className="flex items-start justify-between gap-4">
-                      <h3 className="text-fg group-hover:text-accent text-base font-semibold tracking-tight transition-colors">
+                      <h3 className="text-fg group-hover:text-accent text-base font-semibold tracking-normal transition-colors">
                         {post.title}
                       </h3>
                       <span className="text-mute tabnum shrink-0 text-xs">{post.date}</span>

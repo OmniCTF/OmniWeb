@@ -30,7 +30,6 @@ const components = {
   ctftime: Ctftime,
 }
 
-/** Static map: Tailwind cannot generate a class from an interpolated size. */
 const SIZES: Record<number, string> = {
   4: 'h-4 w-4',
   5: 'h-5 w-5',

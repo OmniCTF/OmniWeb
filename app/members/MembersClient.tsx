@@ -22,7 +22,6 @@ export interface MemberCardData {
   }
 }
 
-// A member counts as "retired" when their position says so.
 function isRetired(member: MemberCardData): boolean {
   return (member.position ?? '').toLowerCase().includes('retired')
 }
@@ -32,12 +31,12 @@ export default function MembersClient({ members }: { members: MemberCardData[] }
   const [activeTag, setActiveTag] = useState<string>('All')
   const searchRef = useRef<HTMLInputElement>(null)
 
-  /** `/` focuses the filter, the way it does in every pager this borrows from. */
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       if (e.key !== '/' || e.metaKey || e.ctrlKey || e.altKey) return
       const el = e.target as HTMLElement | null
-      if (el && (el.isContentEditable || ['INPUT', 'TEXTAREA', 'SELECT'].includes(el.tagName))) return
+      if (el && (el.isContentEditable || ['INPUT', 'TEXTAREA', 'SELECT'].includes(el.tagName)))
+        return
       e.preventDefault()
       searchRef.current?.focus()
     }
@@ -75,7 +74,7 @@ export default function MembersClient({ members }: { members: MemberCardData[] }
 
         <div className="border-line flex flex-col gap-5 border-b px-5 py-6 lg:flex-row lg:items-end lg:justify-between">
           <div>
-            <h1 className="text-fg text-3xl font-semibold tracking-[-0.035em]">Members</h1>
+            <h1 className="text-fg text-3xl font-semibold tracking-normal">Members</h1>
             <p className="text-mute mt-2 max-w-[70ch] text-sm">
               The people behind OmniCTF: organizers, authors, and contributors.
             </p>
@@ -94,7 +93,7 @@ export default function MembersClient({ members }: { members: MemberCardData[] }
                 onChange={(e) => setQuery(e.target.value)}
                 placeholder="Search members…"
                 aria-label="Search members"
-                className="border-line bg-inset text-fg placeholder:text-mute focus:border-accent/60 w-full rounded border py-2 pr-10 pl-9 text-sm outline-none transition-colors"
+                className="border-line bg-inset text-fg placeholder:text-mute focus:border-accent/60 w-full rounded border py-2 pr-10 pl-9 text-sm transition-colors outline-none"
               />
               <kbd className="kbd pointer-events-none absolute top-1/2 right-2 -translate-y-1/2">
                 /
@@ -105,7 +104,7 @@ export default function MembersClient({ members }: { members: MemberCardData[] }
               value={activeTag}
               onChange={(e) => setActiveTag(e.target.value)}
               aria-label="Filter by tag"
-              className="border-line bg-inset text-fg focus:border-accent/60 w-full rounded border px-3 py-2 text-sm outline-none transition-colors sm:w-44"
+              className="border-line bg-inset text-fg focus:border-accent/60 w-full rounded border px-3 py-2 text-sm transition-colors outline-none sm:w-44"
             >
               {allTags.map((t) => (
                 <option key={t} value={t}>
@@ -116,7 +115,6 @@ export default function MembersClient({ members }: { members: MemberCardData[] }
           </div>
         </div>
 
-        {/* column header, the way a process list labels its columns */}
         <div className="border-line text-mute hidden border-b px-5 py-2 text-[11px] font-semibold tracking-[0.1em] uppercase lg:grid lg:grid-cols-[3rem_minmax(0,1.4fr)_minmax(0,1fr)_9rem_minmax(0,1.1fr)_6.5rem] lg:gap-4">
           <span className="text-right">id</span>
           <span>name</span>
@@ -165,12 +163,12 @@ export default function MembersClient({ members }: { members: MemberCardData[] }
                         {member.displayName}
                       </span>
                       {member.is_admin ? (
-                        <span className="border-ansi-yellow/40 text-ansi-yellow rounded border px-1.5 py-px text-[10px] font-semibold">
+                        <span className="border-ansi-yellow/40 text-ansi-yellow rounded border px-1.5 py-px text-[11px] font-semibold">
                           admin
                         </span>
                       ) : null}
                       {retired ? (
-                        <span className="border-line-strong text-mute rounded border px-1.5 py-px text-[10px] font-semibold">
+                        <span className="border-line-strong text-mute rounded border px-1.5 py-px text-[11px] font-semibold">
                           retired
                         </span>
                       ) : null}
@@ -178,10 +176,9 @@ export default function MembersClient({ members }: { members: MemberCardData[] }
                   </Link>
 
                   <span
-                    className={[
-                      'truncate text-xs',
-                      retired ? 'text-mute' : 'text-accent',
-                    ].join(' ')}
+                    className={['truncate text-xs', retired ? 'text-mute' : 'text-accent'].join(
+                      ' '
+                    )}
                   >
                     {member.position ?? ''}
                   </span>

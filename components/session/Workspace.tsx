@@ -18,12 +18,6 @@ const MIN_W = 240
 const MIN_H = 160
 const FLOAT_MIN_VIEWPORT = 1024
 
-/**
- * The homepage as a real workspace. Tiled windows take focus, swap by keyboard
- * or by dragging one onto another, close and restore, and re-tile between
- * dwindle and master. `f` pops a window out of the tiling as a floating window
- * that can be dragged and resized anywhere, exactly as togglefloating does.
- */
 export default function Workspace({ windows }: { windows: Win[] }) {
   const { config, set } = useHypr()
   const ids = useMemo(() => windows.map((w) => w.id), [windows])
@@ -77,7 +71,6 @@ export default function Workspace({ windows }: { windows: Win[] }) {
     })
   }, [])
 
-  /** Pop out of the tiling, keeping the window exactly where it already sits. */
   const toggleFloat = useCallback(
     (id: string) => {
       if (typeof window !== 'undefined' && window.innerWidth < FLOAT_MIN_VIEWPORT) return
@@ -127,7 +120,13 @@ export default function Workspace({ windows }: { windows: Win[] }) {
         h: r.height,
       }
 
-      drag.current = { id, mode: floating[id] ? mode : mode === 'resize' ? 'resize' : 'tile', x: e.clientX, y: e.clientY, origin }
+      drag.current = {
+        id,
+        mode: floating[id] ? mode : mode === 'resize' ? 'resize' : 'tile',
+        x: e.clientX,
+        y: e.clientY,
+        origin,
+      }
       setDragId(id)
       ;(e.currentTarget as Element).setPointerCapture?.(e.pointerId)
       e.preventDefault()
@@ -162,7 +161,6 @@ export default function Workspace({ windows }: { windows: Win[] }) {
         return
       }
 
-      // Tiled: the window under the pointer becomes the swap target.
       const under = document.elementFromPoint(e.clientX, e.clientY) as Element | null
       const target = under?.closest('[data-win-id]')?.getAttribute('data-win-id') ?? null
       setDropTarget(target && target !== d.id && !floating[target] ? target : null)
@@ -182,7 +180,8 @@ export default function Workspace({ windows }: { windows: Win[] }) {
     const onKey = (e: KeyboardEvent) => {
       if (e.metaKey || e.ctrlKey || e.altKey) return
       const el = e.target as HTMLElement | null
-      if (el && (el.isContentEditable || ['INPUT', 'TEXTAREA', 'SELECT'].includes(el.tagName))) return
+      if (el && (el.isContentEditable || ['INPUT', 'TEXTAREA', 'SELECT'].includes(el.tagName)))
+        return
       if (!open.length && e.key !== 'r' && e.key !== 'R') return
 
       const i = open.indexOf(focused)
@@ -263,7 +262,7 @@ export default function Workspace({ windows }: { windows: Win[] }) {
           'win pane flex min-w-0 flex-col overflow-hidden',
           isFocused ? 'pane-focus' : '',
           isDragging ? 'z-50 shadow-[0_28px_60px_-24px_rgb(0_0_0/0.8)]' : 'tile-in',
-          isTarget ? 'outline-accent outline-2 outline-dashed outline-offset-2' : '',
+          isTarget ? 'outline-accent outline-2 outline-offset-2 outline-dashed' : '',
           extra,
         ].join(' ')}
         style={{ animationDelay: `${delay}ms`, ...style }}

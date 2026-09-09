@@ -31,7 +31,6 @@ export default async function Page(props: { params: Promise<{ page: string }> })
 
   const totalPages = Math.ceil(enrichedPosts.length / POSTS_PER_PAGE)
 
-  // Return 404 for invalid page numbers or empty pages
   if (pageNumber <= 0 || pageNumber > totalPages || isNaN(pageNumber)) {
     return notFound()
   }

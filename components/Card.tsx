@@ -24,9 +24,13 @@ const Card = ({ title, description, imgSrc, href }) => (
         />
       ))}
     <div className="flex flex-1 flex-col p-5">
-      <h2 className="text-fg text-base font-semibold tracking-tight">
+      <h2 className="text-fg text-base font-semibold tracking-normal">
         {href ? (
-          <Link href={href} aria-label={`Link to ${title}`} className="hover:text-accent transition-colors">
+          <Link
+            href={href}
+            aria-label={`Link to ${title}`}
+            className="hover:text-accent transition-colors"
+          >
             {title}
           </Link>
         ) : (

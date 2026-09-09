@@ -5,15 +5,7 @@ import Image from 'next/image'
 import { ArrowUpRight, X } from 'lucide-react'
 import type { Sponsor } from '@/data/sponsors'
 
-const TIERS = [
-  'Partner',
-  'Platinum',
-  'Gold',
-  'Silver',
-  'Bronze',
-  'Community',
-  'Infra',
-] as const
+const TIERS = ['Partner', 'Platinum', 'Gold', 'Silver', 'Bronze', 'Community', 'Infra'] as const
 
 const TIER_TITLES: Record<string, string> = {
   Partner: 'Partners',
@@ -27,7 +19,11 @@ const TIER_TITLES: Record<string, string> = {
 
 function Detail({ sponsor, onClose }: { sponsor: Sponsor; onClose: () => void }) {
   return (
-    <div id={`sponsor-panel-${sponsor.id}`} role="tabpanel" className="pane pane-focus mt-[var(--hypr-gap-in)] overflow-hidden">
+    <div
+      id={`sponsor-panel-${sponsor.id}`}
+      role="tabpanel"
+      className="pane pane-focus mt-[var(--hypr-gap-in)] overflow-hidden"
+    >
       <div className="pane-title justify-between">
         <span className="normal-case">sponsor.info</span>
         <button
@@ -54,7 +50,7 @@ function Detail({ sponsor, onClose }: { sponsor: Sponsor; onClose: () => void })
 
         <div className="min-w-0 flex-1">
           <div className="flex flex-wrap items-center gap-3">
-            <h3 className="text-fg text-lg font-semibold tracking-tight">{sponsor.name}</h3>
+            <h3 className="text-fg text-lg font-semibold tracking-normal">{sponsor.name}</h3>
             {sponsor.tier ? (
               <span className="border-accent/30 bg-accent-wash text-accent rounded border px-2 py-0.5 text-[11px] font-semibold">
                 {sponsor.tier}
@@ -96,10 +92,6 @@ function Detail({ sponsor, onClose }: { sponsor: Sponsor; onClose: () => void })
   )
 }
 
-/**
- * One board, one open panel. Selection is owned here rather than per tier, so
- * opening a sponsor anywhere closes whatever was open before.
- */
 export default function SponsorsBoard({ sponsors }: { sponsors: Sponsor[] }) {
   const [selectedId, setSelectedId] = useState<string | null>(null)
 
@@ -152,13 +144,7 @@ export default function SponsorsBoard({ sponsors }: { sponsors: Sponsor[] }) {
                     ].join(' ')}
                   >
                     <span className="border-line bg-inset relative inline-block h-10 w-10 shrink-0 overflow-hidden rounded border">
-                      <Image
-                        src={s.logo}
-                        alt=""
-                        fill
-                        sizes="40px"
-                        className="object-contain p-1"
-                      />
+                      <Image src={s.logo} alt="" fill sizes="40px" className="object-contain p-1" />
                     </span>
                     <span className="min-w-0 flex-1">
                       <span className="text-mute block text-[11px]">{s.tier ?? ' '}</span>

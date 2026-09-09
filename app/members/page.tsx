@@ -3,28 +3,16 @@ import path from 'path'
 import matter from 'gray-matter'
 import MembersClient, { MemberCardData } from './MembersClient'
 
-// A member counts as "retired" when their position says so.
 function isRetired(member: MemberCardData): boolean {
   return (member.position ?? '').toLowerCase().includes('retired')
 }
 
-// Turn a "Month YYYY" string (e.g. "May 2025") into a sortable timestamp.
-// Members without a parseable join date sort last among the un-ranked group.
 function joinedToTime(joined?: string): number {
   if (!joined) return Number.MAX_SAFE_INTEGER
   const time = Date.parse(`1 ${joined}`)
   return Number.isNaN(time) ? Number.MAX_SAFE_INTEGER : time
 }
 
-/**
- * Ordering rules:
- *   1. Retired members always sink to the bottom (their posts stay visible).
- *   2. Admins (is_admin) are always pinned to the top.
- *   3. Within a tier, lower `id` comes first. Admins are ids 1-4 in a fixed
- *      order; everyone else is numbered by join date (5 onward).
- *   4. Missing id falls back to join date (earliest first).
- *   5. Name is the final tiebreaker for a stable result.
- */
 function compareMembers(a: MemberCardData, b: MemberCardData): number {
   const aRetired = isRetired(a) ? 1 : 0
   const bRetired = isRetired(b) ? 1 : 0

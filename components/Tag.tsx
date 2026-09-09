@@ -5,7 +5,6 @@ interface Props {
   text: string
 }
 
-/** Tags read as flags on a command line, not as pills. */
 const Tag = ({ text }: Props) => {
   return (
     <Link

@@ -4,11 +4,13 @@
 @source '../node_modules/pliny';
 @custom-variant dark (&:where(.dark, .dark *));
 
-/* ---------------------------------------------------------------------------
-   OmniCTF - tiling-session design system.
-   Palette lives on :root as raw values so a theme swap is one block, never a
-   per-component variant. @theme aliases them into Tailwind utilities.
-   --------------------------------------------------------------------------- */
+@font-face {
+  font-family: 'Departure Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/static/fonts/departure-mono.woff2') format('woff2');
+}
 
 @font-face {
   font-family: 'Cascadia Code';
@@ -16,8 +18,9 @@
   font-weight: 200 700;
   font-display: swap;
   src: url('/static/fonts/cascadia-code-latin-normal.woff2') format('woff2');
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304,
-    U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+  unicode-range:
+    U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329,
+    U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
 @font-face {
   font-family: 'Cascadia Code';
@@ -25,9 +28,10 @@
   font-weight: 200 700;
   font-display: swap;
   src: url('/static/fonts/cascadia-code-latin-ext-normal.woff2') format('woff2');
-  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308,
-    U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113,
-    U+2C60-2C7F, U+A720-A7FF;
+  unicode-range:
+    U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329,
+    U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F,
+    U+A720-A7FF;
 }
 @font-face {
   font-family: 'Cascadia Code';
@@ -35,8 +39,9 @@
   font-weight: 200 700;
   font-display: swap;
   src: url('/static/fonts/cascadia-code-latin-italic.woff2') format('woff2');
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304,
-    U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+  unicode-range:
+    U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329,
+    U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
 @font-face {
   font-family: 'Cascadia Code';
@@ -44,12 +49,12 @@
   font-weight: 200 700;
   font-display: swap;
   src: url('/static/fonts/cascadia-code-latin-ext-italic.woff2') format('woff2');
-  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308,
-    U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113,
-    U+2C60-2C7F, U+A720-A7FF;
+  unicode-range:
+    U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329,
+    U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F,
+    U+A720-A7FF;
 }
 
-/* Dark is the default: this site is read at 2am, on a second monitor, next to a terminal. */
 :root {
   --c-bg: #15161e;
   --c-pane: #1a1b26;
@@ -74,7 +79,6 @@
   --c-red: #f7768e;
   --c-blue: #7aa2f7;
 
-  /* --- hyprland.conf, live-editable at runtime --- */
   --hypr-gap-in: 8px;
   --hypr-gap-out: 12px;
   --hypr-border: 1px;
@@ -112,8 +116,23 @@
 }
 
 @theme {
-  --font-sans: 'Cascadia Code', ui-monospace, 'SFMono-Regular', 'Menlo', 'Consolas', monospace;
-  --font-mono: 'Cascadia Code', ui-monospace, 'SFMono-Regular', 'Menlo', 'Consolas', monospace;
+  --font-sans:
+    'Departure Mono', 'Cascadia Code', ui-monospace, 'SFMono-Regular', 'Menlo', 'Consolas',
+    monospace;
+  --font-mono:
+    'Departure Mono', 'Cascadia Code', ui-monospace, 'SFMono-Regular', 'Menlo', 'Consolas',
+    monospace;
+
+  --text-xs: 0.6875rem;
+  --text-sm: 0.8125rem;
+  --text-base: 1rem;
+  --text-lg: 1.375rem;
+  --text-xl: 1.375rem;
+  --text-2xl: 2.0625rem;
+  --text-3xl: 2.0625rem;
+  --text-4xl: 2.75rem;
+  --text-5xl: 3.4375rem;
+  --text-6xl: 4.125rem;
 
   --color-bg: var(--c-bg);
   --color-pane: var(--c-pane);
@@ -138,7 +157,6 @@
   --color-ansi-red: var(--c-red);
   --color-ansi-blue: var(--c-blue);
 
-  /* Legacy aliases so any untouched starter markup still resolves to the system. */
   --color-primary-50: var(--c-accent-wash);
   --color-primary-100: var(--c-accent-wash);
   --color-primary-200: var(--c-accent);
@@ -190,9 +208,11 @@
     -webkit-tap-highlight-color: transparent;
   }
 
+  html,
   body {
+    font-synthesis: none;
     font-variant-ligatures: none;
-    letter-spacing: -0.01em;
+    letter-spacing: 0;
   }
 
   ::selection {
@@ -213,7 +233,6 @@
     border-radius: 2px;
   }
 
-  /* The scrollbar is part of the window, so it gets designed like one. */
   * {
     scrollbar-width: thin;
     scrollbar-color: var(--c-line-strong) transparent;
@@ -236,7 +255,6 @@
 }
 
 @layer components {
-  /* A window in the session: 1px frame, WM rounding, no ornament. */
   .pane {
     background: var(--c-pane);
     border: var(--hypr-border) solid var(--c-line);
@@ -249,7 +267,6 @@
     border-radius: var(--hypr-rounding);
   }
 
-  /* The focused window carries the accent frame - exactly one per view. */
   .pane-focus {
     border-color: color-mix(in oklab, var(--c-accent) 55%, transparent);
     box-shadow: 0 0 0 1px color-mix(in oklab, var(--c-accent) 18%, transparent);
@@ -265,7 +282,6 @@
     background: var(--c-raise);
   }
 
-  /* Title strip along the top of a pane, like a WM window title. */
   .pane-title {
     display: flex;
     align-items: center;
@@ -296,14 +312,13 @@
     line-height: 1.4;
   }
 
-  /* A status-bar module: the waybar unit of information. */
   .module {
     display: inline-flex;
     align-items: center;
     gap: 0.375rem;
     padding: 0.25rem 0.5rem;
     border-radius: 4px;
-    font-size: 0.75rem;
+    font-size: 0.6875rem;
     line-height: 1.4;
     color: var(--c-dim);
     white-space: nowrap;
@@ -320,7 +335,6 @@
     font-variant-numeric: tabular-nums;
   }
 
-  /* One authored moment: windows tile into the session on first paint. */
   @keyframes tile-in {
     from {
       opacity: 0;
@@ -344,7 +358,6 @@
     }
   }
 
-  /* Long-form MDX reads like a rendered man page. */
   .prose {
     --tw-prose-body: var(--c-dim);
     --tw-prose-headings: var(--c-fg);
@@ -501,18 +514,15 @@ input:-webkit-autofill:focus {
   opacity: 1;
 }
 
-/* The launcher ships with pliny's own markup, so its frame is aligned by structure. */
 div.w-full.max-w-xl > div.rounded-2xl {
   border-radius: var(--radius-pane);
 }
 
-/* Unfocused windows dim exactly as decoration:inactive_opacity says they should. */
 .win[data-focused='false'] {
   opacity: var(--hypr-inactive-opacity);
   transition: opacity 180ms var(--ease-wm);
 }
 
-/* animations:enabled = false */
 :root[data-hypr-anim='off'] *,
 :root[data-hypr-anim='off'] *::before,
 :root[data-hypr-anim='off'] *::after {
@@ -521,7 +531,6 @@ div.w-full.max-w-xl > div.rounded-2xl {
   transition-duration: 0ms !important;
 }
 
-/* A range input is a control in this world too, so it is built like one. */
 input[type='range'] {
   -webkit-appearance: none;
   appearance: none;
@@ -549,7 +558,6 @@ input[type='range']::-moz-range-thumb {
   cursor: ew-resize;
 }
 
-/* decoration:blur = false */
 :root[data-hypr-blur='off'] header,
 :root[data-hypr-blur='off'] .backdrop-blur-sm,
 :root[data-hypr-blur='off'] .backdrop-blur-md {

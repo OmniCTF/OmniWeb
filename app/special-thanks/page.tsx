@@ -6,7 +6,7 @@ import Window from '@/components/Window'
 export const metadata = genPageMetadata({ title: 'Special Thanks' })
 
 export default function SpecialThanksPage() {
-  const entry = allSpecialThanks[0] // singleton: data/special-thanks/index.mdx
+  const entry = allSpecialThanks[0]
 
   return (
     <div className="w-full p-[var(--hypr-gap-out)]">
@@ -16,7 +16,7 @@ export default function SpecialThanksPage() {
         focus
         bodyClassName="p-5 sm:p-8 lg:p-12"
       >
-        <h1 className="text-fg text-3xl font-semibold tracking-[-0.035em] sm:text-4xl">
+        <h1 className="text-fg text-3xl font-semibold tracking-normal sm:text-4xl">
           Special thanks
         </h1>
         <p className="text-mute mt-3 max-w-[70ch] text-sm">

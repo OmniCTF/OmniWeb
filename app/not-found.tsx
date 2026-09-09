@@ -11,7 +11,7 @@ export default function NotFound() {
         </div>
 
         <div className="flex flex-col gap-8 p-8 sm:p-14 md:flex-row md:items-center md:gap-14">
-          <div className="text-ansi-red text-[clamp(4rem,14vw,10rem)] leading-none font-semibold tracking-[-0.05em]">
+          <div className="text-ansi-red text-[clamp(4.125rem,14vw,9.625rem)] leading-none font-semibold tracking-normal">
             404
           </div>
 

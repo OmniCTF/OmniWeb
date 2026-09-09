@@ -1,4 +1,3 @@
-// Main.tsx
 import Link from '@/components/Link'
 import Tag from '@/components/Tag'
 import siteMetadata from '@/data/siteMetadata'
@@ -20,7 +19,6 @@ type Post = {
   authorsData?: { slug?: string; name?: string; avatar?: string }[]
 }
 
-/** Each domain gets its own channel colour, the way a terminal palette assigns one. */
 const categories = [
   { name: 'Reverse', hint: 'VMs, crackmes, obfuscation', color: 'var(--c-orange)' },
   { name: 'Web', hint: 'Realistic bugs & chains', color: 'var(--c-cyan)' },
@@ -37,7 +35,6 @@ export default function Main({ posts }: { posts: Post[] }) {
 
   return (
     <div className="w-full">
-      {/* ---- the workspace: real windows, focusable and re-tileable ---- */}
       <Workspace
         windows={[
           {
@@ -46,7 +43,7 @@ export default function Main({ posts }: { posts: Post[] }) {
             meta: `${EVENT.format} · ${EVENT.durationLabel}`,
             node: (
               <div className="flex flex-1 flex-col justify-center px-5 py-10 sm:px-10 sm:py-14 xl:px-14">
-                <h1 className="text-fg text-[clamp(2rem,5.2vw,5rem)] leading-[1.02] font-semibold tracking-[-0.045em]">
+                <h1 className="text-fg text-[clamp(2.0625rem,5vw,4.125rem)] leading-[1.02] font-semibold tracking-normal">
                   {EVENT.name}
                 </h1>
 
@@ -55,7 +52,7 @@ export default function Main({ posts }: { posts: Post[] }) {
                     {'>'}
                   </span>
                   <span className="text-fg font-medium">{EVENT.dateLabel}</span>
-                  <span className="text-line-strong" aria-hidden>
+                  <span className="text-mute" aria-hidden>
                     ·
                   </span>
                   <span className="text-accent tabnum font-medium">{EVENT.timeLabel}</span>
@@ -118,7 +115,13 @@ export default function Main({ posts }: { posts: Post[] }) {
           {
             id: 'countdown',
             title: 'Time until kickoff',
-            node: <CountdownCard targetIso={EVENT.countdownTargetIso} title="Time until kickoff" frameless />,
+            node: (
+              <CountdownCard
+                targetIso={EVENT.countdownTargetIso}
+                title="Time until kickoff"
+                frameless
+              />
+            ),
           },
           {
             id: 'spec',
@@ -142,7 +145,6 @@ export default function Main({ posts }: { posts: Post[] }) {
         ]}
       />
 
-      {/* ---- categories ---- */}
       <section id="categories" className="w-full px-[var(--hypr-gap-out)] pt-12 sm:pt-16">
         <SectionHeader
           title="Challenge Categories"
@@ -158,7 +160,7 @@ export default function Main({ posts }: { posts: Post[] }) {
               />
               <div className="min-w-0 p-4">
                 <div
-                  className="truncate text-sm font-semibold tracking-tight"
+                  className="truncate text-sm font-semibold tracking-normal"
                   style={{ color: c.color }}
                 >
                   {c.name}
@@ -170,7 +172,6 @@ export default function Main({ posts }: { posts: Post[] }) {
         </div>
       </section>
 
-      {/* ---- sponsors ---- */}
       <section id="sponsors-partners" className="w-full px-[var(--hypr-gap-out)] pt-16 sm:pt-20">
         <SectionHeader
           title="Partnerships & Sponsorships"
@@ -180,7 +181,6 @@ export default function Main({ posts }: { posts: Post[] }) {
         <SponsorsBoard sponsors={SPONSORS} />
       </section>
 
-      {/* ---- latest posts ---- */}
       {latest.length > 0 && (
         <section className="w-full px-[var(--hypr-gap-out)] pt-16 pb-16 sm:pt-20 sm:pb-20">
           <SectionHeader
@@ -201,13 +201,17 @@ export default function Main({ posts }: { posts: Post[] }) {
             {latest.map((post) => (
               <article key={post.path} className="pane pane-hover flex flex-col overflow-hidden">
                 <div className="pane-title justify-between">
-                  <time className="tabnum normal-case" dateTime={post.date} suppressHydrationWarning>
+                  <time
+                    className="tabnum normal-case"
+                    dateTime={post.date}
+                    suppressHydrationWarning
+                  >
                     {formatDate(post.date, siteMetadata.locale)}
                   </time>
                 </div>
 
                 <div className="flex flex-1 flex-col p-4">
-                  <h3 className="text-fg hover:text-accent text-base font-semibold tracking-tight transition-colors">
+                  <h3 className="text-fg hover:text-accent text-base font-semibold tracking-normal transition-colors">
                     <Link href={`/${post.path}`}>{post.title}</Link>
                   </h3>
 

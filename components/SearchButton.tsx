@@ -5,10 +5,6 @@ import { KBarButton } from 'pliny/search/KBarButton'
 import { Search } from 'lucide-react'
 import siteMetadata from '@/data/siteMetadata'
 
-/**
- * The launcher. Same role SUPER holds in the session it borrows from, so it
- * advertises its binding instead of hiding behind a magnifier.
- */
 const SearchButton = () => {
   if (
     !siteMetadata.search ||
@@ -17,7 +13,8 @@ const SearchButton = () => {
     return null
   }
 
-  const SearchButtonWrapper = siteMetadata.search.provider === 'algolia' ? AlgoliaButton : KBarButton
+  const SearchButtonWrapper =
+    siteMetadata.search.provider === 'algolia' ? AlgoliaButton : KBarButton
 
   return (
     <SearchButtonWrapper aria-label="Open launcher">

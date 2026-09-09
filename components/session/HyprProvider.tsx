@@ -54,17 +54,11 @@ export function useHypr() {
   return ctx
 }
 
-/**
- * The session's own config. Values are written straight onto the document as
- * custom properties, so every pane on every route re-tiles the moment a line of
- * hyprland.conf changes.
- */
 export function HyprProvider({ children }: { children: ReactNode }) {
   const [config, setConfig] = useState<HyprConfig>(DEFAULT_CONFIG)
   const [configOpen, setConfigOpen] = useState(false)
   const [keybindsOpen, setKeybindsOpen] = useState(false)
 
-  // Restore after mount so the server markup and first client render agree.
   useEffect(() => {
     try {
       const raw = localStorage.getItem(STORAGE_KEY)
@@ -97,11 +91,11 @@ export function HyprProvider({ children }: { children: ReactNode }) {
 
   const reset = useCallback(() => setConfig(DEFAULT_CONFIG), [])
 
-  // `?` opens the keybinding sheet, the way the session it borrows from does.
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       const el = e.target as HTMLElement | null
-      if (el && (el.isContentEditable || ['INPUT', 'TEXTAREA', 'SELECT'].includes(el.tagName))) return
+      if (el && (el.isContentEditable || ['INPUT', 'TEXTAREA', 'SELECT'].includes(el.tagName)))
+        return
 
       if (e.key === '?') {
         e.preventDefault()

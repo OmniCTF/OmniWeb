@@ -4,10 +4,6 @@ import { useEffect, useState } from 'react'
 import { useTheme } from 'next-themes'
 import { Moon, Sun } from 'lucide-react'
 
-/**
- * Two states, one throw. The knob carries the mode you are in and sits over
- * its own glyph, so the control reads correctly at a glance in either theme.
- */
 const ThemeSwitch = () => {
   const [mounted, setMounted] = useState(false)
   const { setTheme, resolvedTheme } = useTheme()

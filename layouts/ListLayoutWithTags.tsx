@@ -121,7 +121,9 @@ export default function ListLayoutWithTags({
                       aria-current={active ? 'page' : undefined}
                       className={[
                         'flex items-center justify-between gap-2 rounded px-3 py-1.5 text-xs transition-colors',
-                        active ? 'text-accent bg-accent-wash' : 'text-dim hover:bg-raise hover:text-fg',
+                        active
+                          ? 'text-accent bg-accent-wash'
+                          : 'text-dim hover:bg-raise hover:text-fg',
                       ].join(' ')}
                     >
                       <span className="min-w-0 truncate">
@@ -146,14 +148,15 @@ export default function ListLayoutWithTags({
           </div>
 
           <div className="border-line border-b px-5 py-5 lg:hidden">
-            <h1 className="text-fg text-2xl font-semibold tracking-[-0.035em]">{title}</h1>
+            <h1 className="text-fg text-2xl font-semibold tracking-normal">{title}</h1>
           </div>
 
           <ul className="divide-y divide-[var(--c-line)]">
             {displayPosts.map((post) => {
               const { path, date, title: postTitle, summary, tags } = post
-              const authors = (post as { authorsData?: { slug?: string; name?: string; avatar?: string }[] })
-                .authorsData
+              const authors = (
+                post as { authorsData?: { slug?: string; name?: string; avatar?: string }[] }
+              ).authorsData
 
               return (
                 <li key={path} className="hover:bg-raise/60 group transition-colors">
@@ -190,7 +193,7 @@ export default function ListLayoutWithTags({
                     </div>
 
                     <div className="min-w-0">
-                      <h2 className="text-lg leading-snug font-semibold tracking-tight">
+                      <h2 className="text-lg leading-snug font-semibold tracking-normal">
                         <Link
                           href={`/${path}`}
                           className="text-fg group-hover:text-accent transition-colors"
@@ -207,7 +210,9 @@ export default function ListLayoutWithTags({
                         </div>
                       ) : null}
 
-                      <p className="text-dim mt-3 max-w-[85ch] text-sm leading-relaxed">{summary}</p>
+                      <p className="text-dim mt-3 max-w-[85ch] text-sm leading-relaxed">
+                        {summary}
+                      </p>
                     </div>
                   </article>
                 </li>

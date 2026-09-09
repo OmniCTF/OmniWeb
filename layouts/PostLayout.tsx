@@ -45,7 +45,6 @@ export default function PostLayout({ content, authorDetails, next, prev, childre
       <ScrollTopAndComment />
 
       <div className="grid grid-cols-1 gap-[var(--hypr-gap-in)] xl:grid-cols-[280px_minmax(0,1fr)]">
-        {/* metadata rail: the file info pane */}
         <aside className="pane sticky top-15 hidden max-h-[calc(100vh-4.5rem)] self-start overflow-hidden xl:flex xl:flex-col">
           <div className="pane-title shrink-0">post.info</div>
           <div className="min-h-0 flex-1 space-y-6 overflow-y-auto p-4">
@@ -108,7 +107,11 @@ export default function PostLayout({ content, authorDetails, next, prev, childre
                       href={`/${prev.path}`}
                       className="text-accent hover:text-accent-strong mt-1.5 flex items-start gap-1 text-xs leading-snug transition-colors"
                     >
-                      <ChevronLeft className="mt-0.5 h-3.5 w-3.5 shrink-0" strokeWidth={2} aria-hidden />
+                      <ChevronLeft
+                        className="mt-0.5 h-3.5 w-3.5 shrink-0"
+                        strokeWidth={2}
+                        aria-hidden
+                      />
                       <span>{prev.title}</span>
                     </Link>
                   </div>
@@ -121,7 +124,11 @@ export default function PostLayout({ content, authorDetails, next, prev, childre
                       className="text-accent hover:text-accent-strong mt-1.5 flex items-start gap-1 text-xs leading-snug transition-colors"
                     >
                       <span>{next.title}</span>
-                      <ChevronRight className="mt-0.5 h-3.5 w-3.5 shrink-0" strokeWidth={2} aria-hidden />
+                      <ChevronRight
+                        className="mt-0.5 h-3.5 w-3.5 shrink-0"
+                        strokeWidth={2}
+                        aria-hidden
+                      />
                     </Link>
                   </div>
                 ) : null}
@@ -156,7 +163,6 @@ export default function PostLayout({ content, authorDetails, next, prev, childre
           </div>
         </aside>
 
-        {/* the document */}
         <article className="pane min-w-0 overflow-hidden">
           <div className="pane-title justify-between">
             <span className="min-w-0 truncate normal-case">~/{path}</span>
@@ -173,7 +179,7 @@ export default function PostLayout({ content, authorDetails, next, prev, childre
 
           <div className="px-5 py-10 sm:px-10 sm:py-14">
             <div className="mx-auto max-w-[76ch]">
-              <h1 className="text-fg text-3xl leading-tight font-semibold tracking-[-0.04em] sm:text-4xl">
+              <h1 className="text-fg text-3xl leading-tight font-semibold tracking-normal sm:text-4xl">
                 {title}
               </h1>
 
@@ -190,7 +196,10 @@ export default function PostLayout({ content, authorDetails, next, prev, childre
                         className="border-line h-5 w-5 rounded-full border object-cover"
                       />
                     ) : null}
-                    <Link href={`/members/${author.slug}`} className="hover:text-accent transition-colors">
+                    <Link
+                      href={`/members/${author.slug}`}
+                      className="hover:text-accent transition-colors"
+                    >
                       {author.name}
                     </Link>
                   </span>

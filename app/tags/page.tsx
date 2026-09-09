@@ -19,7 +19,7 @@ export default async function Page() {
         focus
         bodyClassName="p-5 sm:p-8 lg:p-12"
       >
-        <h1 className="text-fg text-3xl font-semibold tracking-[-0.035em] sm:text-4xl">Tags</h1>
+        <h1 className="text-fg text-3xl font-semibold tracking-normal sm:text-4xl">Tags</h1>
         <p className="text-mute mt-3 text-sm">Every topic the writeups cover, by frequency.</p>
 
         {tagKeys.length === 0 ? (

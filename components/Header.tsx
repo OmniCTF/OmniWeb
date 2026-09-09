@@ -15,7 +15,6 @@ import SearchButton from './SearchButton'
 
 const WORKSPACES = headerNavLinks.filter((link) => link.href !== '/')
 
-/** The bar is a status bar, so it tells the time it actually runs on. */
 function ClockModule() {
   const [utc, setUtc] = useState<string | null>(null)
 
@@ -43,7 +42,6 @@ function ClockModule() {
   )
 }
 
-/** Event truth follows the visitor onto every route, not just the homepage. */
 function CountdownModule() {
   const [label, setLabel] = useState<string | null>(null)
 
@@ -58,7 +56,9 @@ function CountdownModule() {
       const d = Math.floor(diff / 86400000)
       const h = Math.floor((diff / 3600000) % 24)
       const m = Math.floor((diff / 60000) % 60)
-      setLabel(d > 0 ? `${d}d ${String(h).padStart(2, '0')}h` : `${h}h ${String(m).padStart(2, '0')}m`)
+      setLabel(
+        d > 0 ? `${d}d ${String(h).padStart(2, '0')}h` : `${h}h ${String(m).padStart(2, '0')}m`
+      )
     }
     tick()
     const id = setInterval(tick, 30000)
@@ -90,15 +90,12 @@ const Header = () => {
     return pathname === href || pathname.startsWith(`${href}/`)
   }
 
-  /**
-   * Workspace digits are real bindings, not ornament: 1-4 switch route, 0 goes home,
-   * exactly like the bar they are borrowed from.
-   */
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       if (e.metaKey || e.ctrlKey || e.altKey) return
       const el = e.target as HTMLElement | null
-      if (el && (el.isContentEditable || ['INPUT', 'TEXTAREA', 'SELECT'].includes(el.tagName))) return
+      if (el && (el.isContentEditable || ['INPUT', 'TEXTAREA', 'SELECT'].includes(el.tagName)))
+        return
 
       if (e.key === '0') {
         router.push('/')
@@ -124,7 +121,7 @@ const Header = () => {
           title="Home (0)"
         >
           <Logo className="h-6 w-6" />
-          <span className="text-fg group-hover:text-accent hidden text-sm font-semibold tracking-tight transition-colors sm:block">
+          <span className="text-fg group-hover:text-accent hidden text-sm font-semibold tracking-normal transition-colors sm:block">
             {siteMetadata.headerTitle}
           </span>
         </Link>
@@ -142,14 +139,12 @@ const Header = () => {
                 aria-current={active ? 'page' : undefined}
                 className={[
                   'flex items-center gap-1.5 rounded px-2 py-1 text-xs font-medium transition-colors',
-                  active
-                    ? 'bg-accent text-accent-ink'
-                    : 'text-dim hover:bg-raise hover:text-fg',
+                  active ? 'bg-accent text-accent-ink' : 'text-dim hover:bg-raise hover:text-fg',
                 ].join(' ')}
               >
                 <span
                   className={[
-                    'tabnum text-[10px] font-semibold',
+                    'tabnum text-[11px] font-semibold',
                     active ? 'text-accent-ink/70' : 'text-mute',
                   ].join(' ')}
                   aria-hidden

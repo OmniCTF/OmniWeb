@@ -24,7 +24,8 @@ The audience reads logs for fun. Density and precision are the courtesy; decorat
    `.pane-title` strip naming what it holds. Nested panes are wrong.
 4. **Colour is data.** Violet is the brand and the only accent that means "act" or "you are
    here". The ANSI channels carry meaning (a category, a status, a diff) and never decorate.
-5. **Everything is mono.** One family at many weights. There is no second face.
+5. **Everything is mono.** One family, one weight. There is no second face, and no bold —
+   hierarchy comes from size, colour and case.
 
 ## Tokens
 
@@ -51,8 +52,8 @@ writing a hex value or a `dark:` variant in a component.**
 ANSI channels: `--c-cyan` `--c-green` `--c-yellow` `--c-orange` `--c-red` `--c-blue`. Used for
 challenge categories, status dots, code tokens, admin/retired badges.
 
-Measured contrast on the built page: h1 11.3:1, body 11.3:1, pane titles 6.15:1, muted labels
-6.15:1, nav 9.33:1. Every text token clears 4.5:1 on its own surface in both themes.
+Measured contrast on the built page: every distinct text style clears 4.5:1 on its own surface
+(3:1 for large text), in both themes.
 
 **Dark is the default** (`siteMetadata.theme = 'dark'`). The use scene decided it: a competitor
 on a second monitor at 2am with a terminal open. Light is a real second theme, not an
@@ -60,17 +61,27 @@ afterthought, reachable from the header slider.
 
 ## Type
 
-**Cascadia Code**, variable 200–700 with a true italic, self-hosted from
-`public/static/fonts/` (latin + latin-ext, so `Constanța` renders). Chosen because it is the
-face the borrowed world actually ships, not because the subject is technical.
+**Departure Mono** v1.500 (Helena Zhang, SIL OFL), self-hosted from `public/static/fonts/`
+alongside its licence. A pixel face: one weight, no italic, 22KB.
 
-- Display: `clamp(2rem, 5.2vw, 5rem)`, weight 600, tracking `-0.045em`. Never past 6rem.
-- Page titles: `text-3xl`/`text-4xl`, weight 600, tracking `-0.035em`.
-- Section headings: `text-xl`/`text-2xl`, weight 600.
-- Body: `text-sm`/`text-base`, `leading-relaxed`, measure capped at 68–85ch; long-form at 76ch.
-- Labels and pane titles: `text-[11px]`, weight 600, uppercase, tracking `0.08–0.12em`.
-- Numbers that change or align use `.tabnum`.
-- Ligatures are off site-wide; `->` and `=>` must read as two characters.
+Two consequences the whole system is built around:
+
+- **There is no bold.** `font-synthesis: none` is set globally, so the browser never fakes one
+  — faux bold smears a pixel grid. Every `font-semibold` in the codebase is therefore inert.
+  Hierarchy comes from **size, colour, case and fills** instead, which is what the palette and
+  the uppercase label style were already doing.
+- **Sizes want multiples of 11px**, per the font's own README. The Tailwind scale is redefined
+  in `@theme` so ordinary classes land on that grid: `xs` 11, `lg`/`xl` 22, `2xl`/`3xl` 33,
+  `4xl` 44, `5xl` 55, `6xl` 66. Display clamps to `2.0625rem → 4.125rem` (33 → 66).
+  `sm` (13px) and `base` (16px) are deliberately **off** the grid: they carry body and long-form
+  copy, where readability outranks pixel crispness. Those two are the only exceptions.
+
+Tracking is `normal` everywhere. The old negative tracking was tuned for an outline face and
+collides on a pixel grid; the font is drawn tight already.
+
+**Cascadia Code stays in the stack behind it** as a glyph fallback only. Departure Mono covers
+Latin-1, Latin Extended-A and the Romanian comma-below diacritics, so `Constanța` renders in
+the pixel face and Cascadia never downloads in practice.
 
 ## Components
 
@@ -167,3 +178,12 @@ single muted sentence inside the pane that would have held the list. Retired mem
 `layouts/ListLayout.tsx`, `layouts/AuthorLayout.tsx` and `components/SponsorsTabs.tsx` are not
 imported by any route and were left on the old visual system. Restyle or delete them before
 wiring any of them up.
+
+## House rules
+
+- **The source carries no comments**, by request. Only load-bearing directives remain: the
+  `eslint-disable` in `components/Link.tsx` (the spread-props anchor genuinely needs it) and the
+  triple-slash references in the generated `next-env.d.ts`. Explanation lives in this file
+  instead, so keep it current — it is the only documentation the codebase has.
+- Nothing renders an HTML comment into the shipped pages; the `<!--$-->` markers in the output
+  are React's own Suspense boundaries.

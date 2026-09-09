@@ -120,9 +120,7 @@ export default function ConfigWindow() {
 
   if (!configOpen) return null
 
-  const style = pos
-    ? { left: pos.x, top: pos.y, right: 'auto' as const }
-    : { right: 12, top: 60 }
+  const style = pos ? { left: pos.x, top: pos.y, right: 'auto' as const } : { right: 12, top: 60 }
 
   return (
     <div
@@ -205,11 +203,7 @@ export default function ConfigWindow() {
         </Section>
 
         <Section name="animations">
-          <Toggle
-            name="enabled"
-            value={config.animations}
-            onChange={(v) => set('animations', v)}
-          />
+          <Toggle name="enabled" value={config.animations} onChange={(v) => set('animations', v)} />
         </Section>
 
         <Section name="dwindle">

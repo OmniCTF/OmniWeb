@@ -1,9 +1,3 @@
-/**
- * Single source of truth for the event. The status bar, the homepage and any
- * future surface all read from here, so a date change is one edit.
- *
- * Facts confirmed against CTFtime event 3401.
- */
 export const EVENT = {
   name: 'OmniCTF 2026 Finals',
   shortName: 'OmniCTF 2026',
@@ -28,7 +22,6 @@ export const LINKS = {
   ctftime: 'https://ctftime.org/event/3401',
 }
 
-/** What the event pane reads out, in the order a competitor needs it. */
 export const EVENT_SPEC: [string, string][] = [
   ['event', EVENT.name],
   ['format', 'On-site · Jeopardy + KOTH'],

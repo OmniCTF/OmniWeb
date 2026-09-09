@@ -31,7 +31,7 @@ export default function PostSimple({ content, next, prev, children }: LayoutProp
 
         <div className="px-5 py-10 sm:px-10 sm:py-14">
           <div className="mx-auto max-w-[76ch]">
-            <h1 className="text-fg text-3xl leading-tight font-semibold tracking-[-0.04em] sm:text-4xl">
+            <h1 className="text-fg text-3xl leading-tight font-semibold tracking-normal sm:text-4xl">
               {title}
             </h1>
             <div className="bg-line mt-8 h-px" />

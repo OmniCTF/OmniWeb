@@ -27,7 +27,7 @@ function Cell({ label, value, live }: { label: string; value: number; live?: boo
       >
         {String(value).padStart(2, '0')}
       </div>
-      <span className="text-mute mt-1.5 text-[10px] font-semibold tracking-[0.12em] uppercase">
+      <span className="text-mute mt-1.5 text-[11px] font-semibold tracking-[0.12em] uppercase">
         {label}
       </span>
     </div>
@@ -56,24 +56,24 @@ export default function CountdownCard({
 
   const body = (
     <div className="p-3">
-        {parts === null ? (
-          <div className="flex gap-2" aria-hidden>
-            {['Days', 'Hours', 'Minutes', 'Seconds'].map((l) => (
-              <Cell key={l} label={l} value={0} />
-            ))}
-          </div>
-        ) : parts.finished ? (
-          <div className="border-ansi-green/40 bg-ansi-green/10 text-ansi-green rounded border px-4 py-4 text-center text-sm font-semibold">
-            Ended
-          </div>
-        ) : (
-          <div className="flex gap-2">
-            <Cell label="Days" value={parts.days} />
-            <Cell label="Hours" value={parts.hours} />
-            <Cell label="Minutes" value={parts.minutes} />
-            <Cell label="Seconds" value={parts.seconds} live />
-          </div>
-        )}
+      {parts === null ? (
+        <div className="flex gap-2" aria-hidden>
+          {['Days', 'Hours', 'Minutes', 'Seconds'].map((l) => (
+            <Cell key={l} label={l} value={0} />
+          ))}
+        </div>
+      ) : parts.finished ? (
+        <div className="border-ansi-green/40 bg-ansi-green/10 text-ansi-green rounded border px-4 py-4 text-center text-sm font-semibold">
+          Ended
+        </div>
+      ) : (
+        <div className="flex gap-2">
+          <Cell label="Days" value={parts.days} />
+          <Cell label="Hours" value={parts.hours} />
+          <Cell label="Minutes" value={parts.minutes} />
+          <Cell label="Seconds" value={parts.seconds} live />
+        </div>
+      )}
     </div>
   )
 

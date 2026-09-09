@@ -1,8 +1,3 @@
-/**
- * Code blocks in the session's own palette: the ANSI channels already declared
- * in tailwind.css, so a snippet and the UI around it agree on what blue means.
- */
-
 pre[class*='language-'],
 code[class*='language-'] {
   color: var(--c-fg);
@@ -102,7 +97,6 @@ pre[class*='language-'] {
   font-style: italic;
 }
 
-/* rehype-prism-plus: line numbers and highlighted lines */
 pre > code[class*='language-'] {
   display: grid;
 }
@@ -139,7 +133,6 @@ pre > code[class*='language-'] {
   font-variant-numeric: tabular-nums;
 }
 
-/* Language flag on the block, the way a fenced file announces its type. */
 .remark-code-title {
   display: inline-flex;
   align-items: center;

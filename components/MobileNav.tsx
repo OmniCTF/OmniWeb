@@ -8,10 +8,6 @@ import Link from './Link'
 import headerNavLinks from '@/data/headerNavLinks'
 import { EVENT } from '@/data/event'
 
-/**
- * On a phone there is no keyboard to bind, so the workspace list becomes the
- * launcher itself: full screen, one row per route, digits kept as addresses.
- */
 const MobileNav = () => {
   const [navShow, setNavShow] = useState(false)
   const navRef = useRef(null)

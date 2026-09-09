@@ -15,26 +15,6 @@ import { Metadata } from 'next'
 import { SpeedInsights } from '@vercel/speed-insights/next'
 import { Analytics as VercelAnalytics } from '@vercel/analytics/next'
 
-/**
- * Direction contract. Audited at finish; do not edit without redoing the review.
- */
-const DIRECTION_CONTRACT = `<!--
-OMNICTF / DIRECTION CONTRACT
-THESIS: the site is a session the visitor is already logged into, not a page they
-  arrived at. Refuses the centered marketing column: badge, headline, subhead, buttons.
-OWN-WORLD: near-black blue ground, panes at 1px frames with 6px WM rounding, exactly one
-  violet focus frame per view, ANSI colors only as data. Cascadia Code 200-700 throughout,
-  self-hosted. Waybar strip on top, status line at the bottom, gap-tiled panes edge to edge.
-STORY: a competitor lands mid-session, reads the finals date, time and venue in the focused
-  pane within a second, sees the countdown running, leaves through Discord, Register or Login.
-FIRST VIEWPORT: full-bleed. Waybar across the top. Below it a tile field: the event pane at
-  two-thirds width carrying the wordmark at display scale, date, time, venue and the three
-  actions; the right column stacks countdown over an event spec readout.
-FORM: tiling window manager session. Pinned by the brief, no roll; seed brief-pinned.
-FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review,
-  the verdict, and DESIGN.md
--->`
-
 export const metadata: Metadata = {
   metadataBase: new URL(siteMetadata.siteUrl),
   title: {
@@ -85,7 +65,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           rel="preload"
           as="font"
           type="font/woff2"
-          href={`${basePath}/static/fonts/cascadia-code-latin-normal.woff2`}
+          href={`${basePath}/static/fonts/departure-mono.woff2`}
           crossOrigin="anonymous"
         />
         <link
@@ -123,7 +103,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         />
       </head>
       <body className="bg-bg text-fg min-h-screen overflow-x-hidden antialiased">
-        <div hidden dangerouslySetInnerHTML={{ __html: DIRECTION_CONTRACT }} />
         <ThemeProviders>
           <HyprProvider>
             <Analytics analyticsConfig={siteMetadata.analytics as AnalyticsConfig} />

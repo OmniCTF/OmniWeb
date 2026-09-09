@@ -1,9 +1,5 @@
 import { ReactNode } from 'react'
 
-/**
- * Every inner route is a window in the same session: a title strip that names
- * the path, and content inside the frame. One primitive, used everywhere.
- */
 export default function Window({
   title,
   meta,
