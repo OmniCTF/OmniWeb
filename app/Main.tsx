@@ -3,8 +3,10 @@ import Tag from '@/components/Tag'
 import siteMetadata from '@/data/siteMetadata'
 import { formatDate } from 'pliny/utils/formatDate'
 import { SPONSORS } from '@/data/sponsors'
+import { WORKSHOPS } from '@/data/workshops'
 import { EVENT, EVENT_SPEC, LINKS } from '@/data/event'
 import SponsorsBoard from '@/components/SponsorsBoard'
+import WorkshopsBoard from '@/components/WorkshopsBoard'
 import SectionHeader from '@/components/SectionHeader'
 import CountdownCard from '@/components/CountdownCard'
 import Workspace from '@/components/session/Workspace'
@@ -179,6 +181,15 @@ export default function Main({ posts }: { posts: Post[] }) {
         />
 
         <SponsorsBoard sponsors={SPONSORS} />
+      </section>
+
+      <section id="workshops-speakers" className="w-full px-[var(--hypr-gap-out)] pt-16 sm:pt-20">
+        <SectionHeader
+          title="Workshops & Speakers"
+          subtitle="Hands-on sessions and talks from the people running them."
+        />
+
+        <WorkshopsBoard workshops={WORKSHOPS} />
       </section>
 
       {latest.length > 0 && (
