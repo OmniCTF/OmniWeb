@@ -103,6 +103,11 @@ const baseConfig = {
     'yt3.ggpht.com',
     'cdn.simpleicons.org',
   ],
+  // Required to serve SVG logos (e.g. ambasada) through next/image.
+  // Sandboxed and script-free, per the Next.js recommended configuration.
+  dangerouslyAllowSVG: true,
+  contentDispositionType: 'attachment',
+  contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
 },
   typescript: {
     ignoreBuildErrors: true,

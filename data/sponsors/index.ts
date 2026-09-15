@@ -135,4 +135,15 @@ export const SPONSORS: Sponsor[] = [
     website: 'https://unbreakable.ro/',
     links: [{ label: 'Website', href: 'https://unbreakable.ro/' }],
   },
+
+  {
+    id: 'ambasada',
+    name: 'ambasada.pro',
+    tier: 'Partner',
+    logo: '/static/images/ambasada.svg',
+    description:
+      'Romania’s tech is built on the coast. A community hub for startups, builders and curious minds - based in Constanța, Romania, building for the world.',
+    website: 'https://ambasada.pro/',
+    links: [{ label: 'Website', href: 'https://ambasada.pro/' }],
+  },
 ]
