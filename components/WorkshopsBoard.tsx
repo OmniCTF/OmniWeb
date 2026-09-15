@@ -1,5 +1,14 @@
 import Image from 'next/image'
+import { ArrowUpRight } from 'lucide-react'
 import type { Workshop } from '@/data/workshops'
+
+function hostLabel(url: string) {
+  try {
+    return new URL(url).hostname.replace(/^www\./, '')
+  } catch {
+    return url
+  }
+}
 
 export default function WorkshopsBoard({ workshops }: { workshops: Workshop[] }) {
   if (!workshops.length) return null
@@ -44,6 +53,20 @@ export default function WorkshopsBoard({ workshops }: { workshops: Workshop[] })
 
                   {w.speaker.title ? (
                     <p className="text-dim mt-1 text-xs">{w.speaker.title}</p>
+                  ) : null}
+
+                  {w.speaker.website ? (
+                    <div className="mt-4">
+                      <a
+                        href={w.speaker.website}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="border-accent/40 text-accent hover:bg-accent hover:text-accent-ink inline-flex items-center gap-1.5 rounded border px-3 py-1.5 text-xs font-semibold transition-colors"
+                      >
+                        {hostLabel(w.speaker.website)}
+                        <ArrowUpRight className="h-3.5 w-3.5" strokeWidth={2} aria-hidden />
+                      </a>
+                    </div>
                   ) : null}
                 </div>
               </div>

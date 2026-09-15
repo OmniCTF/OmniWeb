@@ -2,6 +2,7 @@ export type Speaker = {
   name: string
   photo: string
   title?: string
+  website?: string
 }
 
 export type Workshop = {
@@ -17,6 +18,7 @@ export const WORKSHOPS: Workshop[] = [
     speaker: {
       name: 'Andrei "Pax" Popa',
       photo: '/static/images/pax.jpeg',
+      website: 'https://paxdynamics.com/',
     },
   },
 ]
