@@ -126,17 +126,6 @@ export const SPONSORS: Sponsor[] = [
     links: [{ label: 'About', href: 'https://gen.xyz/about' }],
   },
   {
-    id: 'unbreakable-romania',
-    name: 'Unbreakable Romania',
-    tier: 'Partner',
-    logo: '/static/images/UNR.png',
-    description:
-      'Unbreakable Romania is a national cybersecurity education program that teaches students and young professionals practical security skills through CTF competitions, hands-on challenges, and training resources designed to grow the next generation of cybersecurity experts.',
-    website: 'https://unbreakable.ro/',
-    links: [{ label: 'Website', href: 'https://unbreakable.ro/' }],
-  },
-
-  {
     id: 'ambasada',
     name: 'ambasada.pro',
     tier: 'Partner',
