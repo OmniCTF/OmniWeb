@@ -3,7 +3,7 @@ import Tag from '@/components/Tag'
 import siteMetadata from '@/data/siteMetadata'
 import { formatDate } from 'pliny/utils/formatDate'
 import { SPONSORS } from '@/data/sponsors'
-import { WORKSHOPS } from '@/data/workshops'
+import { SPEAKERS, WORKSHOPS } from '@/data/workshops'
 import { EVENT, EVENT_SPEC, LINKS } from '@/data/event'
 import SponsorsBoard from '@/components/SponsorsBoard'
 import WorkshopsBoard from '@/components/WorkshopsBoard'
@@ -189,7 +189,7 @@ export default function Main({ posts }: { posts: Post[] }) {
           subtitle="Hands-on sessions and talks from the people running them."
         />
 
-        <WorkshopsBoard workshops={WORKSHOPS} />
+        <WorkshopsBoard workshops={WORKSHOPS} speakers={SPEAKERS} />
       </section>
 
       {latest.length > 0 && (
