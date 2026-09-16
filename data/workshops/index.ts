@@ -11,6 +11,8 @@ export type Workshop = {
   speaker: Speaker
 }
 
+export type SpeakerEntry = Speaker & { id: string }
+
 export const WORKSHOPS: Workshop[] = [
   {
     id: 'agentic-hacking',
@@ -20,5 +22,14 @@ export const WORKSHOPS: Workshop[] = [
       photo: '/static/images/pax.jpeg',
       website: 'https://paxdynamics.com/',
     },
+  },
+]
+
+export const SPEAKERS: SpeakerEntry[] = [
+  {
+    id: 'agentperry',
+    name: 'AgentPerry',
+    photo: '/static/images/agentperry.gif',
+    website: 'https://scr1ptk1dd13s.xyz/discord',
   },
 ]
