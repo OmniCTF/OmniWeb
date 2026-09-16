@@ -87,7 +87,7 @@ final are the parts a neighboring event cannot truthfully copy.
 ## Evidence on Hand
 
 - Real sponsors and partners with logos in `public/static/images/`: Spectrum Constanța, Delta
-  Obscura, UNbreakable Romania, OtterSec, Marina Hub, Caido, HyperLine Robotics, Knight Squad
+  Obscura, ambasada.pro, OtterSec, Marina Hub, Caido, HyperLine Robotics, Knight Squad
   Academy, Hetzner.
 - Six real challenge writeups in `data/blog/` (dexcore, dns-cover, impasta, intro-to-osint,
   old-days-intercepted, tetoris).
