@@ -29,11 +29,11 @@ export function sponsorTiers(sponsor: Sponsor): SponsorTier[] {
 export const SPONSORS: Sponsor[] = [
   {
     id: 'okapi',
-    name: 'OKAPI Studio',
+    name: 'OKAPI',
     tier: ['Partner', 'Platinum'],
     logo: '/static/images/okapi.svg',
     description:
-      'OKAPI Studio is a product design and technology studio, and the prize-pool sponsor of OmniCTF 2026 Finals.',
+      'OKAPI is a product design and technology studio, and the prize-pool sponsor of OmniCTF 2026 Finals.',
     website: 'https://okapistudio.com/',
   },
 
