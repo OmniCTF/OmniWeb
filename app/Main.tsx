@@ -8,6 +8,7 @@ import { EVENT, EVENT_SPEC, LINKS } from '@/data/event'
 import SponsorsBoard from '@/components/SponsorsBoard'
 import WorkshopsBoard from '@/components/WorkshopsBoard'
 import SectionHeader from '@/components/SectionHeader'
+import AnnouncementTicker from '@/components/AnnouncementTicker'
 import CountdownCard from '@/components/CountdownCard'
 import Workspace from '@/components/session/Workspace'
 import { MapPin, ArrowUpRight, ArrowRight } from 'lucide-react'
@@ -48,6 +49,13 @@ export default function Main({ posts }: { posts: Post[] }) {
                 <h1 className="text-fg text-[clamp(2.0625rem,5vw,4.125rem)] leading-[1.02] font-semibold tracking-normal">
                   {EVENT.name}
                 </h1>
+
+                <div className="mt-6 -mr-5 -ml-5 sm:-mr-10 sm:-ml-10 xl:-mr-14 xl:-ml-14">
+                  <AnnouncementTicker
+                    messages={['Prize-pool sponsor OKAPI', 'Powered by OKAPI']}
+                    href="https://okapistudio.com/"
+                  />
+                </div>
 
                 <p className="mt-6 flex flex-wrap items-baseline gap-x-3 gap-y-1 text-base sm:text-xl">
                   <span className="text-accent" aria-hidden>

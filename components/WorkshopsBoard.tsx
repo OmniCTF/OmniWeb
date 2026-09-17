@@ -1,6 +1,6 @@
 import Image from 'next/image'
 import { ArrowUpRight } from 'lucide-react'
-import type { SpeakerEntry, Workshop } from '@/data/workshops'
+import type { Speaker, SpeakerEntry, Workshop } from '@/data/workshops'
 
 function hostLabel(url: string) {
   try {
@@ -22,7 +22,7 @@ function GroupHeading({ title, count }: { title: string; count: number }) {
   )
 }
 
-function SiteLink({ href }: { href: string }) {
+function SiteLink({ href, label }: { href: string; label?: string }) {
   return (
     <a
       href={href}
@@ -30,9 +30,25 @@ function SiteLink({ href }: { href: string }) {
       rel="noreferrer"
       className="border-accent/40 text-accent hover:bg-accent hover:text-accent-ink inline-flex items-center gap-1.5 rounded border px-3 py-1.5 text-xs font-semibold transition-colors"
     >
-      {hostLabel(href)}
+      {label ?? hostLabel(href)}
       <ArrowUpRight className="h-3.5 w-3.5" strokeWidth={2} aria-hidden />
     </a>
+  )
+}
+
+function LinkRow({ speaker }: { speaker: Speaker }) {
+  const links = [
+    ...(speaker.website ? [{ href: speaker.website }] : []),
+    ...(speaker.links ?? []),
+  ]
+  if (!links.length) return null
+
+  return (
+    <div className="mt-3 flex flex-wrap gap-2">
+      {links.map((l) => (
+        <SiteLink key={l.href} href={l.href} label={'label' in l ? l.label : undefined} />
+      ))}
+    </div>
   )
 }
 
@@ -94,11 +110,7 @@ export default function WorkshopsBoard({
                       <p className="text-dim mt-1 text-xs">{w.speaker.title}</p>
                     ) : null}
 
-                    {w.speaker.website ? (
-                      <div className="mt-4">
-                        <SiteLink href={w.speaker.website} />
-                      </div>
-                    ) : null}
+                    <LinkRow speaker={w.speaker} />
                   </div>
                 </div>
               </article>
@@ -126,11 +138,7 @@ export default function WorkshopsBoard({
 
                     {s.title ? <p className="text-dim mt-1 text-xs">{s.title}</p> : null}
 
-                    {s.website ? (
-                      <div className="mt-3">
-                        <SiteLink href={s.website} />
-                      </div>
-                    ) : null}
+                    <LinkRow speaker={s} />
                   </div>
                 </div>
               </article>

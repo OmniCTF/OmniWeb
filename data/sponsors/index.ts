@@ -1,5 +1,15 @@
 export type SponsorLink = { label: string; href: string }
 
+export type SponsorTier =
+  | 'Partner'
+  | 'Platinum'
+  | 'Gold'
+  | 'Silver'
+  | 'Bronze'
+  | 'Community'
+  | 'Infra'
+  | string
+
 export type Sponsor = {
   id: string
   name: string
@@ -7,10 +17,26 @@ export type Sponsor = {
   description: string
   website?: string
   links?: SponsorLink[]
-  tier?: 'Partner' | 'Platinum' | 'Gold' | 'Silver' | 'Bronze' | 'Community' | 'Infra' | string
+  /** A sponsor can hold more than one tier; it is then listed under each. */
+  tier?: SponsorTier | SponsorTier[]
+}
+
+export function sponsorTiers(sponsor: Sponsor): SponsorTier[] {
+  if (!sponsor.tier) return []
+  return Array.isArray(sponsor.tier) ? sponsor.tier : [sponsor.tier]
 }
 
 export const SPONSORS: Sponsor[] = [
+  {
+    id: 'okapi',
+    name: 'OKAPI Studio',
+    tier: ['Partner', 'Platinum'],
+    logo: '/static/images/okapi.svg',
+    description:
+      'OKAPI Studio is a product design and technology studio, and the prize-pool sponsor of OmniCTF 2026 Finals.',
+    website: 'https://okapistudio.com/',
+  },
+
   {
     id: 'spectrum',
     name: 'Spectrum',

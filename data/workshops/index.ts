@@ -3,6 +3,7 @@ export type Speaker = {
   photo: string
   title?: string
   website?: string
+  links?: { label: string; href: string }[]
 }
 
 export type Workshop = {
@@ -31,5 +32,11 @@ export const SPEAKERS: SpeakerEntry[] = [
     name: 'AgentPerry',
     photo: '/static/images/agentperry.gif',
     website: 'https://scr1ptk1dd13s.xyz/discord',
+  },
+  {
+    id: 'anghel-filip-neo',
+    name: 'Anghel Filip-Neo',
+    photo: '/static/images/anghel-filip-neo.jpg',
+    links: [{ label: 'LinkedIn', href: 'https://www.linkedin.com/in/lifip27' }],
   },
 ]
