@@ -358,6 +358,50 @@
     }
   }
 
+  /* Announcement ticker: the track holds two identical halves, so sliding it
+     exactly -50% lands back on an identical frame and the loop is seamless. */
+  @keyframes ticker-slide {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
+  }
+
+  .ticker {
+    -webkit-mask-image: linear-gradient(
+      to right,
+      transparent,
+      #000 4rem,
+      #000 calc(100% - 4rem),
+      transparent
+    );
+    mask-image: linear-gradient(
+      to right,
+      transparent,
+      #000 4rem,
+      #000 calc(100% - 4rem),
+      transparent
+    );
+  }
+
+  .ticker-track {
+    animation: ticker-slide var(--ticker-duration, 32s) linear infinite;
+    will-change: transform;
+  }
+
+  .ticker:hover .ticker-track,
+  .ticker:focus-within .ticker-track {
+    animation-play-state: paused;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .ticker-track {
+      animation: none;
+    }
+  }
+
   .prose {
     --tw-prose-body: var(--c-dim);
     --tw-prose-headings: var(--c-fg);

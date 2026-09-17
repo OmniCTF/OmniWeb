@@ -1,8 +1,8 @@
 {
+  "osint": 1,
   "crypto": 1,
+  "hardware": 1,
   "web": 1,
   "stego": 2,
-  "osint": 1,
-  "forensics": 1,
-  "hardware": 1
+  "forensics": 1
 }

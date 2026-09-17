@@ -3,7 +3,7 @@
 import { useMemo, useState } from 'react'
 import Image from 'next/image'
 import { ArrowUpRight, X } from 'lucide-react'
-import type { Sponsor } from '@/data/sponsors'
+import { sponsorTiers, type Sponsor } from '@/data/sponsors'
 
 const TIERS = ['Partner', 'Platinum', 'Gold', 'Silver', 'Bronze', 'Community', 'Infra'] as const
 
@@ -17,10 +17,18 @@ const TIER_TITLES: Record<string, string> = {
   Infra: 'Infrastructure Sponsor',
 }
 
-function Detail({ sponsor, onClose }: { sponsor: Sponsor; onClose: () => void }) {
+function Detail({
+  sponsor,
+  tier,
+  onClose,
+}: {
+  sponsor: Sponsor
+  tier: string
+  onClose: () => void
+}) {
   return (
     <div
-      id={`sponsor-panel-${sponsor.id}`}
+      id={`sponsor-panel-${tier}-${sponsor.id}`}
       role="tabpanel"
       className="pane pane-focus mt-[var(--hypr-gap-in)] overflow-hidden"
     >
@@ -51,11 +59,9 @@ function Detail({ sponsor, onClose }: { sponsor: Sponsor; onClose: () => void })
         <div className="min-w-0 flex-1">
           <div className="flex flex-wrap items-center gap-3">
             <h3 className="text-fg text-lg font-semibold tracking-normal">{sponsor.name}</h3>
-            {sponsor.tier ? (
-              <span className="border-accent/30 bg-accent-wash text-accent rounded border px-2 py-0.5 text-[11px] font-semibold">
-                {sponsor.tier}
-              </span>
-            ) : null}
+            <span className="border-accent/30 bg-accent-wash text-accent rounded border px-2 py-0.5 text-[11px] font-semibold">
+              {tier}
+            </span>
           </div>
 
           <p className="text-dim mt-2.5 max-w-[85ch] text-sm leading-relaxed">
@@ -93,19 +99,17 @@ function Detail({ sponsor, onClose }: { sponsor: Sponsor; onClose: () => void })
 }
 
 export default function SponsorsBoard({ sponsors }: { sponsors: Sponsor[] }) {
-  const [selectedId, setSelectedId] = useState<string | null>(null)
+  // Keyed by tier as well as id: a sponsor holding two tiers is listed twice,
+  // and only the tile that was clicked should open.
+  const [selectedKey, setSelectedKey] = useState<string | null>(null)
 
   const groups = useMemo(
     () =>
-      TIERS.map((tier) => ({ tier, list: sponsors.filter((s) => s.tier === tier) })).filter(
-        (g) => g.list.length > 0
-      ),
+      TIERS.map((tier) => ({
+        tier,
+        list: sponsors.filter((s) => sponsorTiers(s).includes(tier)),
+      })).filter((g) => g.list.length > 0),
     [sponsors]
-  )
-
-  const selected = useMemo(
-    () => sponsors.find((s) => s.id === selectedId) ?? null,
-    [sponsors, selectedId]
   )
 
   if (!sponsors.length) return null
@@ -113,7 +117,7 @@ export default function SponsorsBoard({ sponsors }: { sponsors: Sponsor[] }) {
   return (
     <div>
       {groups.map(({ tier, list }) => {
-        const openHere = selected && list.some((s) => s.id === selected.id)
+        const openHere = list.find((s) => `${tier}:${s.id}` === selectedKey) ?? null
         return (
           <section key={tier} className="mt-10 first:mt-8">
             <div className="flex items-center gap-3">
@@ -130,14 +134,15 @@ export default function SponsorsBoard({ sponsors }: { sponsors: Sponsor[] }) {
               aria-label={TIER_TITLES[tier] ?? tier}
             >
               {list.map((s) => {
-                const active = s.id === selectedId
+                const key = `${tier}:${s.id}`
+                const active = key === selectedKey
                 return (
                   <button
-                    key={s.id}
+                    key={key}
                     role="tab"
                     aria-selected={active}
-                    aria-controls={`sponsor-panel-${s.id}`}
-                    onClick={() => setSelectedId(active ? null : s.id)}
+                    aria-controls={`sponsor-panel-${tier}-${s.id}`}
+                    onClick={() => setSelectedKey(active ? null : key)}
                     className={[
                       'pane pane-hover flex items-center gap-3 px-3 py-3 text-left',
                       active ? 'pane-focus' : '',
@@ -147,7 +152,7 @@ export default function SponsorsBoard({ sponsors }: { sponsors: Sponsor[] }) {
                       <Image src={s.logo} alt="" fill sizes="40px" className="object-contain p-1" />
                     </span>
                     <span className="min-w-0 flex-1">
-                      <span className="text-mute block text-[11px]">{s.tier ?? ' '}</span>
+                      <span className="text-mute block text-[11px]">{tier}</span>
                       <span
                         className={[
                           'block truncate text-sm font-semibold',
@@ -169,8 +174,8 @@ export default function SponsorsBoard({ sponsors }: { sponsors: Sponsor[] }) {
               })}
             </div>
 
-            {openHere && selected ? (
-              <Detail sponsor={selected} onClose={() => setSelectedId(null)} />
+            {openHere ? (
+              <Detail sponsor={openHere} tier={tier} onClose={() => setSelectedKey(null)} />
             ) : null}
           </section>
         )
