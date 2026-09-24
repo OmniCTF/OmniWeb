@@ -3,6 +3,7 @@
   "version": "2.4.0",
   "private": true,
   "scripts": {
+    "og-card": "node scripts/og-card.mjs public/static/images/og-card.png",
     "start": "next dev",
     "predev": "node --no-warnings scripts/rss.mjs",
     "dev": "cross-env INIT_CWD=$PWD next dev",
