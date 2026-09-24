@@ -5,7 +5,11 @@ import ListLayout from '@/layouts/ListLayoutWithTags'
 
 const POSTS_PER_PAGE = 5
 
-export const metadata = genPageMetadata({ title: 'Blog' })
+export const metadata = genPageMetadata({
+  title: 'Blog',
+  description:
+    'Challenge writeups, announcements and updates from the OmniCTF team, covering web, crypto, forensics, reversing, OSINT and more.',
+})
 
 export default async function BlogPage(props: { searchParams: Promise<{ page: string }> }) {
   const posts = allCoreContent(sortPosts(allBlogs))

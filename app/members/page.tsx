@@ -2,6 +2,13 @@ import fs from 'fs'
 import path from 'path'
 import matter from 'gray-matter'
 import MembersClient, { MemberCardData } from './MembersClient'
+import { genPageMetadata } from 'app/seo'
+
+export const metadata = genPageMetadata({
+  title: 'Members',
+  description:
+    'The people behind OmniCTF: the organizers, challenge authors and contributors who build and run the competition.',
+})
 
 function isRetired(member: MemberCardData): boolean {
   return (member.position ?? '').toLowerCase().includes('retired')

@@ -4,7 +4,10 @@ import tagData from 'app/tag-data.json'
 import { genPageMetadata } from 'app/seo'
 import Window from '@/components/Window'
 
-export const metadata = genPageMetadata({ title: 'Tags', description: 'Things I blog about' })
+export const metadata = genPageMetadata({
+  title: 'Tags',
+  description: 'Browse OmniCTF writeups and posts by challenge category and topic.',
+})
 
 export default async function Page() {
   const tagCounts = tagData as Record<string, number>

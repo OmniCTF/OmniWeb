@@ -3,7 +3,11 @@ import { MDXLayoutRenderer } from 'pliny/mdx-components'
 import { genPageMetadata } from 'app/seo'
 import Window from '@/components/Window'
 
-export const metadata = genPageMetadata({ title: 'About' })
+export const metadata = genPageMetadata({
+  title: 'About',
+  description:
+    'What OmniCTF is, who runs it, and what to expect: a Romanian cybersecurity competition with online qualifiers feeding an on-site final in Constanta.',
+})
 
 export default function AboutPage() {
   const about = allAbouts[0]
