@@ -75,7 +75,7 @@ function CountdownModule() {
 
   return (
     <Link
-      href={label === 'results' ? '/#results' : '/'}
+      href={label === 'results' ? '/results' : '/'}
       className="module module-strong tabnum hover:bg-accent hover:text-accent-ink transition-colors"
       aria-label={
         label === 'results'

@@ -4,11 +4,10 @@ import siteMetadata from '@/data/siteMetadata'
 import { formatDate } from 'pliny/utils/formatDate'
 import { SPONSORS } from '@/data/sponsors'
 import { SPEAKERS, WORKSHOPS } from '@/data/workshops'
-import { EDITIONS, FINALS_RESULTS } from '@/data/results'
+import { FINALS_RESULTS } from '@/data/results'
 import { EVENT, EVENT_SPEC, LINKS } from '@/data/event'
 import SponsorsBoard from '@/components/SponsorsBoard'
 import WorkshopsBoard from '@/components/WorkshopsBoard'
-import ResultsBoard from '@/components/ResultsBoard'
 import SectionHeader from '@/components/SectionHeader'
 import AnnouncementTicker from '@/components/AnnouncementTicker'
 import CountdownCard from '@/components/CountdownCard'
@@ -157,16 +156,6 @@ export default function Main({ posts }: { posts: Post[] }) {
           },
         ]}
       />
-
-      <section id="results" className="w-full px-[var(--hypr-gap-out)] pt-16 sm:pt-20">
-        <SectionHeader
-          title="Final Standings"
-          subtitle="How each edition ended. Pick an edition to see its scoreboard."
-        />
-        <div className="mt-6">
-          <ResultsBoard editions={EDITIONS} />
-        </div>
-      </section>
 
       <section id="categories" className="w-full px-[var(--hypr-gap-out)] pt-16 sm:pt-20">
         <SectionHeader

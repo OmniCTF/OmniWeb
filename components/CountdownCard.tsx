@@ -70,7 +70,7 @@ function Podium({ podium }: { podium: TeamResult[] }) {
       ))}
 
       <a
-        href="#results"
+        href="/results"
         className="text-mute hover:text-accent mt-0.5 inline-flex items-center gap-1 self-start text-xs transition-colors"
       >
         full standings

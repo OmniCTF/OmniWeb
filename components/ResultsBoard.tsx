@@ -129,12 +129,12 @@ function Row({ r }: { r: TeamResult }) {
         </span>
 
         <span className="col-start-2 flex items-center gap-3 sm:contents">
-          <span
-            className="border-line-strong text-mute inline-block rounded border px-1.5 py-px text-xs font-semibold"
+          <img
+            src={`https://flagcdn.com/w40/${r.country.toLowerCase()}.png`}
+            alt={COUNTRY_NAME[r.country] ?? r.country}
             title={COUNTRY_NAME[r.country] ?? r.country}
-          >
-            {r.country}
-          </span>
+            className="border-line h-3 w-[18px] shrink-0 rounded-[2px] border object-cover"
+          />
 
           <span className="text-dim tabnum text-sm sm:text-right">{points(r.score)}</span>
         </span>
@@ -143,7 +143,15 @@ function Row({ r }: { r: TeamResult }) {
   )
 }
 
-export default function ResultsBoard({ editions }: { editions: EditionResults[] }) {
+export default function ResultsBoard({
+  editions,
+  title = 'finals.scores',
+  focus = false,
+}: {
+  editions: EditionResults[]
+  title?: string
+  focus?: boolean
+}) {
   const [year, setYear] = useState(editions[0]?.year ?? '')
   const edition = editions.find((e) => e.year === year) ?? editions[0]
 
@@ -152,9 +160,9 @@ export default function ResultsBoard({ editions }: { editions: EditionResults[] 
   const champion = edition.results[0]
 
   return (
-    <div className="pane overflow-hidden">
+    <div className={['pane overflow-hidden', focus ? 'pane-focus' : ''].join(' ')}>
       <div className="pane-title justify-between gap-3">
-        <span className="normal-case">finals.scores</span>
+        <span className="normal-case">{title}</span>
         {edition.sourceUrl ? (
           <a
             href={edition.sourceUrl}
