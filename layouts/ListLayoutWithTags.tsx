@@ -141,7 +141,7 @@ export default function ListLayoutWithTags({
           </div>
         </aside>
 
-        <div className="pane min-w-0 overflow-hidden">
+        <div className="pane pane-focus min-w-0 overflow-hidden">
           <div className="pane-title justify-between">
             <span className="normal-case">{activeTag ? `~/tags/${activeTag}` : '~/blog'}</span>
             <span className="tabnum normal-case">{posts.length} posts</span>

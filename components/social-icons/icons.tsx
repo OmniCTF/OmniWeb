@@ -117,7 +117,7 @@ export function Ctftime(svgProps: SVGProps<SVGSVGElement>) {
       stroke="currentColor"
       strokeLinecap="round"
       strokeLinejoin="round"
-      className="dark:hover:text-primary-400 h-6 w-6 fill-current text-white hover:text-purple-500 dark:hover:text-purple-400"
+      {...svgProps}
     >
       <title>CTFtime</title>
       <path d="M24 0v24H0V0zm-3.077 3.077L7.067 3.076 16 12.816 10.369 19l-2.195-2.612 3.476-3.573-8.574-9.609v17.717h17.847z" />
