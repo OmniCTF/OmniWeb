@@ -1,6 +1,14 @@
 import { allBlogs, allAuthors } from 'contentlayer/generated'
 import { sortPosts, coreContent } from 'pliny/utils/contentlayer'
 import Main from './Main'
+import { genPageMetadata } from 'app/seo'
+import { EventJsonLd } from '@/components/StructuredData'
+
+export const metadata = genPageMetadata({
+  title: 'OmniCTF',
+  description:
+    'OmniCTF is a Romanian cybersecurity capture-the-flag competition. Online qualifiers send twelve teams to an on-site final in Constanta: jeopardy and king-of-the-hill across web, pwn, reversing, crypto, forensics, OSINT and blockchain.',
+})
 
 export default async function Page() {
   const sortedPosts = sortPosts(allBlogs)
@@ -21,5 +29,10 @@ export default async function Page() {
     }
   })
 
-  return <Main posts={enrichedPosts} />
+  return (
+    <>
+      <EventJsonLd />
+      <Main posts={enrichedPosts} />
+    </>
+  )
 }

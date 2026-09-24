@@ -3,7 +3,11 @@ import { MDXLayoutRenderer } from 'pliny/mdx-components'
 import { genPageMetadata } from 'app/seo'
 import Window from '@/components/Window'
 
-export const metadata = genPageMetadata({ title: 'Special Thanks' })
+export const metadata = genPageMetadata({
+  title: 'Special Thanks',
+  description:
+    'The people and organizations who helped make OmniCTF happen, from challenge authors and testers to partners and volunteers.',
+})
 
 export default function SpecialThanksPage() {
   const entry = allSpecialThanks[0]

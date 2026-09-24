@@ -11,6 +11,7 @@ import { ThemeProviders } from './theme-providers'
 import { HyprProvider } from '@/components/session/HyprProvider'
 import ConfigWindow from '@/components/session/ConfigWindow'
 import KeybindsSheet from '@/components/session/KeybindsSheet'
+import { OrganizationJsonLd } from '@/components/StructuredData'
 import { Metadata } from 'next'
 import { SpeedInsights } from '@vercel/speed-insights/next'
 import { Analytics as VercelAnalytics } from '@vercel/analytics/next'
@@ -96,6 +97,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#15161e" />
         <meta name="google-adsense-account" content="ca-pub-4621933339524198" />
         <link rel="alternate" type="application/rss+xml" href={`${basePath}/feed.xml`} />
+        <OrganizationJsonLd />
         <script
           async
           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4621933339524198"

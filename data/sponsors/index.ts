@@ -17,7 +17,6 @@ export type Sponsor = {
   description: string
   website?: string
   links?: SponsorLink[]
-  /** A sponsor can hold more than one tier; it is then listed under each. */
   tier?: SponsorTier | SponsorTier[]
 }
 

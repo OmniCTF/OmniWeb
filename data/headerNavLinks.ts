@@ -4,6 +4,7 @@ const headerNavLinks = [
   { href: '/special-thanks', title: 'Special Thanks' },
   { href: '/blog', title: 'Blog' },
   { href: '/members', title: 'Members' },
+  { href: '/results', title: 'Results' },
 ]
 
 export default headerNavLinks

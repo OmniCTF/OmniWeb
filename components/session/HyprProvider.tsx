@@ -36,6 +36,25 @@ export const DEFAULT_CONFIG: HyprConfig = {
 
 const STORAGE_KEY = 'omnictf:hyprland.conf'
 
+function readStoredConfig(): HyprConfig {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY)
+    if (raw) return { ...DEFAULT_CONFIG, ...JSON.parse(raw) }
+  } catch {
+    return DEFAULT_CONFIG
+  }
+  return DEFAULT_CONFIG
+}
+
+function persistConfig(config: HyprConfig): boolean {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(config))
+    return true
+  } catch {
+    return false
+  }
+}
+
 type Ctx = {
   config: HyprConfig
   set: <K extends keyof HyprConfig>(key: K, value: HyprConfig[K]) => void
@@ -60,12 +79,7 @@ export function HyprProvider({ children }: { children: ReactNode }) {
   const [keybindsOpen, setKeybindsOpen] = useState(false)
 
   useEffect(() => {
-    try {
-      const raw = localStorage.getItem(STORAGE_KEY)
-      if (raw) setConfig({ ...DEFAULT_CONFIG, ...JSON.parse(raw) })
-    } catch {
-      /* a corrupt config just falls back to defaults */
-    }
+    setConfig(readStoredConfig())
   }, [])
 
   useEffect(() => {
@@ -78,11 +92,7 @@ export function HyprProvider({ children }: { children: ReactNode }) {
     root.dataset.hyprAnim = config.animations ? 'on' : 'off'
     root.dataset.hyprBlur = config.blur ? 'on' : 'off'
 
-    try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(config))
-    } catch {
-      /* private mode: the session just does not persist */
-    }
+    persistConfig(config)
   }, [config])
 
   const set = useCallback<Ctx['set']>((key, value) => {
