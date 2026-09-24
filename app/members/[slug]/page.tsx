@@ -87,12 +87,12 @@ export default async function MemberProfile({ params }: MemberPageProps) {
                       {member.displayName}
                     </h1>
                     {member.is_admin ? (
-                      <span className="border-ansi-yellow/40 text-ansi-yellow rounded border px-1.5 py-px text-[11px] font-semibold">
+                      <span className="border-ansi-yellow/40 text-ansi-yellow rounded border px-1.5 py-px text-xs font-semibold">
                         admin
                       </span>
                     ) : null}
                     {retired ? (
-                      <span className="border-line-strong text-mute rounded border px-1.5 py-px text-[11px] font-semibold">
+                      <span className="border-line-strong text-mute rounded border px-1.5 py-px text-xs font-semibold">
                         retired
                       </span>
                     ) : null}

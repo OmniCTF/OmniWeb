@@ -16,7 +16,7 @@ function Row({ label, children }: { label: string; children: React.ReactNode }) 
 export default function Footer() {
   return (
     <footer className="border-line mt-20 w-full border-t">
-      <div className="w-full px-2 py-8 sm:px-3">
+      <div className="w-full px-[var(--hypr-gap-out)] py-8">
         <div className="pane overflow-hidden">
           <div className="pane-title justify-between">
             <span className="normal-case">omnictf@omnicybr:~</span>

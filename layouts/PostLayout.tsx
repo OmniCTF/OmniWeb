@@ -30,7 +30,7 @@ interface LayoutProps {
 
 function RailHeading({ children }: { children: ReactNode }) {
   return (
-    <h2 className="text-mute text-[11px] font-semibold tracking-[0.12em] uppercase">{children}</h2>
+    <h2 className="text-mute text-xs font-semibold tracking-[0.12em] uppercase">{children}</h2>
   )
 }
 
@@ -163,7 +163,7 @@ export default function PostLayout({ content, authorDetails, next, prev, childre
           </div>
         </aside>
 
-        <article className="pane min-w-0 overflow-hidden">
+        <article className="pane pane-focus min-w-0 overflow-hidden">
           <div className="pane-title justify-between">
             <span className="min-w-0 truncate normal-case">~/{path}</span>
             <span className="tabnum shrink-0 normal-case">

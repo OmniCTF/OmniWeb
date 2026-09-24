@@ -24,7 +24,7 @@ export default function NotFound() {
               href="/"
               className="bg-accent text-accent-ink hover:bg-accent-strong mt-7 inline-flex items-center gap-2 rounded px-4 py-2.5 text-sm font-semibold transition-colors"
             >
-              <ArrowLeft className="h-4 w-4" strokeWidth={2.5} aria-hidden />
+              <ArrowLeft className="h-4 w-4" strokeWidth={2} aria-hidden />
               Back to homepage
             </Link>
           </div>

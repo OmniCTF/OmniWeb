@@ -47,8 +47,14 @@ function CountdownModule() {
 
   useEffect(() => {
     const target = new Date(EVENT.countdownTargetIso).getTime()
+    const end = new Date(EVENT.endIso).getTime()
     const tick = () => {
-      const diff = target - Date.now()
+      const now = Date.now()
+      const diff = target - now
+      if (now >= end) {
+        setLabel('results')
+        return
+      }
       if (diff <= 0) {
         setLabel('live')
         return
@@ -69,9 +75,15 @@ function CountdownModule() {
 
   return (
     <Link
-      href="/"
+      href={label === 'results' ? '/#results' : '/'}
       className="module module-strong tabnum hover:bg-accent hover:text-accent-ink transition-colors"
-      aria-label={`Time until the finals: ${label}`}
+      aria-label={
+        label === 'results'
+          ? 'Finals concluded, view the final standings'
+          : label === 'live'
+            ? 'The finals are live'
+            : `Time until the finals: ${label}`
+      }
     >
       <span className="bg-accent inline-block h-1.5 w-1.5 shrink-0 rounded-full" />
       <span className="hidden font-medium sm:inline">finals</span>
@@ -144,7 +156,7 @@ const Header = () => {
               >
                 <span
                   className={[
-                    'tabnum text-[11px] font-semibold',
+                    'tabnum text-xs font-semibold',
                     active ? 'text-accent-ink/70' : 'text-mute',
                   ].join(' ')}
                   aria-hidden

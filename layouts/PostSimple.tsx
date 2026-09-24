@@ -21,7 +21,7 @@ export default function PostSimple({ content, next, prev, children }: LayoutProp
   return (
     <div className="w-full p-[var(--hypr-gap-out)]">
       <ScrollTopAndComment />
-      <article className="pane overflow-hidden">
+      <article className="pane pane-focus overflow-hidden">
         <div className="pane-title justify-between">
           <span className="min-w-0 truncate normal-case">~/{path}</span>
           <span className="tabnum normal-case">

@@ -231,7 +231,7 @@ export default function ConfigWindow() {
         </Section>
       </div>
 
-      <p className="border-line text-mute border-t px-4 py-2 text-[11px]">
+      <p className="border-line text-mute border-t px-4 py-2 text-xs">
         Applies live, saved to this browser. Drag the title bar to move.
       </p>
     </div>

@@ -227,6 +227,9 @@
 
   a:focus-visible,
   button:focus-visible,
+  input:focus-visible,
+  select:focus-visible,
+  textarea:focus-visible,
   [tabindex]:focus-visible {
     outline: 2px solid var(--c-accent);
     outline-offset: 2px;
@@ -358,8 +361,6 @@
     }
   }
 
-  /* Announcement ticker: the track holds two identical halves, so sliding it
-     exactly -50% lands back on an identical frame and the loop is seamless. */
   @keyframes ticker-slide {
     from {
       transform: translateX(0);

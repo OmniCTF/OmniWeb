@@ -4,9 +4,11 @@ import siteMetadata from '@/data/siteMetadata'
 import { formatDate } from 'pliny/utils/formatDate'
 import { SPONSORS } from '@/data/sponsors'
 import { SPEAKERS, WORKSHOPS } from '@/data/workshops'
+import { EDITIONS, FINALS_RESULTS } from '@/data/results'
 import { EVENT, EVENT_SPEC, LINKS } from '@/data/event'
 import SponsorsBoard from '@/components/SponsorsBoard'
 import WorkshopsBoard from '@/components/WorkshopsBoard'
+import ResultsBoard from '@/components/ResultsBoard'
 import SectionHeader from '@/components/SectionHeader'
 import AnnouncementTicker from '@/components/AnnouncementTicker'
 import CountdownCard from '@/components/CountdownCard'
@@ -98,7 +100,7 @@ export default function Main({ posts }: { posts: Post[] }) {
                     className="bg-accent text-accent-ink hover:bg-accent-strong inline-flex items-center gap-2 rounded px-4 py-2.5 text-sm font-semibold transition-colors"
                   >
                     Register
-                    <ArrowRight className="h-4 w-4" strokeWidth={2.5} aria-hidden />
+                    <ArrowRight className="h-4 w-4" strokeWidth={2} aria-hidden />
                   </a>
                   <a
                     href={LINKS.login}
@@ -130,6 +132,7 @@ export default function Main({ posts }: { posts: Post[] }) {
                 targetIso={EVENT.countdownTargetIso}
                 title="Time until kickoff"
                 frameless
+                podium={FINALS_RESULTS}
               />
             ),
           },
@@ -155,7 +158,17 @@ export default function Main({ posts }: { posts: Post[] }) {
         ]}
       />
 
-      <section id="categories" className="w-full px-[var(--hypr-gap-out)] pt-12 sm:pt-16">
+      <section id="results" className="w-full px-[var(--hypr-gap-out)] pt-16 sm:pt-20">
+        <SectionHeader
+          title="Final Standings"
+          subtitle="How each edition ended. Pick an edition to see its scoreboard."
+        />
+        <div className="mt-6">
+          <ResultsBoard editions={EDITIONS} />
+        </div>
+      </section>
+
+      <section id="categories" className="w-full px-[var(--hypr-gap-out)] pt-16 sm:pt-20">
         <SectionHeader
           title="Challenge Categories"
           subtitle="A curated set of problems spanning core offensive & analytical security domains."

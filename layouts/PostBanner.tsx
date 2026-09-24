@@ -22,7 +22,7 @@ export default function PostBanner({ content, next, prev, children }: LayoutProp
   return (
     <div className="w-full p-[var(--hypr-gap-out)]">
       <ScrollTopAndComment />
-      <article className="pane overflow-hidden">
+      <article className="pane pane-focus overflow-hidden">
         <div className="pane-title">
           <span className="min-w-0 truncate normal-case">~/{path}</span>
         </div>

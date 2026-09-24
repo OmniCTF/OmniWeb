@@ -33,7 +33,7 @@ const ThemeSwitch = () => {
         className="bg-accent text-accent-ink pointer-events-none absolute top-[2px] left-[2px] flex h-5 w-5 items-center justify-center rounded-full transition-transform duration-200 ease-[cubic-bezier(0.16,1,0.3,1)]"
         style={{ transform: isDark ? 'translateX(0)' : 'translateX(20px)' }}
       >
-        {mounted ? <Icon className="h-3 w-3" strokeWidth={2.5} /> : null}
+        {mounted ? <Icon className="h-3 w-3" strokeWidth={2} /> : null}
       </span>
     </button>
   )

@@ -30,7 +30,7 @@ function Detail({
     <div
       id={`sponsor-panel-${tier}-${sponsor.id}`}
       role="tabpanel"
-      className="pane pane-focus mt-[var(--hypr-gap-in)] overflow-hidden"
+      className="pane border-accent/40 mt-[var(--hypr-gap-in)] overflow-hidden"
     >
       <div className="pane-title justify-between">
         <span className="normal-case">sponsor.info</span>
@@ -59,7 +59,7 @@ function Detail({
         <div className="min-w-0 flex-1">
           <div className="flex flex-wrap items-center gap-3">
             <h3 className="text-fg text-lg font-semibold tracking-normal">{sponsor.name}</h3>
-            <span className="border-accent/30 bg-accent-wash text-accent rounded border px-2 py-0.5 text-[11px] font-semibold">
+            <span className="border-accent/30 bg-accent-wash text-accent rounded border px-2 py-0.5 text-xs font-semibold">
               {tier}
             </span>
           </div>
@@ -99,8 +99,6 @@ function Detail({
 }
 
 export default function SponsorsBoard({ sponsors }: { sponsors: Sponsor[] }) {
-  // Keyed by tier as well as id: a sponsor holding two tiers is listed twice,
-  // and only the tile that was clicked should open.
   const [selectedKey, setSelectedKey] = useState<string | null>(null)
 
   const groups = useMemo(
@@ -145,14 +143,14 @@ export default function SponsorsBoard({ sponsors }: { sponsors: Sponsor[] }) {
                     onClick={() => setSelectedKey(active ? null : key)}
                     className={[
                       'pane pane-hover flex items-center gap-3 px-3 py-3 text-left',
-                      active ? 'pane-focus' : '',
+                      active ? 'border-accent/40 bg-raise' : '',
                     ].join(' ')}
                   >
                     <span className="border-line bg-inset relative inline-block h-10 w-10 shrink-0 overflow-hidden rounded border">
                       <Image src={s.logo} alt="" fill sizes="40px" className="object-contain p-1" />
                     </span>
                     <span className="min-w-0 flex-1">
-                      <span className="text-mute block text-[11px]">{tier}</span>
+                      <span className="text-mute block text-xs">{tier}</span>
                       <span
                         className={[
                           'block truncate text-sm font-semibold',

@@ -71,7 +71,7 @@ export default function KeybindsSheet() {
         <div className="grid grid-cols-1 gap-x-8 gap-y-6 p-5 sm:grid-cols-3">
           {GROUPS.map((group) => (
             <div key={group.title}>
-              <h3 className="text-mute text-[11px] font-semibold tracking-[0.12em] uppercase">
+              <h3 className="text-mute text-xs font-semibold tracking-[0.12em] uppercase">
                 {group.title}
               </h3>
               <dl className="mt-3 space-y-2">
@@ -88,7 +88,7 @@ export default function KeybindsSheet() {
           ))}
         </div>
 
-        <p className="border-line text-mute border-t px-5 py-2.5 text-[11px]">
+        <p className="border-line text-mute border-t px-5 py-2.5 text-xs">
           Bindings are ignored while typing in a field.
         </p>
       </div>

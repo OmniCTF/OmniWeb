@@ -302,9 +302,9 @@ export default function Workspace({ windows }: { windows: Win[] }) {
               className="text-mute hover:text-accent hidden h-4 w-4 items-center justify-center rounded transition-colors lg:flex"
             >
               {isFloating ? (
-                <LayoutGrid className="h-3 w-3" strokeWidth={2.5} />
+                <LayoutGrid className="h-3 w-3" strokeWidth={2} />
               ) : (
-                <PictureInPicture2 className="h-3 w-3" strokeWidth={2.5} />
+                <PictureInPicture2 className="h-3 w-3" strokeWidth={2} />
               )}
             </button>
             <button
@@ -318,7 +318,7 @@ export default function Workspace({ windows }: { windows: Win[] }) {
               title={`Close ${w.title} (q)`}
               className="text-mute hover:text-ansi-red -mr-1 flex h-4 w-4 items-center justify-center rounded transition-colors"
             >
-              <X className="h-3 w-3" strokeWidth={2.5} />
+              <X className="h-3 w-3" strokeWidth={2} />
             </button>
           </span>
         </div>
@@ -346,7 +346,7 @@ export default function Workspace({ windows }: { windows: Win[] }) {
   }
 
   const bar = (
-    <div className="text-mute flex flex-wrap items-center gap-x-4 gap-y-1 px-1 pt-2 text-[11px]">
+    <div className="text-mute flex flex-wrap items-center gap-x-4 gap-y-1 px-1 pt-2 text-xs">
       <span className="hidden items-center gap-1.5 lg:flex">drag a title bar to swap windows</span>
       <span className="flex items-center gap-1.5">
         <kbd className="kbd">h</kbd>
@@ -408,7 +408,7 @@ export default function Workspace({ windows }: { windows: Win[] }) {
               onClick={restore}
               className="bg-accent text-accent-ink hover:bg-accent-strong inline-flex items-center gap-2 rounded px-4 py-2 text-sm font-semibold transition-colors"
             >
-              <RotateCcw className="h-3.5 w-3.5" strokeWidth={2.5} aria-hidden />
+              <RotateCcw className="h-3.5 w-3.5" strokeWidth={2} aria-hidden />
               Restore windows
             </button>
           </div>

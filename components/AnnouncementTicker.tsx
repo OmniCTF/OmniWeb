@@ -1,6 +1,5 @@
 import { ArrowUpRight } from 'lucide-react'
 
-/** Repeats enough to fill a wide viewport before the loop point. */
 const REPEATS = 4
 
 export default function AnnouncementTicker({
@@ -14,19 +13,16 @@ export default function AnnouncementTicker({
 }) {
   if (!messages.length) return null
 
-  // One half of the track. The track renders it twice; the animation slides
-  // exactly -50%, so the seam never shows.
   const half = Array.from({ length: REPEATS }).flatMap(() => messages)
 
   const lane = (ariaHidden: boolean) => (
     <ul
       className="flex shrink-0 items-center"
       aria-hidden={ariaHidden || undefined}
-      // The visible half carries the text for assistive tech; the duplicate is hidden.
     >
       {half.map((m, i) => (
         <li key={`${m}-${i}`} className="flex shrink-0 items-center">
-          <span className="text-accent px-5 text-[11px] font-semibold tracking-[0.18em] whitespace-nowrap uppercase">
+          <span className="text-accent px-5 text-xs font-semibold tracking-[0.18em] whitespace-nowrap uppercase">
             {m}
           </span>
           <span className="bg-accent/40 h-1 w-1 shrink-0 rotate-45" aria-hidden />

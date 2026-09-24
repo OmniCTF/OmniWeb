@@ -93,7 +93,7 @@ export default function MembersClient({ members }: { members: MemberCardData[] }
                 onChange={(e) => setQuery(e.target.value)}
                 placeholder="Search members…"
                 aria-label="Search members"
-                className="border-line bg-inset text-fg placeholder:text-mute focus:border-accent/60 w-full rounded border py-2 pr-10 pl-9 text-sm transition-colors outline-none"
+                className="border-line bg-inset text-fg placeholder:text-mute focus:border-accent/60 w-full rounded border py-2 pr-10 pl-9 text-sm transition-colors"
               />
               <kbd className="kbd pointer-events-none absolute top-1/2 right-2 -translate-y-1/2">
                 /
@@ -104,7 +104,7 @@ export default function MembersClient({ members }: { members: MemberCardData[] }
               value={activeTag}
               onChange={(e) => setActiveTag(e.target.value)}
               aria-label="Filter by tag"
-              className="border-line bg-inset text-fg focus:border-accent/60 w-full rounded border px-3 py-2 text-sm transition-colors outline-none sm:w-44"
+              className="border-line bg-inset text-fg focus:border-accent/60 w-full rounded border px-3 py-2 text-sm transition-colors sm:w-44"
             >
               {allTags.map((t) => (
                 <option key={t} value={t}>
@@ -115,7 +115,7 @@ export default function MembersClient({ members }: { members: MemberCardData[] }
           </div>
         </div>
 
-        <div className="border-line text-mute hidden border-b px-5 py-2 text-[11px] font-semibold tracking-[0.1em] uppercase lg:grid lg:grid-cols-[3rem_minmax(0,1.4fr)_minmax(0,1fr)_9rem_minmax(0,1.1fr)_6.5rem] lg:gap-4">
+        <div className="border-line text-mute hidden border-b px-5 py-2 text-xs font-semibold tracking-[0.1em] uppercase lg:grid lg:grid-cols-[3rem_minmax(0,1.4fr)_minmax(0,1fr)_9rem_minmax(0,1.1fr)_6.5rem] lg:gap-4">
           <span className="text-right">id</span>
           <span>name</span>
           <span>position</span>
@@ -163,12 +163,12 @@ export default function MembersClient({ members }: { members: MemberCardData[] }
                         {member.displayName}
                       </span>
                       {member.is_admin ? (
-                        <span className="border-ansi-yellow/40 text-ansi-yellow rounded border px-1.5 py-px text-[11px] font-semibold">
+                        <span className="border-ansi-yellow/40 text-ansi-yellow rounded border px-1.5 py-px text-xs font-semibold">
                           admin
                         </span>
                       ) : null}
                       {retired ? (
-                        <span className="border-line-strong text-mute rounded border px-1.5 py-px text-[11px] font-semibold">
+                        <span className="border-line-strong text-mute rounded border px-1.5 py-px text-xs font-semibold">
                           retired
                         </span>
                       ) : null}
