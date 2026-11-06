@@ -5,7 +5,7 @@ import PageTitle from '@/components/PageTitle'
 import { components } from '@/components/MDXComponents'
 import MDXContent from '@/components/MDXContent'
 import { sortPosts, coreContent, allCoreContent } from '@/lib/content'
-import type { Author, Blog } from '@/lib/content'
+import type { Author, Blog, CoreContent } from '@/lib/content'
 import { blogCollection } from '@/qino/collections/blog'
 import { authorCollection } from '@/qino/collections/authors'
 import PostSimple from '@/layouts/PostSimple'
@@ -28,8 +28,10 @@ function getAuthorDetails(post: Blog, allAuthors: Array<Author>) {
   const authorList = post.authors || ['default']
   return authorList.map((author) => {
     const authorResults = allAuthors.find((p) => p.slug === author)
+    // An unknown slug renders with the slug only, as with pliny's coreContent.
+    const details = authorResults ? coreContent(authorResults) : ({} as CoreContent<Author>)
     return {
-      ...coreContent(authorResults as Author),
+      ...details,
       slug: authorResults?.slug || author,
     }
   })
