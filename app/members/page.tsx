@@ -1,6 +1,4 @@
-import fs from 'fs'
-import path from 'path'
-import matter from 'gray-matter'
+import { authorCollection } from '@/qino/collections/authors'
 import MembersClient, { MemberCardData } from './MembersClient'
 import { genPageMetadata } from 'app/seo'
 
@@ -41,17 +39,21 @@ function compareMembers(a: MemberCardData, b: MemberCardData): number {
 }
 
 export default async function MembersPage() {
-  const dir = path.join(process.cwd(), 'data/authors')
-  const files = fs.readdirSync(dir).filter((file) => file.endsWith('.mdx'))
+  const authors = await authorCollection.getEntries()
 
-  const members: MemberCardData[] = files.map((file) => {
-    const fileContent = fs.readFileSync(path.join(dir, file), 'utf-8')
-    const { data } = matter(fileContent)
-    return {
-      ...(data as any),
-      slug: file.replace('.mdx', ''),
-    }
-  })
+  const members: MemberCardData[] = authors.map((author) => ({
+    slug: author.slug,
+    id: author.id,
+    is_admin: author.is_admin,
+    name: author.name,
+    displayName: author.displayName,
+    avatar: author.avatar ?? undefined,
+    country: author.country,
+    joined: author.joined,
+    position: author.position,
+    tags: author.tags,
+    links: author.links,
+  }))
 
   members.sort(compareMembers)
 

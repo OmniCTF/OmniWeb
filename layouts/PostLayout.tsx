@@ -1,6 +1,5 @@
 import { ReactNode } from 'react'
-import { CoreContent } from 'pliny/utils/contentlayer'
-import type { Blog, Authors } from 'contentlayer/generated'
+import type { Author, Blog, CoreContent } from '@/lib/content'
 import { ArrowLeft, ArrowUpRight, ChevronLeft, ChevronRight } from 'lucide-react'
 import Comments from '@/components/Comments'
 import Link from '@/components/Link'
@@ -9,8 +8,8 @@ import Tag from '@/components/Tag'
 import siteMetadata from '@/data/siteMetadata'
 import ScrollTopAndComment from '@/components/ScrollTopAndComment'
 
-const editUrl = (path) => `${siteMetadata.siteRepo}/blob/main/data/${path}`
-const discussUrl = (path) =>
+const editUrl = (path: string) => `${siteMetadata.siteRepo}/blob/main/data/${path}`
+const discussUrl = (path: string) =>
   `https://mobile.twitter.com/search?q=${encodeURIComponent(`${siteMetadata.siteUrl}/${path}`)}`
 
 const postDateTemplate: Intl.DateTimeFormatOptions = {
@@ -22,7 +21,7 @@ const postDateTemplate: Intl.DateTimeFormatOptions = {
 
 interface LayoutProps {
   content: CoreContent<Blog>
-  authorDetails: (CoreContent<Authors> & { slug: string })[]
+  authorDetails: (CoreContent<Author> & { slug: string })[]
   next?: { path: string; title: string }
   prev?: { path: string; title: string }
   children: ReactNode
@@ -35,9 +34,7 @@ function RailHeading({ children }: { children: ReactNode }) {
 }
 
 export default function PostLayout({ content, authorDetails, next, prev, children }: LayoutProps) {
-  const { filePath, path, slug, date, title, tags, readingTime } = content as CoreContent<Blog> & {
-    readingTime?: { text?: string }
-  }
+  const { filePath, path, slug, date, title, tags, readingTime } = content
   const basePath = path.split('/')[0]
 
   return (

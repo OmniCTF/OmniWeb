@@ -1,7 +1,6 @@
 import { ReactNode } from 'react'
 import { formatDate } from 'pliny/utils/formatDate'
-import { CoreContent } from 'pliny/utils/contentlayer'
-import type { Blog } from 'contentlayer/generated'
+import type { Blog, CoreContent } from '@/lib/content'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import Comments from '@/components/Comments'
 import Link from '@/components/Link'

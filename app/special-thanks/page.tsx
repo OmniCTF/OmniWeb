@@ -1,5 +1,5 @@
-import { allSpecialThanks } from 'contentlayer/generated'
-import { MDXLayoutRenderer } from 'pliny/mdx-components'
+import { specialThanksItem } from '@/qino/items/special-thanks'
+import MDXContent from '@/components/MDXContent'
 import { genPageMetadata } from 'app/seo'
 import Window from '@/components/Window'
 
@@ -9,8 +9,8 @@ export const metadata = genPageMetadata({
     'The people and organizations who helped make OmniCTF happen, from challenge authors and testers to partners and volunteers.',
 })
 
-export default function SpecialThanksPage() {
-  const entry = allSpecialThanks[0]
+export default async function SpecialThanksPage() {
+  const entry = await specialThanksItem.getEntry()
 
   return (
     <div className="w-full p-[var(--hypr-gap-out)]">
@@ -28,7 +28,7 @@ export default function SpecialThanksPage() {
         </p>
         <div className="bg-line mt-8 h-px w-full" />
         <div className="prose prose-invert mt-8 max-w-none">
-          <MDXLayoutRenderer code={entry.body.code} />
+          <MDXContent source={entry.markdown} />
         </div>
       </Window>
     </div>

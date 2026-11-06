@@ -17,7 +17,7 @@ import { MapPin, ArrowUpRight, ArrowRight } from 'lucide-react'
 type Post = {
   path: string
   title: string
-  summary: string
+  summary?: string
   date: string
   tags?: string[]
   authorsData?: { slug?: string; name?: string; avatar?: string }[]

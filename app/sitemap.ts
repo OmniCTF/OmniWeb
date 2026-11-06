@@ -1,22 +1,17 @@
 import { MetadataRoute } from 'next'
-import fs from 'fs'
-import path from 'path'
-import { allBlogs } from 'contentlayer/generated'
-import tagData from 'app/tag-data.json'
+import { blogCollection } from '@/qino/collections/blog'
+import { authorCollection } from '@/qino/collections/authors'
+import { getTagCounts } from '@/lib/get-tag-counts'
 import siteMetadata from '@/data/siteMetadata'
 
 export const dynamic = 'force-static'
 
-function memberSlugs(): string[] {
-  const dir = path.join(process.cwd(), 'data', 'authors')
-  if (!fs.existsSync(dir)) return []
-  return fs
-    .readdirSync(dir)
-    .filter((file) => file.endsWith('.mdx'))
-    .map((file) => file.replace(/\.mdx$/, ''))
-}
-
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  const [allBlogs, memberSlugs, tagData] = await Promise.all([
+    blogCollection.getEntries(),
+    authorCollection.getAllSlugs(),
+    getTagCounts(),
+  ])
   const siteUrl = siteMetadata.siteUrl
   const today = new Date().toISOString().split('T')[0]
 
@@ -29,14 +24,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.7,
   }))
 
-  const tagRoutes = Object.keys(tagData as Record<string, number>).map((tag) => ({
+  const tagRoutes = Object.keys(tagData).map((tag) => ({
     url: `${siteUrl}/tags/${encodeURIComponent(tag)}`,
     lastModified: today,
     changeFrequency: 'monthly' as const,
     priority: 0.4,
   }))
 
-  const memberRoutes = memberSlugs().map((slug) => ({
+  const memberRoutes = memberSlugs.map((slug) => ({
     url: `${siteUrl}/members/${slug}`,
     lastModified: today,
     changeFrequency: 'monthly' as const,
