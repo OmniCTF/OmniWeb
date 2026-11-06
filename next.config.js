@@ -1,7 +1,3 @@
-const withBundleAnalyzer = require('@next/bundle-analyzer')({
-  enabled: process.env.ANALYZE === 'true',
-})
-
 const ContentSecurityPolicy = `
   default-src 'self';
 
@@ -88,11 +84,8 @@ const baseConfig = {
   devIndicators: false,
   // MDX now compiles at render time; uglify-js (via rehype-preset-minify) reads its own files on load.
   serverExternalPackages: ['uglify-js'],
-  eslint: {
-    dirs: ['app', 'components', 'layouts', 'scripts'],
-  },
   images: {
-  domains: [
+  remotePatterns: [
     'cdn.discordapp.com',
     'media.discordapp.net',
     'media.canva.com',
@@ -103,7 +96,7 @@ const baseConfig = {
     'spectrumconstanta.ro',
     'yt3.ggpht.com',
     'cdn.simpleicons.org',
-  ],
+  ].map((hostname) => ({ protocol: 'https', hostname })),
   // Required to serve SVG logos (e.g. ambasada) through next/image.
   // Sandboxed and script-free, per the Next.js recommended configuration.
   dangerouslyAllowSVG: true,
@@ -121,16 +114,14 @@ const baseConfig = {
       },
     ]
   },
-  webpack: (config) => {
-    config.module.rules.push({
-      test: /\.svg$/,
-      use: ['@svgr/webpack'],
-    })
-    return config
+  turbopack: {
+    rules: {
+      '*.svg': {
+        loaders: ['@svgr/webpack'],
+        as: '*.js',
+      },
+    },
   },
 }
 
-module.exports = () => {
-  const plugins = [withBundleAnalyzer]
-  return plugins.reduce((acc, next) => next(acc), baseConfig)
-}
+module.exports = () => baseConfig
