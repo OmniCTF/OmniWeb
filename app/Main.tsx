@@ -28,9 +28,8 @@ const categories = [
   { name: 'Web', hint: 'Realistic bugs & chains', color: 'var(--c-cyan)' },
   { name: 'Forensics', hint: 'Artifacts, memory, traffic', color: 'var(--c-green)' },
   { name: 'PWN', hint: 'Exploitation & primitives', color: 'var(--c-red)' },
-  { name: 'Crypto', hint: 'Attacks over theory', color: 'var(--c-accent)' },
+  { name: 'Cryptography', hint: 'Attacks over theory', color: 'var(--c-accent)' },
   { name: 'OSINT', hint: 'Trace, pivot, verify', color: 'var(--c-yellow)' },
-  { name: 'Blockchain', hint: 'Blockchain stuff', color: 'var(--c-blue)' },
   { name: 'Misc', hint: 'Curveballs & creativity', color: 'var(--c-mute)' },
 ]
 
