@@ -1,9 +1,9 @@
 import { slug } from 'github-slugger'
-import { allCoreContent, sortPosts } from 'pliny/utils/contentlayer'
+import { allCoreContent, sortPosts } from '@/lib/content'
 import siteMetadata from '@/data/siteMetadata'
 import ListLayout from '@/layouts/ListLayoutWithTags'
-import { allBlogs } from 'contentlayer/generated'
-import tagData from 'app/tag-data.json'
+import { blogCollection } from '@/qino/collections/blog'
+import { getTagCounts } from '@/lib/get-tag-counts'
 import { genPageMetadata } from 'app/seo'
 import { Metadata } from 'next'
 
@@ -27,7 +27,7 @@ export async function generateMetadata(props: {
 }
 
 export const generateStaticParams = async () => {
-  const tagCounts = tagData as Record<string, number>
+  const tagCounts = await getTagCounts()
   const tagKeys = Object.keys(tagCounts)
   return tagKeys.map((tag) => ({
     tag: encodeURI(tag),
@@ -38,6 +38,7 @@ export default async function TagPage(props: { params: Promise<{ tag: string }> 
   const params = await props.params
   const tag = decodeURI(params.tag)
   const title = tag[0].toUpperCase() + tag.split(' ').join('-').slice(1)
+  const [allBlogs, tagCounts] = await Promise.all([blogCollection.getEntries(), getTagCounts()])
   const filteredPosts = allCoreContent(
     sortPosts(allBlogs.filter((post) => post.tags && post.tags.map((t) => slug(t)).includes(tag)))
   )
@@ -54,6 +55,7 @@ export default async function TagPage(props: { params: Promise<{ tag: string }> 
       initialDisplayPosts={initialDisplayPosts}
       pagination={pagination}
       title={title}
+      tagCounts={tagCounts}
     />
   )
 }

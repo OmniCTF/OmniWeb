@@ -3,10 +3,11 @@ import 'katex/dist/katex.css'
 
 import PageTitle from '@/components/PageTitle'
 import { components } from '@/components/MDXComponents'
-import { MDXLayoutRenderer } from 'pliny/mdx-components'
-import { sortPosts, coreContent, allCoreContent } from 'pliny/utils/contentlayer'
-import { allBlogs, allAuthors } from 'contentlayer/generated'
-import type { Authors, Blog } from 'contentlayer/generated'
+import MDXContent from '@/components/MDXContent'
+import { sortPosts, coreContent, allCoreContent } from '@/lib/content'
+import type { Author, Blog } from '@/lib/content'
+import { blogCollection } from '@/qino/collections/blog'
+import { authorCollection } from '@/qino/collections/authors'
 import PostSimple from '@/layouts/PostSimple'
 import PostLayout from '@/layouts/PostLayout'
 import PostBanner from '@/layouts/PostBanner'
@@ -15,6 +16,38 @@ import siteMetadata from '@/data/siteMetadata'
 import { notFound } from 'next/navigation'
 
 const defaultLayout = 'PostLayout'
+
+// Checks the slug against the collection before reading it, so unknown params 404.
+async function findPost(slug: string) {
+  const slugs = await blogCollection.getAllSlugs()
+  if (!slugs.includes(slug)) return undefined
+  return blogCollection.getEntry(slug)
+}
+
+function getAuthorDetails(post: Blog, allAuthors: Array<Author>) {
+  const authorList = post.authors || ['default']
+  return authorList.map((author) => {
+    const authorResults = allAuthors.find((p) => p.slug === author)
+    return {
+      ...coreContent(authorResults as Author),
+      slug: authorResults?.slug || author,
+    }
+  })
+}
+
+// Was a Contentlayer computed field.
+function getStructuredData(post: Blog) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: post.title,
+    datePublished: post.date,
+    dateModified: post.lastmod || post.date,
+    description: post.summary,
+    image: post.images ? post.images[0] : siteMetadata.socialBanner,
+    url: `${siteMetadata.siteUrl}/${post.path}`,
+  }
+}
 const layouts = {
   PostSimple,
   PostLayout,
@@ -26,18 +59,11 @@ export async function generateMetadata(props: {
 }): Promise<Metadata | undefined> {
   const params = await props.params
   const slug = decodeURI(params.slug.join('/'))
-  const post = allBlogs.find((p) => p.slug === slug)
-  const authorList = post?.authors || ['default']
-  const authorDetails = authorList.map((author) => {
-    const authorResults = allAuthors.find((p) => p.slug === author)
-    return {
-      ...coreContent(authorResults as Authors),
-      slug: authorResults?.slug || author,
-    }
-  })
+  const post = await findPost(slug)
   if (!post) {
     return
   }
+  const authorDetails = getAuthorDetails(post, await authorCollection.getEntries())
 
   const publishedAt = new Date(post.date).toISOString()
   const modifiedAt = new Date(post.lastmod || post.date).toISOString()
@@ -77,13 +103,18 @@ export async function generateMetadata(props: {
 }
 
 export const generateStaticParams = async () => {
-  return allBlogs.map((p) => ({ slug: p.slug.split('/').map((name) => decodeURI(name)) }))
+  const slugs = await blogCollection.getAllSlugs()
+  return slugs.map((slug) => ({ slug: slug.split('/').map((name) => decodeURI(name)) }))
 }
 
 export default async function Page(props: { params: Promise<{ slug: string[] }> }) {
   const params = await props.params
   const slug = decodeURI(params.slug.join('/'))
 
+  const [allBlogs, allAuthors] = await Promise.all([
+    blogCollection.getEntries(),
+    authorCollection.getEntries(),
+  ])
   const sortedCoreContents = allCoreContent(sortPosts(allBlogs))
   const postIndex = sortedCoreContents.findIndex((p) => p.slug === slug)
   if (postIndex === -1) {
@@ -93,24 +124,18 @@ export default async function Page(props: { params: Promise<{ slug: string[] }> 
   const prev = sortedCoreContents[postIndex + 1]
   const next = sortedCoreContents[postIndex - 1]
   const post = allBlogs.find((p) => p.slug === slug) as Blog
-
-  const authorList = post?.authors || ['default']
-  const authorDetails = authorList.map((author) => {
-    const authorResults = allAuthors.find((p) => p.slug === author)
-    return {
-      ...coreContent(authorResults as Authors),
-      slug: authorResults?.slug || author,
-    }
-  })
+  const authorDetails = getAuthorDetails(post, allAuthors)
 
   const mainContent = coreContent(post)
-  const jsonLd = post.structuredData
-  jsonLd['author'] = authorDetails.map((author) => {
-    return {
-      '@type': 'Person',
-      name: author.name,
-    }
-  })
+  const jsonLd = {
+    ...getStructuredData(post),
+    author: authorDetails.map((author) => {
+      return {
+        '@type': 'Person',
+        name: author.name,
+      }
+    }),
+  }
 
   const Layout = layouts[post.layout || defaultLayout]
 
@@ -121,7 +146,7 @@ export default async function Page(props: { params: Promise<{ slug: string[] }> 
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
       <Layout content={mainContent} authorDetails={authorDetails} next={next} prev={prev}>
-        <MDXLayoutRenderer code={post.body.code} components={components} toc={post.toc} />
+        <MDXContent source={post.markdown} components={components} />
       </Layout>
     </>
   )

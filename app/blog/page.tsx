@@ -1,5 +1,7 @@
-import { allCoreContent, sortPosts, coreContent } from 'pliny/utils/contentlayer'
-import { allBlogs, allAuthors } from 'contentlayer/generated'
+import { allCoreContent, sortPosts } from '@/lib/content'
+import { blogCollection } from '@/qino/collections/blog'
+import { authorCollection } from '@/qino/collections/authors'
+import { getTagCounts } from '@/lib/get-tag-counts'
 import { genPageMetadata } from 'app/seo'
 import ListLayout from '@/layouts/ListLayoutWithTags'
 
@@ -12,6 +14,11 @@ export const metadata = genPageMetadata({
 })
 
 export default async function BlogPage(props: { searchParams: Promise<{ page: string }> }) {
+  const [allBlogs, allAuthors, tagCounts] = await Promise.all([
+    blogCollection.getEntries(),
+    authorCollection.getEntries(),
+    getTagCounts(),
+  ])
   const posts = allCoreContent(sortPosts(allBlogs))
 
   const enrichedPosts = posts.map((post) => {
@@ -40,6 +47,7 @@ export default async function BlogPage(props: { searchParams: Promise<{ page: st
       initialDisplayPosts={initialDisplayPosts}
       pagination={pagination}
       title="All Posts"
+      tagCounts={tagCounts}
     />
   )
 }

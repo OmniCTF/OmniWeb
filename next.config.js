@@ -87,6 +87,8 @@ const baseConfig = {
   trailingSlash: false,
   pageExtensions: ['ts', 'tsx', 'js', 'jsx', 'md', 'mdx'],
   devIndicators: false,
+  // MDX now compiles at render time; uglify-js (via rehype-preset-minify) reads its own files on load.
+  serverExternalPackages: ['uglify-js'],
   eslint: {
     dirs: ['app', 'components', 'layouts', 'scripts'],
   },
