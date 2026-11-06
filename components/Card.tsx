@@ -1,7 +1,14 @@
 import Image from './Image'
 import Link from './Link'
 
-const Card = ({ title, description, imgSrc, href }) => (
+type CardProps = {
+  title: string
+  description: string
+  imgSrc?: string
+  href?: string
+}
+
+const Card = ({ title, description, imgSrc, href }: CardProps) => (
   <div className="pane pane-hover flex flex-col overflow-hidden">
     {imgSrc &&
       (href ? (
