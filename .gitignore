@@ -21,6 +21,8 @@ public/sitemap.xml
 # production
 /build
 *.xml
+# RSS route handlers live in folders named feed.xml
+!/app/**/feed.xml/
 
 # rss feed
 /public/feed.xml
@@ -42,9 +44,6 @@ yarn-error.log*
 .env.development.local
 .env.test.local
 .env.production.local
-
-# Contentlayer
-.contentlayer
 
 # qino
 qino/_generated/
