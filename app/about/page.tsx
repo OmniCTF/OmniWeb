@@ -1,5 +1,5 @@
-import { allAbouts } from 'contentlayer/generated'
-import { MDXLayoutRenderer } from 'pliny/mdx-components'
+import { aboutItem } from '@/qino/items/about'
+import MDXContent from '@/components/MDXContent'
 import { genPageMetadata } from 'app/seo'
 import Window from '@/components/Window'
 
@@ -9,8 +9,8 @@ export const metadata = genPageMetadata({
     'What OmniCTF is, who runs it, and what to expect: a Romanian cybersecurity competition with online qualifiers feeding an on-site final in Constanta.',
 })
 
-export default function AboutPage() {
-  const about = allAbouts[0]
+export default async function AboutPage() {
+  const about = await aboutItem.getEntry()
 
   return (
     <div className="w-full p-[var(--hypr-gap-out)]">
@@ -21,7 +21,7 @@ export default function AboutPage() {
         </p>
         <div className="bg-line mt-8 h-px w-full" />
         <div className="prose prose-invert mt-8 max-w-[75ch]">
-          <MDXLayoutRenderer code={about.body.code} />
+          <MDXContent source={about.markdown} />
         </div>
       </Window>
     </div>

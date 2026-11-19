@@ -1,8 +1,6 @@
-import fs from 'fs'
-import path from 'path'
-import matter from 'gray-matter'
 import { notFound } from 'next/navigation'
-import { allBlogs } from 'contentlayer/generated'
+import { authorCollection } from '@/qino/collections/authors'
+import { blogCollection } from '@/qino/collections/blog'
 import Image from 'next/image'
 import Link from 'next/link'
 import { Globe, Github, ArrowLeft, ChevronRight } from 'lucide-react'
@@ -14,9 +12,8 @@ interface MemberPageProps {
 }
 
 export async function generateStaticParams() {
-  const dir = path.join(process.cwd(), 'data/authors')
-  const files = fs.readdirSync(dir).filter((file) => file.endsWith('.mdx'))
-  return files.map((file) => ({ slug: file.replace('.mdx', '') }))
+  const slugs = await authorCollection.getAllSlugs()
+  return slugs.map((slug) => ({ slug }))
 }
 
 function Row({ label, children }: { label: string; children: React.ReactNode }) {
@@ -30,26 +27,13 @@ function Row({ label, children }: { label: string; children: React.ReactNode }) 
 
 export default async function MemberProfile({ params }: MemberPageProps) {
   const { slug } = await params
-  const filePath = path.join(process.cwd(), 'data/authors', `${slug}.mdx`)
-  if (!fs.existsSync(filePath)) return notFound()
+  const slugs = await authorCollection.getAllSlugs()
+  if (!slugs.includes(slug)) return notFound()
 
-  const fileContent = fs.readFileSync(filePath, 'utf-8')
-  const { data: member } = matter(fileContent) as {
-    data: {
-      id?: number
-      is_admin?: boolean
-      name: string
-      displayName: string
-      avatar?: string
-      country?: string
-      joined?: string
-      position?: string
-      bio?: string
-      tags?: string[]
-      links?: { website?: string; github?: string }
-      nowListening?: { title: string; artist: string; url: string }
-    }
-  }
+  const [member, allBlogs] = await Promise.all([
+    authorCollection.getEntry(slug),
+    blogCollection.getEntries(),
+  ])
 
   const posts = allBlogs.filter((post) => post.authors?.includes(slug))
   const retired = (member.position ?? '').toLowerCase().includes('retired')

@@ -10,14 +10,15 @@ import { EVENT } from '@/data/event'
 
 const MobileNav = () => {
   const [navShow, setNavShow] = useState(false)
-  const navRef = useRef(null)
+  const navRef = useRef<HTMLElement>(null)
 
   const onToggleNav = () => {
     setNavShow((status) => {
       if (status) {
-        enableBodyScroll(navRef.current)
+        // The nav isn't mounted yet on open; the lock still applies to the body.
+        enableBodyScroll(navRef.current as HTMLElement)
       } else {
-        disableBodyScroll(navRef.current)
+        disableBodyScroll(navRef.current as HTMLElement)
       }
       return !status
     })

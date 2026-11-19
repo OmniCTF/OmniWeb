@@ -1,5 +1,6 @@
-import { allBlogs, allAuthors } from 'contentlayer/generated'
-import { sortPosts, coreContent } from 'pliny/utils/contentlayer'
+import { blogCollection } from '@/qino/collections/blog'
+import { authorCollection } from '@/qino/collections/authors'
+import { sortPosts, coreContent } from '@/lib/content'
 import Main from './Main'
 import { genPageMetadata } from 'app/seo'
 import { EventJsonLd } from '@/components/StructuredData'
@@ -11,6 +12,10 @@ export const metadata = genPageMetadata({
 })
 
 export default async function Page() {
+  const [allBlogs, allAuthors] = await Promise.all([
+    blogCollection.getEntries(),
+    authorCollection.getEntries(),
+  ])
   const sortedPosts = sortPosts(allBlogs)
 
   const enrichedPosts = sortedPosts.map((post) => {
